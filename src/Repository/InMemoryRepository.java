@@ -13,6 +13,7 @@ public class InMemoryRepository<T> implements IRepository<T> {
         int id = currentId++;
         storage.put(id, obj);
         return id;
+        //storage.putifabsent()
     }
 
     @Override
