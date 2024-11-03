@@ -1,8 +1,11 @@
-import UI.UI;
+import UI.*;
+import Controller.*;
+import Model.*;
+import Repository.*;
+import Service.*;
 public class Main {
     public static void main(String[] args) {
-        UI ui = new UI();
-        ui.run();
+        System.out.println("Hello World!");
     }
 }
 
