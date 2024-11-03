@@ -10,10 +10,8 @@ public class FileRepository<T> implements IRepository<T> {
         this.fileName = fileName;
     }
     @Override
-    public int create(T obj) {
-        int id = -1;
+    public void create(T obj) {
         //TODO: implement create
-        return id;
     }
     @Override
     public void update(T obj) {
