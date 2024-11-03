@@ -1,23 +1,23 @@
 package Repository;
 
 public class DBRepository<T> implements IRepository<T> {
-//    private int id = 0;
-//    private T obj;
-
+    @Override
     public int create(T obj) {
-//        this.obj = obj;
-//        return id++;
+        return 0;
     }
 
+    @Override
     public void update(T obj) {
-//        this.obj = obj;
+        //TODO: implement update
     }
 
+    @Override
     public void delete(int id) {
-//        this.obj = null;
+        //TODO: implement delete
     }
 
+    @Override
     public T read(int id) {
-//        return obj;
+        return null;
     }
 }

@@ -1,4 +1,6 @@
 package Model;
-
-public class HasID {
+import java.io.Serializable;
+@FunctionalInterface
+public interface HasID extends Serializable {
+    Integer getId();
 }
