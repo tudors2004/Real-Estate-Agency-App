@@ -2,6 +2,8 @@ package Repository;
 import java.util.HashMap;
 import java.util.Map;
 import Model.HasID;
+import java.util.List;
+import java.util.ArrayList;
 
 public class InMemoryRepository<T extends HasID> implements IRepository<T> {
     private final Map<Integer, T> storage = new HashMap<>();
@@ -20,5 +22,8 @@ public class InMemoryRepository<T extends HasID> implements IRepository<T> {
     @Override
     public T read(int id) {
         return storage.get(id);
+    }
+    public List<T> getAll() {
+        return new ArrayList<>(storage.values());
     }
 }

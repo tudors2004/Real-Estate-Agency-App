@@ -1,9 +1,9 @@
 package UI;
 import Controller.Controller;
 import Model.*;
-
 import java.util.List;
 import java.util.Scanner;
+import java.sql.Date;
 
 public class UI {
     Scanner scanner = new Scanner(System.in);
@@ -50,6 +50,7 @@ public class UI {
             System.out.println("3. Delete Property");
             System.out.println("4. View Property by ID");
             System.out.println("5. View All Properties");
+            //System.out.println("6. View unvisited properties");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -78,6 +79,7 @@ public class UI {
             System.out.println("3. Delete Client");
             System.out.println("4. View Client by ID");
             System.out.println("5. View All Clients");
+            //System.out.println("6. Recommend properties for client");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -106,6 +108,7 @@ public class UI {
             System.out.println("3. Delete Agent");
             System.out.println("4. View Agent by ID");
             System.out.println("5. View All Agents");
+            //System.out.println("6. Analyze agent performance");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -135,6 +138,7 @@ public class UI {
             System.out.println("4. View Contract by ID");
             System.out.println("5. View All Contracts");
             System.out.println("6. Link Property and Client (Create Contract)");
+            //System.out.println("7. Generate Monthly Activity Report");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -499,7 +503,9 @@ public class UI {
         System.out.print("Enter client ID: ");
         int clientId = scanner.nextInt();
         scanner.nextLine();
-        Reviews review = new Reviews(rating, comment, propertyId, clientId);
+        Property property = controller.viewPropertyById(propertyId);
+        Client client = controller.viewClientById(clientId);
+        Reviews review = new Reviews(rating, comment, property, client);
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -533,15 +539,10 @@ public class UI {
         System.out.print("Enter appointment ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter appointment date: ");
-        String date = scanner.nextLine();
-        System.out.print("Enter client ID: ");
-        int clientId = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter agent ID: ");
-        int agentId = scanner.nextInt();
-        scanner.nextLine();
-        Appointment appointment = new Appointment(id, date, clientId, agentId);
+        System.out.print("Enter appointment date (yyyy-mm-dd): ");
+        String dateString = scanner.nextLine();
+        Date date = Date.valueOf(dateString);
+        Appointment appointment = new Appointment(id, date);
         controller.addAppointment(appointment);
         System.out.println("Appointment added successfully.");
     }
@@ -550,17 +551,16 @@ public class UI {
         System.out.print("Enter appointment ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new appointment date: ");
-        String date = scanner.nextLine();
-        System.out.println("Enter new location: ");
-        String location = scanner.nextLine();
+        System.out.print("Enter new appointment date (yyyy-mm-dd): ");
+        String dateString = scanner.nextLine();
+        Date date = Date.valueOf(dateString);
+        Appointment appointment = new Appointment(id, date);
 //        System.out.print("Enter new client ID: ");
 //        int clientId = scanner.nextInt();
 //        scanner.nextLine();
 //        System.out.print("Enter new agent ID: ");
 //        int agentId = scanner.nextInt();
 //        scanner.nextLine();
-        Appointment appointment = new Appointment(id, date, location);
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
     }
