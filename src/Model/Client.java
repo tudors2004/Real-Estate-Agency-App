@@ -3,28 +3,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Client extends Person implements HasID {
-    private String clientType;
-    private List<Property> preferences;
-
-    public Client(Integer id, String Name, String Email, Integer Phone_Number, String clientType) {
-        super(id, Name, Phone_Number, Email);
-        this.clientType = clientType;
-        this.preferences = new ArrayList<>();
+    ClientType client_type;
+    Preferences preferences;
+    public Client(Integer id, String name, String email, Integer phoneNumber, ClientType clientType, Preferences preferences) {
+        super(id, name,phoneNumber,email);
+        this.client_type = clientType;
+        this.preferences = preferences;
+    }
+    public enum ClientType {
+        BUYER,
+        SELLER,
+        RENTER;
     }
 
-    public String getClientType() {
-        return clientType;
+
+    public static class Preferences {
+        private double budget;
+        private String location;
+
+
+        public Preferences(double budget, String location) {
+            this.budget = budget;
+            this.location = location;
+        }
+
+
+        public double getBudget() {
+            return budget;
+        }
+
+        public void setBudget(double budget) {
+            this.budget = budget;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
     }
 
-    public void setClientType(String clientType) {
-        this.clientType = clientType;
+    public ClientType getClientType() {
+        return this.client_type;
     }
 
-    public List<Property> getPreferences() {
+    public void setClientType(ClientType clientType) {
+        this.client_type = clientType;
+    }
+
+    public Preferences getPreferences() {
         return preferences;
     }
 
-    public void setPreferences(List<Property> preferences) {
+    public void setPreferences(Preferences preferences) {
         this.preferences = preferences;
     }
+
+
 }
+
