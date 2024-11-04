@@ -4,7 +4,10 @@ import Model.*;
 import java.util.Scanner;
 public class UI {
     Scanner scanner = new Scanner(System.in);
-    private final Controller controller = new Controller();
+    private final Controller controller;
+    public UI(Controller controller) {
+        this.controller = controller;
+    }
     public void run() {
         while(true){
             show();
@@ -37,7 +40,6 @@ public class UI {
     }
 
     private void addProperty(){
-        //TODO
     }
     private void updateProperty(){
         //TODO

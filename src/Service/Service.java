@@ -1,13 +1,31 @@
 package Service;
 import Model.*;
 import Repository.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Service {
-    private final InMemoryRepository<Property> propertyInMemoryRepository = new InMemoryRepository<>();
+    private final IRepository<Agent> agentRepository;
+    private final IRepository<Property> propertyRepository;
+    private final IRepository<Contract> contractRepository;
+    private final IRepository<Appointment> appointmentRepository;
+    private final IRepository<Client> clientRepository;
 
-    public void addProperty(Property property) {
-        propertyInMemoryRepository.create(property);
+    public Service(IRepository<Agent> agent, IRepository<Property> property, IRepository<Contract> contract, IRepository<Appointment> appointment, IRepository<Client> client) {
+        this.agentRepository = agent;
+        this.propertyRepository = property;
+        this.contractRepository = contract;
+        this.appointmentRepository = appointment;
+        this.clientRepository = client;
     }
 
+    public void addProperty(Property property) {
+        propertyRepository.create(property);
+    }
+    public void deleteProperty(int id) {
+        propertyRepository.delete(id);
+    }
+    public void updateProperty(Property property) {
+        propertyRepository.update(property);
+    }
 }

@@ -1,17 +1,23 @@
 package Model;
 
-public class Property {
-    private int id;
+public class Property implements HasID{
+    private Integer id;
     private String type;
     private String address;
     private double price;
-    private int year;
-    private int rooms;
+    private Integer year;
+    private Integer rooms;
     private String status;
-    private double size;
+    private Integer size;
     private String description;
+    private Agent associatedAgent;
 
-    public Property(int id, String type, String address, double price, int year, int rooms, String status, double size, String description) {
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public Property(Integer id, String type, String address, double price, Integer year, Integer rooms, String status, Integer size, String description, Agent associatedAgent) {
         this.id = id;
         this.type = type;
         this.address = address;
@@ -21,6 +27,7 @@ public class Property {
         this.status = status;
         this.size = size;
         this.description = description;
+        this.associatedAgent = associatedAgent;
     }
 
     @Override
@@ -35,22 +42,11 @@ public class Property {
                 ", status='" + status + '\'' +
                 ", size=" + size +
                 ", description='" + description + '\'' +
+                ", associatedAgent=" + associatedAgent +
                 '}';
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -78,11 +74,19 @@ public class Property {
         this.price = price;
     }
 
-    public int getRooms() {
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getRooms() {
         return rooms;
     }
 
-    public void setRooms(int rooms) {
+    public void setRooms(Integer rooms) {
         this.rooms = rooms;
     }
 
@@ -94,11 +98,11 @@ public class Property {
         this.status = status;
     }
 
-    public double getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(double size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
@@ -108,5 +112,13 @@ public class Property {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Agent getAssociatedAgent() {
+        return associatedAgent;
+    }
+
+    public void setAssociatedAgent(Agent associatedAgent) {
+        this.associatedAgent = associatedAgent;
     }
 }

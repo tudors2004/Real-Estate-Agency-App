@@ -1,4 +1,6 @@
 package Model;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client extends Person implements HasID {
     ClientType client_type;
@@ -58,6 +60,7 @@ public class Client extends Person implements HasID {
     public void setPreferences(Preferences preferences) {
         this.preferences = preferences;
     }
+
 
 }
 

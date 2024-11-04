@@ -2,8 +2,8 @@ package Repository;
 
 public class DBRepository<T> implements IRepository<T> {
     @Override
-    public int create(T obj) {
-        return 0;
+    public void create(T obj) {
+        //TODO: implement create
     }
 
     @Override
@@ -19,5 +19,6 @@ public class DBRepository<T> implements IRepository<T> {
     @Override
     public T read(int id) {
         return null;
+        //TODO: implement read
     }
 }
