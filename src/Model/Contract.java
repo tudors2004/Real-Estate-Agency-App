@@ -3,7 +3,7 @@ import java.util.List;
 public class Contract implements HasID{
     private Integer id;
     private String type;
-    private int duration; // duration in months
+    private int duration;
     private List<Agent> agents;
     private List<Client> clients;
     private List<Property> properties;

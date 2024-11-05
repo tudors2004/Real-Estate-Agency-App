@@ -9,12 +9,10 @@ public class Appointment implements HasID{
     private List<Client> Client_ID;
     private List<Property> Property_ID;
     private Date date;
-    //private String Location;
 
-    public Appointment(Integer id,Date date){ //String location){
+    public Appointment(Integer id,Date date){
         this.id=id;
         this.date=date;
-        //this.Location=location;
     }
 
     @Override
@@ -49,11 +47,4 @@ public class Appointment implements HasID{
     public void setDate(Date date){
         this.date=date;
     }
-//    public String getLocation(){
-//        return this.Location;
-//    }
-//    public void setLocation(String location){
-//        this.Location=location;
-//    }
-
 }
