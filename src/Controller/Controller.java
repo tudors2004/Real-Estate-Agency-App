@@ -95,27 +95,42 @@ public class Controller {
         return service.getAgentById(agentId);
     }
 
-    public Property viewPropertyById(int id) {
-        return service.getPropertyById(id);
+    public Property viewPropertyById(int propertyID) {
+        return service.getPropertyById(propertyID);
     }
 
-    public Client viewClientById(int id) {
-        return service.getClientById(id);
+    public Client viewClientById(int clientID) {
+        return service.getClientById(clientID);
     }
 
-    public Contract viewContractById(int id) {
-        return service.getContractById(id);
+    public Contract viewContractById(int contractID) {
+        return service.getContractById(contractID);
     }
 
     public List<Review> viewReviewsByProperty(int propertyId) {
         return service.getReviewsByProperty(propertyId);
     }
 
-    public Appointment viewAppointmentById(int id) {
-        return service.getAppointmentById(id);
+    public Appointment viewAppointmentById(int appointmentID) {
+        return service.getAppointmentById(appointmentID);
     }
 
     public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
         service.linkPropertyAndClient(contractId, propertyId, clientId);
+    }
+    public void viewUnvisitedProperties() {
+        service.viewUnvisitedProperties();
+    }
+    public void recommendPropertiesForClient() {
+        service.recommendPropertiesForClient();
+    }
+    public void analyzeAgentPerformance() {
+        service.analyzeAgentPerformance();
+    }
+    public void generateMonthlyActivityReport() {
+        service.generateMonthlyActivityReport();
+    }
+    public void linkPropertyAndAgent(int agentID, int propertyID){
+        service.linkPropertyAndAgent(agentID, propertyID);
     }
 }

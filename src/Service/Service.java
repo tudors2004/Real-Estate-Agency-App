@@ -115,37 +115,49 @@ public class Service {
         return agentRepository.read(agentId);
     }
 
-    public Property getPropertyById(int id) {
-        return propertyRepository.read(id);
+    public Property getPropertyById(int propertyID) {
+        return propertyRepository.read(propertyID);
     }
 
-    public Client getClientById(int id) {
-        return clientRepository.read(id);
+    public Client getClientById(int clientID) {
+        return clientRepository.read(clientID);
     }
 
-    public Contract getContractById(int id) {
-        return contractRepository.read(id);
+    public Contract getContractById(int contractID) {
+        return contractRepository.read(contractID);
     }
 
-    public Appointment getAppointmentById(int id) {
-        return appointmentRepository.read(id);
+    public Appointment getAppointmentById(int appointmentID) {
+        return appointmentRepository.read(appointmentID);
     }
 
     public List<Review> getReviewsByProperty(int propertyId) {
+        //TODO
         return null;
-//        List<Review> reviews = new ArrayList<>();
-//        for (Review review : reviewRepository.getAll()) {
-//            if (review.getPropertyId() == propertyId) {
-//                reviews.add(review);
-//            }
-//        }
-//        return reviews;
     }
 
     public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
-//        Contract contract = contractRepository.read(contractId);
-//        contract.setPropertyId(propertyId);
-//        contract.setClientId(clientId);
-//        contractRepository.update(contract);
+        //TODO
     }
+
+    public void linkPropertyAndAgent(int propertyId, int agentId) {
+        //TODO
+    }
+
+    public void viewUnvisitedProperties(){
+        //TODO
+    }
+
+    public void recommendPropertiesForClient(){
+        //TODO
+    }
+
+    public void analyzeAgentPerformance(){
+        //TODO
+    }
+
+    public void generateMonthlyActivityReport(){
+        //TODO
+    }
+
 }

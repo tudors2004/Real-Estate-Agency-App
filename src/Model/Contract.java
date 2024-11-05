@@ -1,17 +1,20 @@
 package Model;
 import java.util.List;
-public class Contract implements HasID{
+public class Contract implements HasID {
     private Integer id;
     private String type;
     private int duration;
-    private List<Agent> agents;
-    private List<Client> clients;
-    private List<Property> properties;
+    private Agent agent;
+    private Client client;
+    private Property property;
 
-    public Contract(Integer id, String type, int duration) {
+    public Contract(Integer id, String type, int duration, Agent agent, Client client, Property property) {
         this.id = id;
         this.type = type;
         this.duration = duration;
+        this.agent = agent;
+        this.client = client;
+        this.property = property;
     }
 
     @Override
@@ -39,27 +42,39 @@ public class Contract implements HasID{
         this.duration = duration;
     }
 
-    public List<Agent> getAgents() {
-        return agents;
+    public Agent getAgent() {
+        return agent;
     }
 
-    public void setAgents(List<Agent> agents) {
-        this.agents = agents;
+    public void setAgent(Agent agent) {
+        this.agent = agent;
     }
 
-    public List<Client> getClients() {
-        return clients;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public List<Property> getProperties() {
-        return properties;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setProperties(List<Property> properties) {
-        this.properties = properties;
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", duration=" + duration +
+                ", agent=" + agent +
+                ", client=" + client +
+                ", property=" + property +
+                '}';
     }
 }
