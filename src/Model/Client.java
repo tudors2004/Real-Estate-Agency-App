@@ -61,6 +61,16 @@ public class Client extends Person implements HasID {
         this.preferences = preferences;
     }
 
-
+    @Override
+    public String toString() {
+        return "Client{" +
+                "client_type=" + client_type +
+                ", preferences=" + preferences +
+                ", id=" + id +
+                ", Name='" + Name + '\'' +
+                ", Phone_Number=" + Phone_Number +
+                ", Email='" + Email + '\'' +
+                '}';
+    }
 }
 

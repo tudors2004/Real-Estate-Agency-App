@@ -8,7 +8,7 @@ public class Property implements HasID{
     private Integer year;
     private Integer rooms;
     private String status;
-    private Integer size;
+    private double size;
     private String description;
     private Agent associatedAgent;
 
@@ -17,7 +17,7 @@ public class Property implements HasID{
         return id;
     }
 
-    public Property(Integer id, String type, String address, double price, Integer year, Integer rooms, String status, Integer size, String description, Agent associatedAgent) {
+    public Property(Integer id, String type, String address, double price, Integer year, Integer rooms, String status, double size, String description, Agent associatedAgent) {
         this.id = id;
         this.type = type;
         this.address = address;
@@ -98,11 +98,11 @@ public class Property implements HasID{
         this.status = status;
     }
 
-    public Integer getSize() {
+    public double getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(double size) {
         this.size = size;
     }
 

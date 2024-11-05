@@ -47,4 +47,15 @@ public class Appointment implements HasID{
     public void setDate(Date date){
         this.date=date;
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", Agent_ID=" + Agent_ID +
+                ", Client_ID=" + Client_ID +
+                ", Property_ID=" + Property_ID +
+                ", date=" + date +
+                '}';
+    }
 }

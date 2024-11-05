@@ -55,4 +55,15 @@ public class Review implements HasID{
     public void setClient(Client client) {
         this.client = client;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", property=" + property +
+                ", client=" + client +
+                '}';
+    }
 }

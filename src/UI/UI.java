@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.sql.Date;
 
+@SuppressWarnings("DuplicatedCode")
 public class UI {
     Scanner scanner = new Scanner(System.in);
     private final Controller controller;
@@ -42,7 +43,7 @@ public class UI {
                     default -> System.out.println("Invalid option. Please try again with a number between 0 and 6.");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number between 0 and 6 :)");
+                System.out.println("Invalid input.");
                 scanner.nextLine();
             }
         }
@@ -56,7 +57,7 @@ public class UI {
             System.out.println("3. Delete Property");
             System.out.println("4. View Property by ID");
             System.out.println("5. View All Properties");
-            System.out.println("6. View unvisited properties");
+            System.out.println("6. View Unvisited Properties");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -230,11 +231,12 @@ public class UI {
         System.out.print("Enter property ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter property type: ");
+        System.out.print("Enter property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
+        //TODO: Property type RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL
         String type = scanner.nextLine();
         System.out.print("Enter property address: ");
         String address = scanner.nextLine();
-        System.out.print("Enter property price: ");
+        System.out.print("Enter property price (in EUR): ");
         double price = scanner.nextDouble();
         scanner.nextLine();
         System.out.print("Enter property year: ");
@@ -245,8 +247,8 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter property status: ");
         String status = scanner.nextLine();
-        System.out.print("Enter property size: ");
-        int size = scanner.nextInt();
+        System.out.print("Enter property size (in meters squared): ");
+        double size = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter property description: ");
         String description = scanner.nextLine();
@@ -263,11 +265,11 @@ public class UI {
         System.out.print("Enter property ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new property type: ");
+        System.out.print("Enter new property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
         String type = scanner.nextLine();
         System.out.print("Enter new property address: ");
         String address = scanner.nextLine();
-        System.out.print("Enter new property price: ");
+        System.out.print("Enter new property price (in EUR): ");
         double price = scanner.nextDouble();
         scanner.nextLine();
         System.out.print("Enter new property year: ");
@@ -278,7 +280,7 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter new property status: ");
         String status = scanner.nextLine();
-        System.out.print("Enter new property size: ");
+        System.out.print("Enter new property size (in meters squared): ");
         int size = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter new property description: ");
@@ -316,7 +318,8 @@ public class UI {
     }
 
     private void viewUnvisitedProperties() {
-        //TODO: Implement this method
+        //TODO: If Property.associatedAgent is null, then it is unvisited
+        controller.viewUnvisitedProperties();
     }
 
     private void addClient() {
@@ -325,12 +328,13 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter client name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter client email: ");
+        System.out.print("Enter client email (firstlastname@example.com): ");
         String email = scanner.nextLine();
         System.out.print("Enter client phone number: ");
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter client type: ");
+        System.out.print("Enter client type (BUYER/SELLER/RENTER/INVESTOR): ");
+        //TODO: Client type BUYER/SELLER/RENTER/INVESTOR
         String clientType = scanner.nextLine();
         //TODO: Client Preferences
 //        Client client = new Client(id, name, email, phoneNumber, clientType);
@@ -344,12 +348,12 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter new client name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter new client email: ");
+        System.out.print("Enter new client email (firstlastname@example.com): ");
         String email = scanner.nextLine();
         System.out.print("Enter new client phone number: ");
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new client type: ");
+        System.out.print("Enter new client type (BUYER/SELLER/RENTER/INVESTOR): ");
         String clientType = scanner.nextLine();
         //TODO: Client Preferences
 //        Client client = new Client(id, name, email, phoneNumber, clientType);
@@ -381,7 +385,8 @@ public class UI {
     }
 
     private void recommendPropertiesForClient() {
-        //TODO: Implement this method
+        //TODO: Might delete later
+        controller.recommendPropertiesForClient();
     }
 
     private void addAgent() {
@@ -393,7 +398,8 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter agent name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter agent email: ");
+        System.out.print("Enter agent email (firstlastname@example.com): ");
+        //TODO: Check Email Format
         String email = scanner.nextLine();
         System.out.print("Enter agent phone number: ");
         int phoneNumber = scanner.nextInt();
@@ -412,7 +418,7 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter new agent name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter new agent email: ");
+        System.out.print("Enter new agent email (firstlastname@example.com): ");
         String email = scanner.nextLine();
         System.out.print("Enter new agent phone number: ");
         int phoneNumber = scanner.nextInt();
@@ -446,19 +452,32 @@ public class UI {
     }
 
     private void analyzeAgentPerformance() {
-        //TODO: Implement this method
+        controller.analyzeAgentPerformance();
     }
 
     private void addContract() {
         System.out.print("Enter contract ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter contract type: ");
+        System.out.print("Enter contract type (PURCHASE/LEASE/RENTAL): ");
+        //TODO: Contract type PURCHASE/LEASE/RENTAL
         String type = scanner.nextLine();
         System.out.print("Enter contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
-        Contract contract = new Contract(id, type, duration);
+        System.out.print("Enter agent ID: ");
+        int agentID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter client ID: ");
+        int clientID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter property ID: ");
+        int propertyID = scanner.nextInt();
+        scanner.nextLine();
+        Agent agent = controller.viewAgentById(agentID);
+        Client client = controller.viewClientById(clientID);
+        Property property = controller.viewPropertyById(propertyID);
+        Contract contract = new Contract(id, type, duration, agent, client, property);
         controller.addContract(contract);
         System.out.println("Contract added successfully.");
     }
@@ -467,12 +486,24 @@ public class UI {
         System.out.print("Enter contract ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new contract type: ");
+        System.out.print("Enter new contract type (PURCHASE/LEASE/RENTAL): ");
         String type = scanner.nextLine();
         System.out.print("Enter new contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
-        Contract contract = new Contract(id, type, duration);
+        System.out.print("Enter new agent ID: ");
+        int agentID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter new client ID: ");
+        int clientID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter new property ID: ");
+        int propertyID = scanner.nextInt();
+        scanner.nextLine();
+        Agent agent = controller.viewAgentById(agentID);
+        Client client = controller.viewClientById(clientID);
+        Property property = controller.viewPropertyById(propertyID);
+        Contract contract = new Contract(id, type, duration, agent, client, property);
         controller.updateContract(contract);
         System.out.println("Contract updated successfully.");
     }
@@ -515,14 +546,15 @@ public class UI {
     }
 
     private void generateMonthlyActivityReport() {
-        //TODO: Implement this method
+        controller.generateMonthlyActivityReport();
     }
 
     private void addReview() {
         System.out.println("Enter review ID:");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter rating: ");
+        System.out.print("Enter rating (between 1 and 5): ");
+        //TODO: Rating between 1 and 5
         int rating = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter comment: ");
