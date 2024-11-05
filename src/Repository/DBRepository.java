@@ -1,5 +1,7 @@
 package Repository;
 
+import java.util.List;
+
 public class DBRepository<T> implements IRepository<T> {
     @Override
     public void create(T obj) {
@@ -20,5 +22,9 @@ public class DBRepository<T> implements IRepository<T> {
     public T read(int id) {
         return null;
         //TODO: implement read
+    }
+    @Override
+    public List<T> getAll() {
+        return null;
     }
 }

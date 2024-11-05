@@ -53,4 +53,8 @@ public class FileRepository<T> implements IRepository<T> {
             e.printStackTrace();
         }
     }
+    @Override
+    public List<T> getAll() {
+        return new ArrayList<>(readDataFromFile().values());
+    }
 }

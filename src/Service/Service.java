@@ -10,13 +10,15 @@ public class Service {
     private final IRepository<Contract> contractRepository;
     private final IRepository<Appointment> appointmentRepository;
     private final IRepository<Client> clientRepository;
+    private final IRepository<Review> reviewRepository;
 
-    public Service(IRepository<Agent> agent, IRepository<Property> property, IRepository<Contract> contract, IRepository<Appointment> appointment, IRepository<Client> client) {
+    public Service(IRepository<Agent> agent, IRepository<Property> property, IRepository<Contract> contract, IRepository<Appointment> appointment, IRepository<Client> client, IRepository<Review> review) {
         this.agentRepository = agent;
         this.propertyRepository = property;
         this.contractRepository = contract;
         this.appointmentRepository = appointment;
         this.clientRepository = client;
+        this.reviewRepository = review;
     }
 
     public void addProperty(Property property) {
@@ -77,5 +79,73 @@ public class Service {
 
     public void updateClient(Client client) {
         clientRepository.update(client);
+    }
+    public void addReview(Review review){
+        reviewRepository.create(review);
+    }
+    public void deleteReview(int id){
+        reviewRepository.delete(id);
+    }
+
+    public List<Property> getAllProperties() {
+        return propertyRepository.getAll();
+    }
+
+    public List<Agent> getAllAgents() {
+        return agentRepository.getAll();
+    }
+
+    public List<Contract> getAllContracts() {
+        return contractRepository.getAll();
+    }
+
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepository.getAll();
+    }
+
+    public List<Client> getAllClients() {
+        return clientRepository.getAll();
+    }
+
+    public List<Review> getAllReviews() {
+        return reviewRepository.getAll();
+    }
+
+    public Agent getAgentById(int agentId) {
+        return agentRepository.read(agentId);
+    }
+
+    public Property getPropertyById(int id) {
+        return propertyRepository.read(id);
+    }
+
+    public Client getClientById(int id) {
+        return clientRepository.read(id);
+    }
+
+    public Contract getContractById(int id) {
+        return contractRepository.read(id);
+    }
+
+    public Appointment getAppointmentById(int id) {
+        return appointmentRepository.read(id);
+    }
+
+    public List<Review> getReviewsByProperty(int propertyId) {
+        return null;
+//        List<Review> reviews = new ArrayList<>();
+//        for (Review review : reviewRepository.getAll()) {
+//            if (review.getPropertyId() == propertyId) {
+//                reviews.add(review);
+//            }
+//        }
+//        return reviews;
+    }
+
+    public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
+//        Contract contract = contractRepository.read(contractId);
+//        contract.setPropertyId(propertyId);
+//        contract.setClientId(clientId);
+//        contractRepository.update(contract);
     }
 }

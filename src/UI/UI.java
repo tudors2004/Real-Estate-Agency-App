@@ -1,6 +1,7 @@
 package UI;
 import Controller.Controller;
 import Model.*;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.Date;
@@ -23,21 +24,26 @@ public class UI {
             System.out.println("0. Exit");
             System.out.print("Choose an option: ");
 
-            int option = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                int option = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (option) {
-                case 1 -> manageProperties();
-                case 2 -> manageClients();
-                case 3 -> manageAgents();
-                case 4 -> manageContracts();
-                case 5 -> manageReviews();
-                case 6 -> manageAppointments();
-                case 0 -> {
-                    System.out.println("Exiting application.");
-                    return;
+                switch (option) {
+                    case 1 -> manageProperties();
+                    case 2 -> manageClients();
+                    case 3 -> manageAgents();
+                    case 4 -> manageContracts();
+                    case 5 -> manageReviews();
+                    case 6 -> manageAppointments();
+                    case 0 -> {
+                        System.out.println("Exiting application.");
+                        return;
+                    }
+                    default -> System.out.println("Invalid option. Please try again with a number between 0 and 6.");
                 }
-                default -> System.out.println("Invalid option. Please try again.");
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number between 0 and 6 :)");
+                scanner.nextLine();
             }
         }
     }
@@ -50,7 +56,7 @@ public class UI {
             System.out.println("3. Delete Property");
             System.out.println("4. View Property by ID");
             System.out.println("5. View All Properties");
-            //System.out.println("6. View unvisited properties");
+            System.out.println("6. View unvisited properties");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -63,6 +69,7 @@ public class UI {
                 case 3 -> deleteProperty();
                 case 4 -> viewPropertyById();
                 case 5 -> viewAllProperties();
+                case 6 -> viewUnvisitedProperties();
                 case 0 -> {
                     return;
                 }
@@ -79,7 +86,7 @@ public class UI {
             System.out.println("3. Delete Client");
             System.out.println("4. View Client by ID");
             System.out.println("5. View All Clients");
-            //System.out.println("6. Recommend properties for client");
+            System.out.println("6. Recommend Properties For Client");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -92,6 +99,7 @@ public class UI {
                 case 3 -> deleteClient();
                 case 4 -> viewClientById();
                 case 5 -> viewAllClients();
+                case 6 -> recommendPropertiesForClient();
                 case 0 -> {
                     return;
                 }
@@ -99,6 +107,7 @@ public class UI {
             }
         }
     }
+
 
     private void manageAgents() {
         while (true) {
@@ -108,7 +117,7 @@ public class UI {
             System.out.println("3. Delete Agent");
             System.out.println("4. View Agent by ID");
             System.out.println("5. View All Agents");
-            //System.out.println("6. Analyze agent performance");
+            System.out.println("6. Analyze Agent Performance");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -121,6 +130,7 @@ public class UI {
                 case 3 -> deleteAgent();
                 case 4 -> viewAgentById();
                 case 5 -> viewAllAgents();
+                case 6 -> analyzeAgentPerformance();
                 case 0 -> {
                     return;
                 }
@@ -128,6 +138,7 @@ public class UI {
             }
         }
     }
+
 
     private void manageContracts() {
         while (true) {
@@ -138,7 +149,7 @@ public class UI {
             System.out.println("4. View Contract by ID");
             System.out.println("5. View All Contracts");
             System.out.println("6. Link Property and Client (Create Contract)");
-            //System.out.println("7. Generate Monthly Activity Report");
+            System.out.println("7. Generate Monthly Activity Report");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -152,6 +163,7 @@ public class UI {
                 case 4 -> viewContractById();
                 case 5 -> viewAllContracts();
                 case 6 -> linkPropertyAndClient();
+                case 7 -> generateMonthlyActivityReport();
                 case 0 -> {
                     return;
                 }
@@ -303,6 +315,10 @@ public class UI {
         }
     }
 
+    private void viewUnvisitedProperties() {
+        //TODO: Implement this method
+    }
+
     private void addClient() {
         System.out.print("Enter client ID: ");
         int id = scanner.nextInt();
@@ -316,8 +332,9 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter client type: ");
         String clientType = scanner.nextLine();
-        Client client = new Client(id, name, email, phoneNumber, clientType);
-        controller.addClient(client);
+        //TODO: Client Preferences
+//        Client client = new Client(id, name, email, phoneNumber, clientType);
+//        controller.addClient(client);
         System.out.println("Client added successfully.");
     }
 
@@ -334,8 +351,9 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter new client type: ");
         String clientType = scanner.nextLine();
-        Client client = new Client(id, name, email, phoneNumber, clientType);
-        controller.updateClient(client);
+        //TODO: Client Preferences
+//        Client client = new Client(id, name, email, phoneNumber, clientType);
+//        controller.updateClient(client);
         System.out.println("Client updated successfully.");
     }
 
@@ -360,6 +378,10 @@ public class UI {
         for (Client client : clients) {
             System.out.println(client);
         }
+    }
+
+    private void recommendPropertiesForClient() {
+        //TODO: Implement this method
     }
 
     private void addAgent() {
@@ -421,6 +443,10 @@ public class UI {
         for (Agent agent : agents) {
             System.out.println(agent);
         }
+    }
+
+    private void analyzeAgentPerformance() {
+        //TODO: Implement this method
     }
 
     private void addContract() {
@@ -488,10 +514,14 @@ public class UI {
         System.out.println("Property and client linked successfully.");
     }
 
+    private void generateMonthlyActivityReport() {
+        //TODO: Implement this method
+    }
+
     private void addReview() {
-//        System.out.print("Enter review ID: ");
-//        int id = scanner.nextInt();
-//        scanner.nextLine();
+        System.out.println("Enter review ID:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("Enter rating: ");
         int rating = scanner.nextInt();
         scanner.nextLine();
@@ -505,7 +535,7 @@ public class UI {
         scanner.nextLine();
         Property property = controller.viewPropertyById(propertyId);
         Client client = controller.viewClientById(clientId);
-        Reviews review = new Reviews(rating, comment, property, client);
+        Review review = new Review(id, rating, comment, property, client);
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -522,15 +552,15 @@ public class UI {
         System.out.print("Enter property ID to view reviews: ");
         int propertyId = scanner.nextInt();
         scanner.nextLine();
-        List<Reviews> reviews = controller.viewReviewsByProperty(propertyId);
-        for (Reviews review : reviews) {
+        List<Review> reviews = controller.viewReviewsByProperty(propertyId);
+        for (Review review : reviews) {
             System.out.println(review);
         }
     }
 
     private void viewAllReviews() {
-        List<Reviews> reviews = controller.viewAllReviews();
-        for (Reviews review : reviews) {
+        List<Review> reviews = controller.viewAllReviews();
+        for (Review review : reviews) {
             System.out.println(review);
         }
     }
@@ -555,12 +585,6 @@ public class UI {
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
         Appointment appointment = new Appointment(id, date);
-//        System.out.print("Enter new client ID: ");
-//        int clientId = scanner.nextInt();
-//        scanner.nextLine();
-//        System.out.print("Enter new agent ID: ");
-//        int agentId = scanner.nextInt();
-//        scanner.nextLine();
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
     }

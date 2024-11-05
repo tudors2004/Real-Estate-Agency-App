@@ -66,4 +66,56 @@ public class Controller {
     public void updateClient(Client client) {
         service.updateClient(client);
     }
+    public void addReview(Review review) {
+        service.addReview(review);
+    }
+    public void deleteReview(int id) {
+        service.deleteReview(id);
+    }
+    public List<Property> viewAllProperties() {
+        return service.getAllProperties();
+    }
+    public List<Agent> viewAllAgents() {
+        return service.getAllAgents();
+    }
+    public List<Contract> viewAllContracts() {
+        return service.getAllContracts();
+    }
+    public List<Appointment> viewAllAppointments() {
+        return service.getAllAppointments();
+    }
+    public List<Client> viewAllClients() {
+        return service.getAllClients();
+    }
+    public List<Review> viewAllReviews() {
+        return service.getAllReviews();
+    }
+
+    public Agent viewAgentById(int agentId) {
+        return service.getAgentById(agentId);
+    }
+
+    public Property viewPropertyById(int id) {
+        return service.getPropertyById(id);
+    }
+
+    public Client viewClientById(int id) {
+        return service.getClientById(id);
+    }
+
+    public Contract viewContractById(int id) {
+        return service.getContractById(id);
+    }
+
+    public List<Review> viewReviewsByProperty(int propertyId) {
+        return service.getReviewsByProperty(propertyId);
+    }
+
+    public Appointment viewAppointmentById(int id) {
+        return service.getAppointmentById(id);
+    }
+
+    public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
+        service.linkPropertyAndClient(contractId, propertyId, clientId);
+    }
 }

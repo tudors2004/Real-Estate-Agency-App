@@ -23,6 +23,7 @@ public class InMemoryRepository<T extends HasID> implements IRepository<T> {
     public T read(int id) {
         return storage.get(id);
     }
+    @Override
     public List<T> getAll() {
         return new ArrayList<>(storage.values());
     }

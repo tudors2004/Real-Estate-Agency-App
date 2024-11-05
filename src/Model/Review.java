@@ -1,28 +1,28 @@
 package Model;
 
-public class Reviews{
-    //private Integer id;
+public class Review implements HasID{
+    private Integer id;
     private int rating;
     private String comment;
     private Property property;
     private Client client;
 
-    public Reviews(int rating, String comment, Property property, Client client) {
-        //this.id = id;
+    public Review(Integer id, int rating, String comment, Property property, Client client) {
+        this.id = id;
         this.rating = rating;
         this.comment = comment;
         this.property = property;
         this.client = client;
     }
 
-//    @Override
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public int getRating() {
         return rating;
