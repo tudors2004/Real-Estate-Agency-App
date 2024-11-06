@@ -60,7 +60,7 @@ public class Review implements HasID{
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", rating=" + rating +
+                ", rating=" + rating + " Stars"+
                 ", comment='" + comment + '\'' +
                 ", property=" + property +
                 ", client=" + client +

@@ -145,7 +145,15 @@ public class Service {
     }
 
     public void viewUnvisitedProperties(){
-        //TODO
+        List<Property> unvisitedProperties = new ArrayList<>();
+        for (Property property : propertyRepository.getAll()) {
+            if (property.getAssociatedAgent() == null) {
+                unvisitedProperties.add(property);
+            }
+        }
+        for (Property property : unvisitedProperties) {
+            System.out.println(property);
+        }
     }
 
     public void recommendPropertiesForClient(){

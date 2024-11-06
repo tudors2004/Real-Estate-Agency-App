@@ -77,4 +77,15 @@ public class Appointment implements HasID{
     public void setPropertyID(Property propertyID) {
         this.propertyID = propertyID;
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", date=" + date +
+                ", agentID=" + agentID +
+                ", clientID=" + clientID +
+                ", propertyID=" + propertyID +
+                '}';
+    }
 }

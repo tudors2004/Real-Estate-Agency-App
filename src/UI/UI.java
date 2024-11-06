@@ -2,7 +2,6 @@ package UI;
 import Controller.Controller;
 import Model.*;
 
-import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -354,7 +353,7 @@ public class UI {
     }
 
     private void viewUnvisitedProperties() {
-        //TODO: If Property.associatedAgent is null, then it is unvisited
+        System.out.println("List of the unvisited properties: ");
         controller.viewUnvisitedProperties();
     }
 

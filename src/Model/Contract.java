@@ -78,7 +78,7 @@ public class Contract implements HasID {
         return "Contract{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
-                ", duration=" + duration +
+                ", duration=" + duration + " months"+
                 ", agent=" + agent +
                 ", client=" + client +
                 ", property=" + property +

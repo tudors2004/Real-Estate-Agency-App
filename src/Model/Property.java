@@ -49,11 +49,11 @@ public class Property implements HasID{
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", address='" + address + '\'' +
-                ", price=" + price +
+                ", price=" + price + "€"+
                 ", year=" + year +
                 ", rooms=" + rooms +
                 ", status='" + status + '\'' +
-                ", size=" + size +
+                ", size=" + size + " m^2" +
                 ", description='" + description + '\'' +
                 ", associatedAgent=" + associatedAgent +
                 '}';
