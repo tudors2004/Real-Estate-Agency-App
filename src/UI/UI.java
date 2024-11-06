@@ -379,8 +379,14 @@ public class UI {
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter client type (BUYER/SELLER/RENTER/INVESTOR): ");
-        //TODO: Client type BUYER/SELLER/RENTER/INVESTOR
-        String clientType = scanner.nextLine();
+        String str1 = scanner.nextLine().toUpperCase();
+        Client.ClientType type;
+        try {
+            type = Client.ClientType.valueOf(str1.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid client type. Please enter BUYER/SELLER/RENTER/INVESTOR. Returning to previous menu.");
+            return;
+        }
         //TODO: Client Preferences
 //        Client client = new Client(id, name, email, phoneNumber, clientType);
 //        controller.addClient(client);
@@ -409,7 +415,14 @@ public class UI {
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter new client type (BUYER/SELLER/RENTER/INVESTOR): ");
-        String clientType = scanner.nextLine();
+        String str2= scanner.nextLine().toUpperCase();
+        Client.ClientType type;
+        try {
+            type = Client.ClientType.valueOf(str2.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid client type. Please enter BUYER/SELLER/RENTER/INVESTOR. Returning to previous menu.");
+            return;
+        }
         //TODO: Client Preferences
 //        Client client = new Client(id, name, email, phoneNumber, clientType);
 //        controller.updateClient(client);
@@ -652,6 +665,18 @@ public class UI {
         scanner.nextLine();
         controller.linkPropertyAndClient(contractId, propertyId, clientId);
         System.out.println("Property and client linked successfully.");
+    }
+
+    private void linkPropertyAndAgent(){
+        System.out.print("Enter agent ID: ");
+        int agentID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter property ID: ");
+        int propertyID = scanner.nextInt();
+        scanner.nextLine();
+        controller.linkPropertyAndAgent(agentID, propertyID);
+        System.out.println("Property and agent linked successfully.");
+        //TODO: Nu am apelat functia, nu stiu inca cum ar trebui sa mearga asta si aia de mai sus
     }
 
     private void generateMonthlyActivityReport() {

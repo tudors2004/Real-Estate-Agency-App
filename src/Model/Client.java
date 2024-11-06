@@ -13,7 +13,8 @@ public class Client extends Person implements HasID {
     public enum ClientType {
         BUYER,
         SELLER,
-        RENTER;
+        RENTER,
+        INVESTOR
     }
 
 
