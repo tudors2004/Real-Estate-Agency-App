@@ -1,6 +1,8 @@
 package UI;
 import Controller.Controller;
 import Model.*;
+
+import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -232,8 +234,14 @@ public class UI {
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
-        //TODO: Property type RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL
-        String type = scanner.nextLine();
+        String str1 = scanner.nextLine().toUpperCase();
+        Property.PropertyType type;
+        try {
+            type = Property.PropertyType.valueOf(str1.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid property type. Please enter RESIDENTIAL/COMMERCIAL/INDUSTRIAL or SPECIAL. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter property address: ");
         String address = scanner.nextLine();
         System.out.print("Enter property price (in EUR): ");
@@ -245,8 +253,15 @@ public class UI {
         System.out.print("Enter number of rooms: ");
         int rooms = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter property status: ");
-        String status = scanner.nextLine();
+        System.out.print("Enter property status (AVAILABLE/UNDER_CONSTRUCTION/RENTED): ");
+        String str2 = scanner.nextLine().toUpperCase();
+        Property.PropertyStatus status;
+        try {
+            status = Property.PropertyStatus.valueOf(str2.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid property status. Please enter AVAILABLE/UNDER_CONSTRUCTION or RENTED. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter property size (in meters squared): ");
         double size = scanner.nextInt();
         scanner.nextLine();
@@ -266,7 +281,14 @@ public class UI {
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter new property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
-        String type = scanner.nextLine();
+        String str1 = scanner.nextLine().toUpperCase();
+        Property.PropertyType type;
+        try {
+            type = Property.PropertyType.valueOf(str1.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid property type. Please enter RESIDENTIAL/COMMERCIAL/INDUSTRIAL or SPECIAL. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new property address: ");
         String address = scanner.nextLine();
         System.out.print("Enter new property price (in EUR): ");
@@ -278,8 +300,15 @@ public class UI {
         System.out.print("Enter new number of rooms: ");
         int rooms = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new property status: ");
-        String status = scanner.nextLine();
+        System.out.print("Enter new property status (AVAILABLE/UNDER CONSTRUCTION/RENTED): ");
+        String str2 = scanner.nextLine().toUpperCase();
+        Property.PropertyStatus status;
+        try {
+            status = Property.PropertyStatus.valueOf(str2.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid property status. Please enter AVAILABLE/UNDER_CONSTRUCTION or RENTED. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new property size (in meters squared): ");
         int size = scanner.nextInt();
         scanner.nextLine();
@@ -298,8 +327,15 @@ public class UI {
         System.out.print("Enter property ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        controller.deleteProperty(id);
-        System.out.println("Property deleted successfully.");
+        System.out.println("Are you sure you want to delete this property? (Y/N)");
+        String confirmation = scanner.nextLine();
+        if(confirmation.equalsIgnoreCase("N")) {
+            System.out.println("Property deletion cancelled. Returning to previous menu.");
+        }
+        else if(confirmation.equalsIgnoreCase("Y")) {
+            controller.deleteProperty(id);
+            System.out.println("Property deleted successfully.");
+        }
     }
 
     private void viewPropertyById() {
@@ -328,8 +364,18 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter client name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter client email (firstlastname@example.com): ");
-        String email = scanner.nextLine();
+        String email;
+        while(true) {
+            System.out.print("Enter client email (firstlastname@example.com): ");
+            email = scanner.nextLine();
+            if(email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")){
+                break;
+            }
+            else{
+                System.out.println("Invalid email address. Returning to previous menu.");
+                return;
+            }
+        }
         System.out.print("Enter client phone number: ");
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
@@ -348,8 +394,18 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter new client name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter new client email (firstlastname@example.com): ");
-        String email = scanner.nextLine();
+        String email;
+        while(true) {
+            System.out.print("Enter new client email (firstlastname@example.com): ");
+            email = scanner.nextLine();
+            if(email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")){
+                break;
+            }
+            else{
+                System.out.println("Invalid email address. Returning to previous menu.");
+                return;
+            }
+        }
         System.out.print("Enter new client phone number: ");
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
@@ -365,8 +421,15 @@ public class UI {
         System.out.print("Enter client ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        controller.deleteClient(id);
-        System.out.println("Client deleted successfully.");
+        System.out.println("Are you sure you want to delete this client? (Y/N)");
+        String confirmation = scanner.nextLine();
+        if(confirmation.equalsIgnoreCase("N")) {
+            System.out.println("Client deletion cancelled. Returning to previous menu.");
+        }
+        else if(confirmation.equalsIgnoreCase("Y")) {
+            controller.deleteClient(id);
+            System.out.println("Client deleted successfully.");
+        }
     }
 
     private void viewClientById() {
@@ -398,9 +461,18 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter agent name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter agent email (firstlastname@example.com): ");
-        //TODO: Check Email Format
-        String email = scanner.nextLine();
+        String email;
+        while(true) {
+            System.out.print("Enter agent email (firstlastname@example.com): ");
+            email = scanner.nextLine();
+            if(email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")){
+                break;
+            }
+            else{
+                System.out.println("Invalid email address. Returning to previous menu.");
+                return;
+            }
+        }
         System.out.print("Enter agent phone number: ");
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
@@ -418,8 +490,18 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter new agent name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter new agent email (firstlastname@example.com): ");
-        String email = scanner.nextLine();
+        String email;
+        while(true) {
+            System.out.print("Enter new agent email (firstlastname@example.com): ");
+            email = scanner.nextLine();
+            if(email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")){
+                break;
+            }
+            else{
+                System.out.println("Invalid email address. Returning to previous menu.");
+                return;
+            }
+        }
         System.out.print("Enter new agent phone number: ");
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
@@ -432,8 +514,15 @@ public class UI {
         System.out.print("Enter agent ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        controller.deleteAgent(id);
-        System.out.println("Agent deleted successfully.");
+        System.out.println("Are you sure you want to delete this agent? (Y/N)");
+        String confirmation = scanner.nextLine();
+        if(confirmation.equalsIgnoreCase("N")) {
+            System.out.println("Agent deletion cancelled. Returning to previous menu.");
+        }
+        else if(confirmation.equalsIgnoreCase("Y")) {
+            controller.deleteAgent(id);
+            System.out.println("Agent deleted successfully.");
+        }
     }
 
     private void viewAgentById() {
@@ -460,8 +549,14 @@ public class UI {
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter contract type (PURCHASE/LEASE/RENTAL): ");
-        //TODO: Contract type PURCHASE/LEASE/RENTAL
-        String type = scanner.nextLine();
+        String str = scanner.nextLine().toUpperCase();
+        Contract.ContractType type;
+        try {
+            type = Contract.ContractType.valueOf(str.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid contract type. Please enter PURCHASE, LEASE, or RENTAL. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
@@ -487,7 +582,15 @@ public class UI {
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter new contract type (PURCHASE/LEASE/RENTAL): ");
-        String type = scanner.nextLine();
+        String str = scanner.nextLine().toUpperCase();
+        Contract.ContractType type;
+        try {
+            type = Contract.ContractType.valueOf(str.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid contract type. Please enter PURCHASE, LEASE, or RENTAL.");
+            return;
+        }
+
         System.out.print("Enter new contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
@@ -512,8 +615,15 @@ public class UI {
         System.out.print("Enter contract ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        controller.deleteContract(id);
-        System.out.println("Contract deleted successfully.");
+        System.out.println("Are you sure you want to delete this contract? (Y/N)");
+        String confirmation = scanner.nextLine();
+        if(confirmation.equalsIgnoreCase("N")) {
+            System.out.println("Contract deletion cancelled. Returning to previous menu.");
+        }
+        else if(confirmation.equalsIgnoreCase("Y")) {
+            controller.deleteContract(id);
+            System.out.println("Contract deleted successfully.");
+        }
     }
 
     private void viewContractById() {
@@ -550,12 +660,15 @@ public class UI {
     }
 
     private void addReview() {
-        System.out.println("Enter review ID:");
+        System.out.print("Enter review ID:");
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter rating (between 1 and 5): ");
-        //TODO: Rating between 1 and 5
         int rating = scanner.nextInt();
+        if(rating < 1 || rating > 5){
+            System.out.println("Invalid rating. Returning to previous menu.");
+            return;
+        }
         scanner.nextLine();
         System.out.print("Enter comment: ");
         String comment = scanner.nextLine();
@@ -576,8 +689,15 @@ public class UI {
         System.out.print("Enter review ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        controller.deleteReview(id);
-        System.out.println("Review deleted successfully.");
+        System.out.println("Are you sure you want to delete this review? (Y/N)");
+        String confirmation = scanner.nextLine();
+        if(confirmation.equalsIgnoreCase("N")){
+            System.out.println("Review deletion cancelled. Returning to previous menu.");
+        }
+        else if(confirmation.equalsIgnoreCase("Y")){
+            controller.deleteReview(id);
+            System.out.println("Review deleted successfully.");
+        }
     }
 
     private void viewReviewsByProperty() {
@@ -604,7 +724,19 @@ public class UI {
         System.out.print("Enter appointment date (yyyy-mm-dd): ");
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
-        Appointment appointment = new Appointment(id, date);
+        System.out.println("Enter agent ID: ");
+        int agentID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter client ID: ");
+        int clientID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter property ID: ");
+        int propertyID = scanner.nextInt();
+        scanner.nextLine();
+        Agent agent = controller.viewAgentById(agentID);
+        Client client = controller.viewClientById(clientID);
+        Property property = controller.viewPropertyById(propertyID);
+        Appointment appointment = new Appointment(id, date, agent, client, property);
         controller.addAppointment(appointment);
         System.out.println("Appointment added successfully.");
     }
@@ -616,7 +748,19 @@ public class UI {
         System.out.print("Enter new appointment date (yyyy-mm-dd): ");
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
-        Appointment appointment = new Appointment(id, date);
+        System.out.println("Enter new agent ID: ");
+        int agentID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter new client ID: ");
+        int clientID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter new property ID: ");
+        int propertyID = scanner.nextInt();
+        scanner.nextLine();
+        Agent agent = controller.viewAgentById(agentID);
+        Client client = controller.viewClientById(clientID);
+        Property property = controller.viewPropertyById(propertyID);
+        Appointment appointment = new Appointment(id, date, agent, client, property);
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
     }
@@ -625,8 +769,15 @@ public class UI {
         System.out.print("Enter appointment ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        controller.deleteAppointment(id);
-        System.out.println("Appointment deleted successfully.");
+        System.out.println("Are you sure you want to delete this appointment? (Y/N)");
+        String confirmation = scanner.nextLine();
+        if(confirmation.equalsIgnoreCase("N")) {
+            System.out.println("Appointment deletion cancelled. Returning to previous menu.");
+        }
+        else if(confirmation.equalsIgnoreCase("Y")) {
+            controller.deleteAppointment(id);
+            System.out.println("Appointment deleted successfully.");
+        }
     }
 
     private void viewAppointmentById() {

@@ -2,12 +2,12 @@ package Model;
 
 public class Property implements HasID{
     private Integer id;
-    private String type;
+    private PropertyType type;
     private String address;
     private double price;
     private Integer year;
     private Integer rooms;
-    private String status;
+    private PropertyStatus status;
     private double size;
     private String description;
     private Agent associatedAgent;
@@ -17,7 +17,7 @@ public class Property implements HasID{
         return id;
     }
 
-    public Property(Integer id, String type, String address, double price, Integer year, Integer rooms, String status, double size, String description, Agent associatedAgent) {
+    public Property(Integer id, PropertyType type, String address, double price, Integer year, Integer rooms, PropertyStatus status, double size, String description, Agent associatedAgent) {
         this.id = id;
         this.type = type;
         this.address = address;
@@ -28,6 +28,19 @@ public class Property implements HasID{
         this.size = size;
         this.description = description;
         this.associatedAgent = associatedAgent;
+    }
+
+    public enum PropertyType{
+        RESIDENTIAL,
+        COMMERCIAL,
+        INDUSTRIAL,
+        SPECIAL
+    }
+
+    public enum PropertyStatus{
+        AVAILABLE,
+        UNDER_CONTRACT,
+        RENTED
     }
 
     @Override
@@ -50,11 +63,11 @@ public class Property implements HasID{
         this.id = id;
     }
 
-    public String getType() {
+    public PropertyType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PropertyType type) {
         this.type = type;
     }
 
@@ -90,11 +103,11 @@ public class Property implements HasID{
         this.rooms = rooms;
     }
 
-    public String getStatus() {
+    public PropertyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(PropertyStatus status) {
         this.status = status;
     }
 
