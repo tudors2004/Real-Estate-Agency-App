@@ -2,13 +2,13 @@ package Model;
 import java.util.List;
 public class Contract implements HasID {
     private Integer id;
-    private String type;
+    private ContractType type;
     private int duration;
     private Agent agent;
     private Client client;
     private Property property;
 
-    public Contract(Integer id, String type, int duration, Agent agent, Client client, Property property) {
+    public Contract(Integer id, ContractType type, int duration, Agent agent, Client client, Property property) {
         this.id = id;
         this.type = type;
         this.duration = duration;
@@ -16,6 +16,13 @@ public class Contract implements HasID {
         this.client = client;
         this.property = property;
     }
+
+    public enum ContractType {
+        PURCHASE,
+        LEASE,
+        RENTAL
+    }
+
 
     @Override
     public Integer getId() {
@@ -26,11 +33,11 @@ public class Contract implements HasID {
         this.id = id;
     }
 
-    public String getType() {
+    public ContractType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ContractType type) {
         this.type = type;
     }
 
