@@ -132,8 +132,14 @@ public class Service {
     }
 
     public List<Review> getReviewsByProperty(int propertyId) {
-        //TODO
-        return null;
+        List<Review> reviews = reviewRepository.getAll();
+        List<Review> propertyReviews = new ArrayList<>();
+        for (Review review : reviews) {
+            if (review.getProperty().getId() == propertyId) {
+                propertyReviews.add(review);
+            }
+        }
+        return propertyReviews;
     }
 
     public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
