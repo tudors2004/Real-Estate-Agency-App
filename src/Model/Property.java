@@ -39,7 +39,7 @@ public class Property implements HasID{
 
     public enum PropertyStatus{
         AVAILABLE,
-        UNDER_CONTRACT,
+        UNDER_CONSTRUCTION,
         RENTED
     }
 

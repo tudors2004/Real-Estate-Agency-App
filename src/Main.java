@@ -5,6 +5,7 @@ import Repository.*;
 import Service.*;
 public class Main {
     public static void main(String[] args) {
+        //TODO: Link property to agent
         IRepository<Agent> agentRepository = new InMemoryRepository<>();
         IRepository<Property> propertyRepository = new InMemoryRepository<>();
         IRepository<Contract> contractRepository = new InMemoryRepository<>();

@@ -69,7 +69,7 @@ public class Client extends Person implements HasID {
                 ", preferences=" + preferences +
                 ", id=" + id +
                 ", Name='" + Name + '\'' +
-                ", Phone_Number=" + Phone_Number +
+                ", Phone_Number=+40" + Phone_Number +
                 ", Email='" + Email + '\'' +
                 '}';
     }
