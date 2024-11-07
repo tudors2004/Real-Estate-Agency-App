@@ -29,14 +29,19 @@ public class Agent extends Person implements HasID {
         this.assigned_Properties = assigned_Properties;
     }
 
+    public void printAssignedProperties() {
+        for (Property property : assigned_Properties) {
+            System.out.println(property);
+        }
+    }
+
     @Override
     public String toString() {
         return "Agent{" +
                 "License_Number=" + License_Number +
-                ", assigned_Properties=" + assigned_Properties +
                 ", id=" + id +
                 ", Name='" + Name + '\'' +
-                ", Phone_Number=" + Phone_Number +
+                ", Phone_Number=+40" + Phone_Number +
                 ", Email='" + Email + '\'' +
                 '}';
     }

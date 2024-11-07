@@ -142,12 +142,25 @@ public class Service {
         return propertyReviews;
     }
 
-    public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
-        //TODO
+    public void linkPropertyAndClient(int propertyId, int clientId){
+        Property property = propertyRepository.read(propertyId);
+        Client client = clientRepository.read(clientId);
+        //TODO: Link property to client
     }
 
     public void linkPropertyAndAgent(int propertyId, int agentId) {
-        //TODO
+        Property property = propertyRepository.read(propertyId);
+        Agent agent = agentRepository.read(agentId);
+
+        if (property != null && agent != null) {
+            property.setAssociatedAgent(agent);
+            agent.getAssignedProperty().add(property);
+            propertyRepository.update(property);
+            agentRepository.update(agent);
+        }
+        else {
+            System.out.println("Property not found.");
+        }
     }
 
     public void viewUnvisitedProperties(){
@@ -163,15 +176,20 @@ public class Service {
     }
 
     public void recommendPropertiesForClient(){
-        //TODO
+        //TODO: Recomanda clientului proprietati in functie de preferintele lui
     }
 
     public void analyzeAgentPerformance(){
-        //TODO
+        //TODO: Calculeaza numarul de contracte pe care le are agentul si face media reviews-urilor si le aduna
     }
 
-    public void generateMonthlyActivityReport(){
-        //TODO
+    public void generateActivityReport(){
+        System.out.println("--Activity report--\n" +
+                "Number of properties: " + propertyRepository.getAll().size() + "\n" +
+                "Number of contracts: " + contractRepository.getAll().size() + "\n" +
+                "Number of appointments: " + appointmentRepository.getAll().size() + "\n" +
+                "Number of clients: " + clientRepository.getAll().size() + "\n" +
+                "Number of reviews: " + reviewRepository.getAll().size());
     }
 
 }
