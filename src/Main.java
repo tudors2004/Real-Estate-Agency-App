@@ -5,9 +5,7 @@ import Repository.*;
 import Service.*;
 public class Main {
     public static void main(String[] args) {
-        //TODO: De adaugat: are you sure you want to delete this ...?
-        //TODO: Modifica Appointment si Agent: scoate List si lasa doar obiectul de tipul respectiv
-        //TODO: Adauga Enum in toate clasele pentru tipuri (Proprietate, Contract, etc)
+        //TODO: Link property to agent
         IRepository<Agent> agentRepository = new InMemoryRepository<>();
         IRepository<Property> propertyRepository = new InMemoryRepository<>();
         IRepository<Contract> contractRepository = new InMemoryRepository<>();

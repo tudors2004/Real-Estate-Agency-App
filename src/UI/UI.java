@@ -2,7 +2,6 @@ package UI;
 import Controller.Controller;
 import Model.*;
 
-import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -120,7 +119,8 @@ public class UI {
             System.out.println("3. Delete Agent");
             System.out.println("4. View Agent by ID");
             System.out.println("5. View All Agents");
-            System.out.println("6. Analyze Agent Performance");
+            System.out.println("6. View Assigned Properties");
+            System.out.println("7. Analyze Agent Performance");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -133,7 +133,8 @@ public class UI {
                 case 3 -> deleteAgent();
                 case 4 -> viewAgentById();
                 case 5 -> viewAllAgents();
-                case 6 -> analyzeAgentPerformance();
+                case 6 -> viewAssignedProperties();
+                case 7 -> analyzeAgentPerformance();
                 case 0 -> {
                     return;
                 }
@@ -151,8 +152,7 @@ public class UI {
             System.out.println("3. Delete Contract");
             System.out.println("4. View Contract by ID");
             System.out.println("5. View All Contracts");
-            System.out.println("6. Link Property and Client (Create Contract)");
-            System.out.println("7. Generate Monthly Activity Report");
+            System.out.println("6. Generate Activity Report");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -165,8 +165,7 @@ public class UI {
                 case 3 -> deleteContract();
                 case 4 -> viewContractById();
                 case 5 -> viewAllContracts();
-                case 6 -> linkPropertyAndClient();
-                case 7 -> generateMonthlyActivityReport();
+                case 6 -> generateActivityReport();
                 case 0 -> {
                     return;
                 }
@@ -273,6 +272,7 @@ public class UI {
         Agent associatedAgent = controller.viewAgentById(agentId);
         Property property = new Property(id, type, address, price, year, rooms, status, size, description, associatedAgent);
         controller.addProperty(property);
+        controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property added successfully.");
     }
 
@@ -300,7 +300,7 @@ public class UI {
         System.out.print("Enter new number of rooms: ");
         int rooms = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new property status (AVAILABLE/UNDER CONSTRUCTION/RENTED): ");
+        System.out.print("Enter new property status (AVAILABLE/UNDER_CONSTRUCTION/RENTED): ");
         String str2 = scanner.nextLine().toUpperCase();
         Property.PropertyStatus status;
         try {
@@ -320,6 +320,7 @@ public class UI {
         Agent associatedAgent = controller.viewAgentById(agentId);
         Property property = new Property(id, type, address, price, year, rooms, status, size, description, associatedAgent);
         controller.updateProperty(property);
+        controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property updated successfully.");
     }
 
@@ -354,7 +355,7 @@ public class UI {
     }
 
     private void viewUnvisitedProperties() {
-        //TODO: If Property.associatedAgent is null, then it is unvisited
+        System.out.println("List of the unvisited properties: ");
         controller.viewUnvisitedProperties();
     }
 
@@ -380,8 +381,14 @@ public class UI {
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter client type (BUYER/SELLER/RENTER/INVESTOR): ");
-        //TODO: Client type BUYER/SELLER/RENTER/INVESTOR
-        String clientType = scanner.nextLine();
+        String str1 = scanner.nextLine().toUpperCase();
+        Client.ClientType type;
+        try {
+            type = Client.ClientType.valueOf(str1.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid client type. Please enter BUYER/SELLER/RENTER/INVESTOR. Returning to previous menu.");
+            return;
+        }
         //TODO: Client Preferences
 //        Client client = new Client(id, name, email, phoneNumber, clientType);
 //        controller.addClient(client);
@@ -410,7 +417,14 @@ public class UI {
         int phoneNumber = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter new client type (BUYER/SELLER/RENTER/INVESTOR): ");
-        String clientType = scanner.nextLine();
+        String str2= scanner.nextLine().toUpperCase();
+        Client.ClientType type;
+        try {
+            type = Client.ClientType.valueOf(str2.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid client type. Please enter BUYER/SELLER/RENTER/INVESTOR. Returning to previous menu.");
+            return;
+        }
         //TODO: Client Preferences
 //        Client client = new Client(id, name, email, phoneNumber, clientType);
 //        controller.updateClient(client);
@@ -540,6 +554,18 @@ public class UI {
         }
     }
 
+    private void viewAssignedProperties() {
+        System.out.print("Enter agent ID to view assigned properties: ");
+        int agentId = scanner.nextInt();
+        scanner.nextLine();
+        Agent agent = controller.viewAgentById(agentId);
+        if (agent != null) {
+            agent.printAssignedProperties();
+        } else {
+            System.out.println("Agent not found.");
+        }
+    }
+
     private void analyzeAgentPerformance() {
         controller.analyzeAgentPerformance();
     }
@@ -641,22 +667,8 @@ public class UI {
         }
     }
 
-    private void linkPropertyAndClient() {
-        System.out.print("Enter contract ID: ");
-        int contractId = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter property ID: ");
-        int propertyId = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter client ID: ");
-        int clientId = scanner.nextInt();
-        scanner.nextLine();
-        controller.linkPropertyAndClient(contractId, propertyId, clientId);
-        System.out.println("Property and client linked successfully.");
-    }
-
-    private void generateMonthlyActivityReport() {
-        controller.generateMonthlyActivityReport();
+    private void generateActivityReport() {
+        controller.generateActivityReport();
     }
 
     private void addReview() {
@@ -724,13 +736,13 @@ public class UI {
         System.out.print("Enter appointment date (yyyy-mm-dd): ");
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
-        System.out.println("Enter agent ID: ");
+        System.out.print("Enter agent ID: ");
         int agentID = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Enter client ID: ");
+        System.out.print("Enter client ID: ");
         int clientID = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Enter property ID: ");
+        System.out.print("Enter property ID: ");
         int propertyID = scanner.nextInt();
         scanner.nextLine();
         Agent agent = controller.viewAgentById(agentID);

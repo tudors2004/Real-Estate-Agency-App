@@ -115,9 +115,6 @@ public class Controller {
         return service.getAppointmentById(appointmentID);
     }
 
-    public void linkPropertyAndClient(int contractId, int propertyId, int clientId) {
-        service.linkPropertyAndClient(contractId, propertyId, clientId);
-    }
     public void viewUnvisitedProperties() {
         service.viewUnvisitedProperties();
     }
@@ -127,10 +124,14 @@ public class Controller {
     public void analyzeAgentPerformance() {
         service.analyzeAgentPerformance();
     }
-    public void generateMonthlyActivityReport() {
-        service.generateMonthlyActivityReport();
+    public void generateActivityReport() {
+        service.generateActivityReport();
     }
     public void linkPropertyAndAgent(int agentID, int propertyID){
         service.linkPropertyAndAgent(agentID, propertyID);
+    }
+
+    public void linkPropertyAndClient(int propertyId, int clientId) {
+        service.linkPropertyAndClient(propertyId, clientId);
     }
 }
