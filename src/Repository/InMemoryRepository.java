@@ -16,11 +16,11 @@ public class InMemoryRepository<T extends HasID> implements IRepository<T> {
         storage.replace(obj.getId(), obj);
     }
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         storage.remove(id);
     }
     @Override
-    public T read(int id) {
+    public T read(Integer id) {
         return storage.get(id);
     }
     @Override

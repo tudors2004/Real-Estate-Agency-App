@@ -25,11 +25,11 @@ public class FileRepository<T> implements IRepository<T> {
         });
     }
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         doInFile(data -> data.remove(id));
     }
     @Override
-    public T read(int id) {
+    public T read(Integer id) {
         return readDataFromFile().get(id);
     }
 

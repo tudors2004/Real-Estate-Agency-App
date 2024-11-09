@@ -132,7 +132,7 @@ public class Service {
     }
 
     public List<Review> getReviewsByProperty(int propertyId) {
-        List<Review> reviews = reviewRepository.getAll();
+        List<Review> reviews = getAllReviews();
         List<Review> propertyReviews = new ArrayList<>();
         for (Review review : reviews) {
             if (review.getProperty().getId() == propertyId) {
@@ -143,14 +143,28 @@ public class Service {
     }
 
     public void linkPropertyAndClient(int propertyId, int clientId){
-        Property property = propertyRepository.read(propertyId);
-        Client client = clientRepository.read(clientId);
-        //TODO: Link property to client
+        Property property = getPropertyById(propertyId);
+        Client client = getClientById(clientId);
+        if (client == null) {
+            System.out.println("Client with ID " + clientId + " not found.");
+            return;
+        }
+        if (property == null) {
+            System.out.println("Property with ID " + propertyId + " not found.");
+            return;
+        }
+        if (client.getSeeProperty() == null) {
+            client.setSeeProperty(new ArrayList<>());
+        }
+        if (!client.getSeeProperty().contains(property) || !property.getSeenByClient().contains(client)) {
+            client.getSeeProperty().add(property);
+            property.getSeenByClient().add(client);
+        }
     }
 
     public void linkPropertyAndAgent(int propertyId, int agentId) {
-        Property property = propertyRepository.read(propertyId);
-        Agent agent = agentRepository.read(agentId);
+        Property property = getPropertyById(propertyId);
+        Agent agent = getAgentById(agentId);
 
         if (property != null && agent != null) {
             property.setAssociatedAgent(agent);
@@ -166,7 +180,7 @@ public class Service {
     public void viewUnvisitedProperties(){
         List<Property> unvisitedProperties = new ArrayList<>();
         for (Property property : propertyRepository.getAll()) {
-            if (property.getAssociatedAgent() == null) {
+            if (property.getSeenByClient() == null) {
                 unvisitedProperties.add(property);
             }
         }
@@ -176,7 +190,7 @@ public class Service {
     }
 
     public void recommendPropertiesForClient(){
-        //TODO: Recomanda clientului proprietati in functie de preferintele lui
+
     }
 
     public void analyzeAgentPerformance(){
@@ -185,11 +199,11 @@ public class Service {
 
     public void generateActivityReport(){
         System.out.println("--Activity report--\n" +
-                "Number of properties: " + propertyRepository.getAll().size() + "\n" +
-                "Number of contracts: " + contractRepository.getAll().size() + "\n" +
-                "Number of appointments: " + appointmentRepository.getAll().size() + "\n" +
-                "Number of clients: " + clientRepository.getAll().size() + "\n" +
-                "Number of reviews: " + reviewRepository.getAll().size());
+                "Number of properties: " + getAllProperties().size() + "\n" +
+                "Number of contracts: " + getAllContracts().size() + "\n" +
+                "Number of appointments: " + getAllAppointments().size() + "\n" +
+                "Number of clients: " + getAllClients().size() + "\n" +
+                "Number of reviews: " + getAllReviews().size());
     }
 
 }
