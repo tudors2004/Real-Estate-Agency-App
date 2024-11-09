@@ -101,7 +101,7 @@ public class UI {
                 case 3 -> deleteClient();
                 case 4 -> viewClientById();
                 case 5 -> viewAllClients();
-                case 6 -> recommendPropertiesForClient();
+                case 6 -> recommendPropertiesForClient(viewClientById());
                 case 0 -> {
                     return;
                 }
@@ -134,7 +134,7 @@ public class UI {
                 case 4 -> viewAgentById();
                 case 5 -> viewAllAgents();
                 case 6 -> viewAssignedProperties();
-                case 7 -> analyzeAgentPerformance();
+                case 7 -> analyzeAgentPerformance(viewAgentById());
                 case 0 -> {
                     return;
                 }
@@ -446,12 +446,13 @@ public class UI {
         }
     }
 
-    private void viewClientById() {
+    private int viewClientById() {
         System.out.print("Enter client ID to view: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         Client client = controller.viewClientById(id);
         System.out.println(client);
+        return id;
     }
 
     private void viewAllClients() {
@@ -461,9 +462,9 @@ public class UI {
         }
     }
 
-    private void recommendPropertiesForClient() {
+    private void recommendPropertiesForClient(Integer id) {
         //TODO: Might delete later
-        controller.recommendPropertiesForClient();
+        controller.recommendPropertiesForClient(id);
     }
 
     private void addAgent() {
@@ -539,12 +540,13 @@ public class UI {
         }
     }
 
-    private void viewAgentById() {
+    private int viewAgentById() {
         System.out.print("Enter agent ID to view: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         Agent agent = controller.viewAgentById(id);
         System.out.println(agent);
+        return id;
     }
 
     private void viewAllAgents() {
@@ -566,8 +568,8 @@ public class UI {
         }
     }
 
-    private void analyzeAgentPerformance() {
-        controller.analyzeAgentPerformance();
+    private void analyzeAgentPerformance(int agentID) {
+        controller.analyzeAgentPerformance(agentID);
     }
 
     private void addContract() {

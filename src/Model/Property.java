@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Property implements HasID{
@@ -14,6 +15,8 @@ public class Property implements HasID{
     private String description;
     private Agent associatedAgent;
     private List<Client> seenByClient;
+    private LocalDate listDate;
+    private LocalDate soldDate;
 
     @Override
     public Integer getId() {
@@ -43,7 +46,8 @@ public class Property implements HasID{
     public enum PropertyStatus{
         AVAILABLE,
         UNDER_CONSTRUCTION,
-        RENTED
+        RENTED,
+        SOLD
     }
 
     @Override
@@ -144,4 +148,21 @@ public class Property implements HasID{
     public void setAssociatedAgent(Agent associatedAgent) {
         this.associatedAgent = associatedAgent;
     }
+
+    public LocalDate getListedDate() {
+        return listDate;
+    }
+
+    public void setListedDate(LocalDate listDate) {
+        this.listDate = listDate;
+    }
+
+    public LocalDate getSoldDate() {
+        return soldDate;
+    }
+
+    public void setSoldDate(LocalDate soldDate) {
+        this.soldDate = soldDate;
+    }
+
 }

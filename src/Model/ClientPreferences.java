@@ -2,6 +2,7 @@ package Model;
 import  Model.Property.PropertyType;
 import Model.Property.PropertyStatus;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ClientPreferences extends Client {
@@ -82,11 +83,7 @@ public class ClientPreferences extends Client {
 
 
 
-    private boolean MatchesClientPreferences(Client client, Property property) {
-        if(client == null || property == null){
-            System.out.println("Client or property is null");
-            return false;
-        }
+    public boolean matchesPreferences(Property property) {
         return property.getLocation().equalsIgnoreCase(location) &&
                 property.getPrice() <= budget &&
                 property.getYear() <= year &&
@@ -95,5 +92,6 @@ public class ClientPreferences extends Client {
                 property.getSize() == size &&
                 Objects.equals(property.getRooms(), rooms);
     }
+
 
 }
