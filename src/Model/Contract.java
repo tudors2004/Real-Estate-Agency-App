@@ -1,5 +1,5 @@
 package Model;
-import java.util.List;
+
 public class Contract implements HasID {
     private Integer id;
     private ContractType type;

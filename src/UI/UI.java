@@ -1,7 +1,6 @@
 package UI;
 import Controller.Controller;
 import Model.*;
-
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -38,7 +37,7 @@ public class UI {
                     case 5 -> manageReviews();
                     case 6 -> manageAppointments();
                     case 0 -> {
-                        System.out.println("Exiting application.");
+                        System.out.println("Exiting application......");
                         return;
                     }
                     default -> System.out.println("Invalid option. Please try again with a number between 0 and 6.");

@@ -1,8 +1,7 @@
 package Model;
+
 import  Model.Property.PropertyType;
 import Model.Property.PropertyStatus;
-
-import java.util.List;
 import java.util.Objects;
 
 public class ClientPreferences extends Client {
@@ -54,9 +53,6 @@ public class ClientPreferences extends Client {
         this.preferredType = preferredType;
     }
 
-
-
-
     public ClientPreferences(Client client, double budget, String location, PropertyType preferredType, PropertyStatus preferredStatus) {
         super(client.getId(),client.getName(),client.getEmail(), client.getPhone_numb(),client.getClientType());
         this.budget = budget;
@@ -65,6 +61,7 @@ public class ClientPreferences extends Client {
         this.preferredStatus = preferredStatus;
 
     }
+
     public double getBudget() {
         return budget;
     }
@@ -81,8 +78,6 @@ public class ClientPreferences extends Client {
         this.location = location;
     }
 
-
-
     public boolean matchesPreferences(Property property) {
         return property.getLocation().equalsIgnoreCase(location) &&
                 property.getPrice() <= budget &&
@@ -93,5 +88,21 @@ public class ClientPreferences extends Client {
                 Objects.equals(property.getRooms(), rooms);
     }
 
-
+    @Override
+    public String toString() {
+        return "ClientPreferences{" +
+                "budget=" + budget +
+                ", location='" + location + '\'' +
+                ", preferredType=" + preferredType +
+                ", preferredStatus=" + preferredStatus +
+                ", year=" + year +
+                ", size=" + size +
+                ", rooms=" + rooms +
+                ", client_type=" + client_type +
+                ", id=" + id +
+                ", Name='" + Name + '\'' +
+                ", Phone_Number=" + Phone_Number +
+                ", Email='" + Email + '\'' +
+                '}';
+    }
 }

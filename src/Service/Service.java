@@ -329,7 +329,6 @@ public class Service {
             } else {
                 System.out.println("This agent needs improvement.");
             }
-
     }
 
     public void generateActivityReport(){
@@ -340,5 +339,4 @@ public class Service {
                 "Number of clients: " + getAllClients().size() + "\n" +
                 "Number of reviews: " + getAllReviews().size());
     }
-
 }
