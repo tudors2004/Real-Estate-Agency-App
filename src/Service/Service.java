@@ -88,6 +88,12 @@ public class Service {
     public void deleteReview(int id){
         reviewRepository.delete(id);
     }
+    public void addClientPreferences(ClientPreferences clientPreferences){
+        clientPreferencesRepository.create(clientPreferences);
+    }
+    public void updateClientPreferences(ClientPreferences clientPreferences){
+        clientPreferencesRepository.update(clientPreferences);
+    }
 
     public List<Property> getAllProperties() {
         return propertyRepository.getAll();
@@ -165,6 +171,7 @@ public class Service {
 //            }
 //        }
 //    }
+    //TODO: Nu stiu ce face asta dar trebuie sa facem ca 2 sau mai multe contracte sa nu poata avea aceeasi proprietate!!!!!!!
 
     public void linkPropertyAndClient(int propertyId, int clientId){
         Property property = getPropertyById(propertyId);
@@ -275,19 +282,19 @@ public class Service {
         }
         return visitedCount;
     }
-    public int generateMonthlyActivityReport(Integer month, Integer year){
-        Integer propertiesListed=countPropertiesListed(month, year);
-        Integer propertiesSold=countPropertiesSold(month, year);
-        int count=0;
-        List<Property> allProperties = getAllProperties();
-        for(Property property : allProperties){
-            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
-                count++;
-            }
-        }
-        return count;
-    }
-
+//    public int generateMonthlyActivityReport(Integer month, Integer year){
+//        Integer propertiesListed=countPropertiesListed(month, year);
+//        Integer propertiesSold=countPropertiesSold(month, year);
+//        int count=0;
+//        List<Property> allProperties = getAllProperties();
+//        for(Property property : allProperties){
+//            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
+//                count++;
+//            }
+//        }
+//        return count;
+//    }
+    //TODO: am comentat asta ca poate dai rename la functie/functii ca e deja una generateActivityReport care face altceva
 
     public void analyzeAgentPerformance(Integer AgentID){
 

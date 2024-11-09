@@ -85,9 +85,11 @@ public class UI {
             System.out.println("1. Add Client");
             System.out.println("2. Update Client");
             System.out.println("3. Delete Client");
-            System.out.println("4. View Client by ID");
-            System.out.println("5. View All Clients");
-            System.out.println("6. Recommend Properties For Client");
+            System.out.println("4. Add Client Preferences");
+            System.out.println("5. Update Client Preferences");
+            System.out.println("6. View Client by ID");
+            System.out.println("7. View All Clients and Preferences");
+            System.out.println("8. Recommend Properties For Client");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -98,9 +100,11 @@ public class UI {
                 case 1 -> addClient();
                 case 2 -> updateClient();
                 case 3 -> deleteClient();
-                case 4 -> viewClientById();
-                case 5 -> viewAllClients();
-                case 6 -> recommendPropertiesForClient(viewClientById());
+                case 4 -> addClientPreferences();
+                case 5 -> updateClientPreferences();
+                case 6 -> viewClientById();
+                case 7 -> viewAllClients();
+                case 8 -> recommendPropertiesForClient(viewClientById());
                 case 0 -> {
                     return;
                 }
@@ -388,10 +392,112 @@ public class UI {
             System.out.println("Invalid client type. Please enter BUYER/SELLER/RENTER/INVESTOR. Returning to previous menu.");
             return;
         }
-        //TODO: Client Preferences
-//        Client client = new Client(id, name, email, phoneNumber, clientType);
-//        controller.addClient(client);
+        Client client = new Client(id, name, email, phoneNumber, type);
+        controller.addClient(client);
         System.out.println("Client added successfully.");
+    }
+
+    private void addClientPreferences(){
+        System.out.print("Enter client's ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Client client = controller.viewClientById(id);
+        if (client == null) {
+            System.out.print("Client not found. Returning to previous menu.");
+            return;
+        }
+        System.out.print("Enter client's budget(in EUR): ");
+        double budget = scanner.nextDouble();
+        scanner.nextLine();
+        /*TODO: Locatia ca preferinta pentru client.
+           (daca era "adresa" puteam scoate cu totul "locatia" ca preferinta, ca nu poti sa ai preferinta la adresa, la locatie poti)
+           Daca locatia proprietatii e un string care contine nume de tara/judet/oras :
+            -de exemplu: Proprietatea cu locatia : "Cluj-Napoca". Preferinta trebuie sa fie oras??
+            -daca clientul are preferinta: Cluj-Napoca, Gheorgheni... ? n o sa apara nicio proprietate'
+            (Decat daca fac o functie care verifica daca stringul din locatia proprietatii contine stringul din preferinta clientului)-asta are sens
+            -dar un client poate avea preferinta de exemplu Franta, si eu locatia la toate proprietatile am orase din Romania.. nu prea se pupa zic eu
+         */
+        //????????????????????????????????????????????????????????
+        System.out.print("Enter client's preferred location: ");
+        String location = scanner.nextLine();
+        //????????????????????????????????????????????????????????
+        System.out.print("Enter client's preferred property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
+        String str1 = scanner.nextLine().toUpperCase();
+        Property.PropertyType type;
+        try {
+            type = Property.PropertyType.valueOf(str1.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.print("Invalid property type. Please enter RESIDENTIAL/COMMERCIAL/INDUSTRIAL or SPECIAL. Returning to previous menu.");
+            return;
+        }
+        System.out.print("Enter client's preferred property status (AVAILABLE/UNDER_CONSTRUCTION/RENTED): ");
+        String str2 = scanner.nextLine().toUpperCase();
+        Property.PropertyStatus status;
+        try {
+            status = Property.PropertyStatus.valueOf(str2.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.print("Invalid property status. Please enter AVAILABLE/UNDER_CONSTRUCTION or RENTED. Returning to previous menu.");
+            return;
+        }
+        System.out.print("Enter client's preferred year of construction: ");
+        int year = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter client's preferred size (in meters squared): ");
+        double size = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.print("Enter client's preferred number of rooms: ");
+        int rooms = scanner.nextInt();
+        scanner.nextLine();
+        ClientPreferences clientPreferences = new ClientPreferences(client, budget, location, type, status, year, size, rooms);
+        controller.addClientPreferences(clientPreferences);
+        System.out.println("Client preferences added successfully.");
+
+    }
+    private void updateClientPreferences(){
+        System.out.println("Enter client's ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Client client = controller.viewClientById(id);
+        if (client == null) {
+            System.out.println("Client not found. Returning to previous menu.");
+            return;
+        }
+        System.out.println("Enter client's new budget(in EUR): ");
+        double budget = scanner.nextDouble();
+        scanner.nextLine();
+        //???????????????????????????????????????????????????????????
+        System.out.println("Enter client's new preferred location: ");
+        String location = scanner.nextLine();
+        //???????????????????????????????????????????????????????????
+        System.out.println("Enter client's new preferred property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
+        String str1 = scanner.nextLine().toUpperCase();
+        Property.PropertyType type;
+        try {
+            type = Property.PropertyType.valueOf(str1.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid property type. Please enter RESIDENTIAL/COMMERCIAL/INDUSTRIAL or SPECIAL. Returning to previous menu.");
+            return;
+        }
+        System.out.println("Enter client's new preferred property status (AVAILABLE/UNDER_CONSTRUCTION/RENTED): ");
+        String str2 = scanner.nextLine().toUpperCase();
+        Property.PropertyStatus status;
+        try {
+            status = Property.PropertyStatus.valueOf(str2.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid property status. Please enter AVAILABLE/UNDER_CONSTRUCTION or RENTED. Returning to previous menu.");
+            return;
+        }
+        System.out.println("Enter client's new preferred year of construction: ");
+        int year = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter client's new preferred size (in meters squared): ");
+        double size = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.println("Enter client's new preferred number of rooms: ");
+        int rooms = scanner.nextInt();
+        scanner.nextLine();
+        ClientPreferences clientPreferences = new ClientPreferences(client, budget, location, type, status, year, size, rooms);
+        controller.updateClientPreferences(clientPreferences);
     }
 
     private void updateClient() {
@@ -424,9 +530,8 @@ public class UI {
             System.out.println("Invalid client type. Please enter BUYER/SELLER/RENTER/INVESTOR. Returning to previous menu.");
             return;
         }
-        //TODO: Client Preferences
-//        Client client = new Client(id, name, email, phoneNumber, clientType);
-//        controller.updateClient(client);
+        Client client = new Client(id, name, email, phoneNumber, type);
+        controller.updateClient(client);
         System.out.println("Client updated successfully.");
     }
 
@@ -450,7 +555,12 @@ public class UI {
         int id = scanner.nextInt();
         scanner.nextLine();
         Client client = controller.viewClientById(id);
-        System.out.println(client);
+        ClientPreferences clientPreferences = controller.viewClientPreferencesById(id);
+        System.out.println();
+        System.out.print(client);
+        System.out.print(" + ");
+        System.out.print(clientPreferences);
+        System.out.println();
         return id;
     }
 
@@ -459,10 +569,13 @@ public class UI {
         for (Client client : clients) {
             System.out.println(client);
         }
+        List<ClientPreferences> clientPreferences = controller.viewAllClientPreferences();
+        for (ClientPreferences clientPreference : clientPreferences) {
+            System.out.println(clientPreference);
+        }
     }
 
     private void recommendPropertiesForClient(Integer id) {
-        //TODO: Might delete later
         controller.recommendPropertiesForClient(id);
     }
 
@@ -729,6 +842,9 @@ public class UI {
             System.out.println(review);
         }
     }
+
+    //TODO: rename addReview to addPropertyReview
+    //TODO: create addAgentReview (ajutor pentru functia de analyzeAgentPerformance)
 
     private void addAppointment() {
         System.out.print("Enter appointment ID: ");
