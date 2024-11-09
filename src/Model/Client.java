@@ -1,5 +1,5 @@
 package Model;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Client extends Person implements HasID {
@@ -17,23 +17,18 @@ public class Client extends Person implements HasID {
         INVESTOR
     }
 
-
-
     public List<Property> getSeeProperty() {
         return seeProperty;
     }
-
     public void setSeeProperty(List<Property> seeProperty) {
         this.seeProperty = seeProperty;
     }
     public ClientType getClientType() {
         return this.client_type;
     }
-
     public void setClientType(ClientType clientType) {
         this.client_type = clientType;
     }
-
 
     @Override
     public String toString() {
@@ -45,6 +40,5 @@ public class Client extends Person implements HasID {
                 ", Email='" + Email + '\'' +
                 '}';
     }
-
 }
 

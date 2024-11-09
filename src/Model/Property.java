@@ -46,8 +46,7 @@ public class Property implements HasID{
     public enum PropertyStatus{
         AVAILABLE,
         UNDER_CONSTRUCTION,
-        RENTED,
-        SOLD
+        RENTED
     }
 
     @Override
@@ -164,5 +163,4 @@ public class Property implements HasID{
     public void setSoldDate(LocalDate soldDate) {
         this.soldDate = soldDate;
     }
-
 }

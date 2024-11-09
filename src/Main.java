@@ -5,7 +5,11 @@ import Repository.*;
 import Service.*;
 public class Main {
     public static void main(String[] args) {
-        //TODO: Link property to agent
+        /*TODO:
+            - 2 sau mai multe contracte nu pot avea aceeasi proprietate
+            -O proprietate sa nu aiba mai mult de un assigned agent
+            -Un client sa nu poate sa dea mai mult de un review la aceeasi proprietate
+         */
         IRepository<Agent> agentRepository = new InMemoryRepository<>();
         IRepository<Property> propertyRepository = new InMemoryRepository<>();
         IRepository<Contract> contractRepository = new InMemoryRepository<>();
