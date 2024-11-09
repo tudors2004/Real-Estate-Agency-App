@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Appointment implements HasID{

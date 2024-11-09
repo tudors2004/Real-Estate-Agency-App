@@ -14,12 +14,12 @@ public class DBRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         //TODO: implement delete
     }
 
     @Override
-    public T read(int id) {
+    public T read(Integer id) {
         return null;
         //TODO: implement read
     }

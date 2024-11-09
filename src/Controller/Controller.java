@@ -118,11 +118,11 @@ public class Controller {
     public void viewUnvisitedProperties() {
         service.viewUnvisitedProperties();
     }
-    public void recommendPropertiesForClient() {
-        service.recommendPropertiesForClient();
+    public void recommendPropertiesForClient(Integer clientID) {
+        service.recommendPropertiesForClient(clientID);
     }
-    public void analyzeAgentPerformance() {
-        service.analyzeAgentPerformance();
+    public void analyzeAgentPerformance(Integer agentID) {
+        service.analyzeAgentPerformance(agentID);
     }
     public void generateActivityReport() {
         service.generateActivityReport();

@@ -1,18 +1,21 @@
 package Model;
 
+import java.util.List;
+
 public class Review implements HasID{
     private Integer id;
     private int rating;
     private String comment;
     private Property property;
     private Client client;
+    private Integer Rating;
 
-    public Review(Integer id, int rating, String comment, Property property, Client client) {
+    public Review(Integer id,Integer Rating, String comment, Property property, Client client) {
         this.id = id;
-        this.rating = rating;
         this.comment = comment;
         this.property = property;
         this.client = client;
+        this.Rating = Rating;
     }
 
     @Override
@@ -28,7 +31,10 @@ public class Review implements HasID{
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
+        if(rating<1 || rating>5){
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
         this.rating = rating;
     }
 
@@ -55,6 +61,8 @@ public class Review implements HasID{
     public void setClient(Client client) {
         this.client = client;
     }
+
+
 
     @Override
     public String toString() {

@@ -12,7 +12,8 @@ public class Main {
         IRepository<Appointment> appointmentRepository = new InMemoryRepository<>();
         IRepository<Client> clientRepository = new InMemoryRepository<>();
         IRepository<Review> reviewRepository = new InMemoryRepository<>();
-        Service service = new Service(agentRepository, propertyRepository, contractRepository, appointmentRepository, clientRepository, reviewRepository);
+        IRepository<ClientPreferences> clientPreferencesRepository = new InMemoryRepository<>();
+        Service service = new Service(agentRepository, propertyRepository, contractRepository, appointmentRepository, clientRepository, reviewRepository,clientPreferencesRepository);
         Controller controller = new Controller(service);
         UI ui = new UI(controller);
         ui.run();

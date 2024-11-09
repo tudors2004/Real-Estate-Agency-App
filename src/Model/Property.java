@@ -1,9 +1,12 @@
 package Model;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class Property implements HasID{
     private Integer id;
     private PropertyType type;
-    private String address;
+    private String location;
     private double price;
     private Integer year;
     private Integer rooms;
@@ -11,16 +14,19 @@ public class Property implements HasID{
     private double size;
     private String description;
     private Agent associatedAgent;
+    private List<Client> seenByClient;
+    private LocalDate listDate;
+    private LocalDate soldDate;
 
     @Override
     public Integer getId() {
         return id;
     }
 
-    public Property(Integer id, PropertyType type, String address, double price, Integer year, Integer rooms, PropertyStatus status, double size, String description, Agent associatedAgent) {
+    public Property(Integer id, PropertyType type, String location, double price, Integer year, Integer rooms, PropertyStatus status, double size, String description, Agent associatedAgent) {
         this.id = id;
         this.type = type;
-        this.address = address;
+        this.location = location;
         this.price = price;
         this.year = year;
         this.rooms = rooms;
@@ -40,7 +46,8 @@ public class Property implements HasID{
     public enum PropertyStatus{
         AVAILABLE,
         UNDER_CONSTRUCTION,
-        RENTED
+        RENTED,
+        SOLD
     }
 
     @Override
@@ -48,7 +55,7 @@ public class Property implements HasID{
         return "Property{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
-                ", address='" + address + '\'' +
+                ", location='" + location + '\'' +
                 ", price=" + price + "€"+
                 ", year=" + year +
                 ", rooms=" + rooms +
@@ -59,6 +66,13 @@ public class Property implements HasID{
                 '}';
     }
 
+    public List<Client> getSeenByClient() {
+        return seenByClient;
+    }
+
+    public void setSeenByClient(List<Client> seenByClient) {
+        this.seenByClient = seenByClient;
+    }
     public void setId(Integer id) {
         this.id = id;
     }
@@ -71,12 +85,12 @@ public class Property implements HasID{
         this.type = type;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLocation() {
+        return location;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public double getPrice() {
@@ -134,4 +148,21 @@ public class Property implements HasID{
     public void setAssociatedAgent(Agent associatedAgent) {
         this.associatedAgent = associatedAgent;
     }
+
+    public LocalDate getListedDate() {
+        return listDate;
+    }
+
+    public void setListedDate(LocalDate listDate) {
+        this.listDate = listDate;
+    }
+
+    public LocalDate getSoldDate() {
+        return soldDate;
+    }
+
+    public void setSoldDate(LocalDate soldDate) {
+        this.soldDate = soldDate;
+    }
+
 }
