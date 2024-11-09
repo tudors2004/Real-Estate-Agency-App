@@ -134,4 +134,18 @@ public class Controller {
     public void linkPropertyAndClient(int propertyId, int clientId) {
         service.linkPropertyAndClient(propertyId, clientId);
     }
+
+    public void addClientPreferences(ClientPreferences clientPreferences) {
+        service.addClientPreferences(clientPreferences);
+    }
+
+    public void updateClientPreferences(ClientPreferences clientPreferences) {
+        service.updateClientPreferences(clientPreferences);
+    }
+    public List<ClientPreferences> viewAllClientPreferences() {
+        return service.getAllClientPreferences();
+    }
+    public ClientPreferences viewClientPreferencesById(int clientId) {
+        return service.getClientPreferencesByClientId(clientId);
+    }
 }

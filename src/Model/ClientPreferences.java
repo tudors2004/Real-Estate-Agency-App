@@ -53,12 +53,15 @@ public class ClientPreferences extends Client {
         this.preferredType = preferredType;
     }
 
-    public ClientPreferences(Client client, double budget, String location, PropertyType preferredType, PropertyStatus preferredStatus) {
+    public ClientPreferences(Client client, double budget, String location, PropertyType preferredType, PropertyStatus preferredStatus, int year, double size, int rooms) {
         super(client.getId(),client.getName(),client.getEmail(), client.getPhone_numb(),client.getClientType());
         this.budget = budget;
         this.location = location;
         this.preferredType = preferredType;
         this.preferredStatus = preferredStatus;
+        this.year = year;
+        this.size = size;
+        this.rooms = rooms;
 
     }
 
@@ -96,7 +99,7 @@ public class ClientPreferences extends Client {
                 ", preferredType=" + preferredType +
                 ", preferredStatus=" + preferredStatus +
                 ", year=" + year +
-                ", size=" + size +
+                ", size=" + size + " m^2" +
                 ", rooms=" + rooms +
                 ", client_type=" + client_type +
                 ", id=" + id +
