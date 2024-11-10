@@ -292,19 +292,19 @@ public class Service {
         }
         return visitedCount;
     }
-//    public int generateMonthlyActivityReport(Integer month, Integer year){
-//        Integer propertiesListed=countPropertiesListed(month, year);
-//        Integer propertiesSold=countPropertiesSold(month, year);
-//        int count=0;
-//        List<Property> allProperties = getAllProperties();
-//        for(Property property : allProperties){
-//            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
-//                count++;
-//            }
-//        }
-//        return count;
-//    }
-    //TODO: am comentat asta ca poate dai rename la functie/functii ca e deja una generateActivityReport care face altceva
+    public int generateMonthlyActivityReport(Integer month, Integer year){
+        Integer propertiesListed=countPropertiesListed(month, year);
+        Integer propertiesSold=countPropertiesSold(month, year);
+        int count=0;
+        List<Property> allProperties = getAllProperties();
+        for(Property property : allProperties){
+            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
+                count++;
+            }
+        }
+        return count;
+    }
+    //TODO: e deja un generateActivityReport care face cam acelasi lucru
 
     public void analyzeAgentPerformance(Integer AgentID){
 
@@ -320,7 +320,10 @@ public class Service {
             double totalRating = 0;
             int ratingCount = 0;
             for (Review review : reviews) {
-                if (Objects.equals(review.getProperty().getAssociatedAgent().getId(), AgentID)) {
+                if (review.getAgent() != null && Objects.equals(review.getAgent().getId(), AgentID)) {
+                    totalRating += review.getRating();
+                    ratingCount++;
+                } else if (review.getProperty() != null && Objects.equals(review.getProperty().getAssociatedAgent().getId(), AgentID)) {
                     totalRating += review.getRating();
                     ratingCount++;
                 }
