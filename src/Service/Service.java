@@ -4,7 +4,11 @@ import Repository.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * The Service class serves as the business logic layer, managing operations on
+ * entities such as agents, properties, contracts, appointments, clients, reviews,
+ * and client preferences.
+ */
 public class Service {
     private final IRepository<Agent> agentRepository;
     private final IRepository<Property> propertyRepository;
@@ -13,6 +17,17 @@ public class Service {
     private final IRepository<Client> clientRepository;
     private final IRepository<Review> reviewRepository;
     private final IRepository<ClientPreferences> clientPreferencesRepository;
+    /**
+     * Constructs a Service with the specified repositories for each entity type.
+     *
+     * @param agent               Repository for managing Agent entities.
+     * @param property            Repository for managing Property entities.
+     * @param contract            Repository for managing Contract entities.
+     * @param appointment         Repository for managing Appointment entities.
+     * @param client              Repository for managing Client entities.
+     * @param review              Repository for managing Review entities.
+     * @param clientPreferences   Repository for managing ClientPreferences entities.
+     */
     public Service(IRepository<Agent> agent, IRepository<Property> property, IRepository<Contract> contract, IRepository<Appointment> appointment, IRepository<Client> client, IRepository<Review> review, IRepository<ClientPreferences> clientPreferences) {
         this.agentRepository = agent;
         this.propertyRepository = property;
@@ -22,129 +37,274 @@ public class Service {
         this.reviewRepository = review;
         this.clientPreferencesRepository = clientPreferences;
     }
-
+    /**
+     * Adds a new property to the repository.
+     *
+     * @param property The Property object to be added.
+     */
     public void addProperty(Property property) {
         propertyRepository.create(property);
     }
-
+    /**
+     * Deletes a property from the repository.
+     *
+     * @param id The ID of the property to delete.
+     */
     public void deleteProperty(int id) {
         propertyRepository.delete(id);
     }
-
+    /**
+     * Updates an existing property in the repository.
+     *
+     * @param property The Property object to be updated.
+     */
     public void updateProperty(Property property) {
         propertyRepository.update(property);
     }
-
+    /**
+     * Adds a new agent to the repository.
+     *
+     * @param agent The Agent object to be added.
+     */
     public void addAgent(Agent agent) {
         agentRepository.create(agent);
     }
-
+    /**
+     * Deletes an agent from the repository.
+     *
+     * @param id The ID of the agent to delete.
+     */
     public void deleteAgent(int id) {
         agentRepository.delete(id);
     }
-
+    /**
+     * Updates an existing agent in the repository.
+     *
+     * @param agent The Agent object to be updated.
+     */
     public void updateAgent(Agent agent) {
         agentRepository.update(agent);
     }
-
+    /**
+     * Adds a new contract to the repository.
+     *
+     * @param contract The Contract object to be added.
+     */
     public void addContract(Contract contract) {
         contractRepository.create(contract);
     }
-
+    /**
+     * Deletes a contract from the repository.
+     *
+     * @param id The ID of the contract to delete.
+     */
     public void deleteContract(int id) {
         contractRepository.delete(id);
     }
-
+    /**
+     * Updates an existing contract in the repository.
+     *
+     * @param contract The Contract object to be updated.
+     */
     public void updateContract(Contract contract) {
         contractRepository.update(contract);
     }
-
+    /**
+     * Adds a new appointment to the repository.
+     *
+     * @param appointment The Appointment object to be added.
+     */
     public void addAppointment(Appointment appointment) {
         appointmentRepository.create(appointment);
     }
-
+    /**
+     * Deletes an appointment from the repository.
+     *
+     * @param id The ID of the appointment to delete.
+     */
     public void deleteAppointment(int id) {
         appointmentRepository.delete(id);
     }
-
+    /**
+     * Updates an existing appointment in the repository.
+     *
+     * @param appointment The Appointment object to be updated.
+     */
     public void updateAppointment(Appointment appointment) {
         appointmentRepository.update(appointment);
     }
-
+    /**
+     * Adds a new client to the repository.
+     *
+     * @param client The Client object to be added.
+     */
     public void addClient(Client client) {
         clientRepository.create(client);
     }
-
+    /**
+     * Deletes a client from the repository.
+     *
+     * @param id The ID of the client to delete.
+     */
     public void deleteClient(int id) {
         clientRepository.delete(id);
     }
-
+    /**
+     * Updates an existing client in the repository.
+     *
+     * @param client The Client object to be updated.
+     */
     public void updateClient(Client client) {
         clientRepository.update(client);
     }
+    /**
+     * Adds a new review to the repository.
+     *
+     * @param review The Review object to be added.
+     */
     public void addReview(Review review){
         reviewRepository.create(review);
     }
+    /**
+     * Deletes a review from the repository.
+     *
+     * @param id The ID of the review to delete.
+     */
     public void deleteReview(int id){
         reviewRepository.delete(id);
     }
+
+    /**
+     * Adds a new client preferences to the repository.
+     * @param clientPreferences The client preferences object to be added.
+     */
     public void addClientPreferences(ClientPreferences clientPreferences){
         clientPreferencesRepository.create(clientPreferences);
     }
+    /**
+     * Updates the provided client preferences in the system.
+     *
+     * @param clientPreferences The client preferences object with updated information.
+     */
     public void updateClientPreferences(ClientPreferences clientPreferences){
         clientPreferencesRepository.update(clientPreferences);
     }
-
+    /**
+     * Retrieves a list of all properties stored in the system.
+     *
+     * @return A list of all Property objects.
+     */
     public List<Property> getAllProperties() {
         return propertyRepository.getAll();
     }
-
+    /**
+     * Retrieves a list of all agents stored in the system.
+     *
+     * @return A list of all Agent objects.
+     */
     public List<Agent> getAllAgents() {
         return agentRepository.getAll();
     }
-
+    /**
+     * Retrieves a list of all contracts stored in the system.
+     *
+     * @return A list of all Contract objects.
+     */
     public List<Contract> getAllContracts() {
         return contractRepository.getAll();
     }
-
+    /**
+     * Retrieves a list of all appointments stored in the system.
+     *
+     * @return A list of all Appointment objects.
+     */
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.getAll();
     }
-
+    /**
+     * Retrieves a list of all clients stored in the system.
+     *
+     * @return A list of all Client objects.
+     */
     public List<Client> getAllClients() {
         return clientRepository.getAll();
     }
+    /**
+     * Retrieves a list of all client preferences stored in the system.
+     *
+     * @return A list of all ClientPreferences objects.
+     */
     public List<ClientPreferences> getAllClientPreferences() {
         return clientPreferencesRepository.getAll();
     }
-
+    /**
+     * Retrieves a list of all reviews stored in the system.
+     *
+     * @return A list of all Review objects.
+     */
     public List<Review> getAllReviews() {
         return reviewRepository.getAll();
     }
-
+    /**
+     * Retrieves an agent object from the system based on the provided ID.
+     *
+     * @param agentId The ID of the agent to retrieve.
+     * @return The Agent object with the matching ID, or null if not found.
+     */
     public Agent getAgentById(int agentId) {
         return agentRepository.read(agentId);
     }
-
+    /**
+     * Retrieves a property object from the system based on the provided ID.
+     *
+     * @param propertyID The ID of the property to retrieve.
+     * @return The Property object with the matching ID, or null if not found.
+     */
     public Property getPropertyById(int propertyID) {
         return propertyRepository.read(propertyID);
     }
+    /**
+     * Retrieves a client preferences object from the system based on the provided client ID.
+     *
+     * @param clientId The ID of the client to retrieve preferences for.
+     * @return The ClientPreferences object with the matching client ID, or null if not found.
+     */
     public ClientPreferences getClientPreferencesByClientId(Integer clientId) {
         return clientPreferencesRepository.read(clientId);
     }
-
+    /**
+     * Retrieves a client object from the system based on the provided ID.
+     *
+     * @param clientID The ID of the client to retrieve.
+     * @return The Client object with the matching ID, or null if not found.
+     */
     public Client getClientById(int clientID) {
         return clientRepository.read(clientID);
     }
-
+    /**
+     * Retrieves a contract object from the system based on the provided ID.
+     *
+     * @param contractID The ID of the contract to retrieve.
+     * @return The Contract object with the matching ID, or null if not found.
+     */
     public Contract getContractById(int contractID) {
         return contractRepository.read(contractID);
     }
-
+    /**
+     * Retrieves an appointment object from the system based on the provided ID.
+     *
+     * @param appointmentID The ID of the appointment to retrieve.
+     * @return The Appointment object with the matching ID, or null if not found.
+     */
     public Appointment getAppointmentById(int appointmentID) {
         return appointmentRepository.read(appointmentID);
     }
-
+    /**
+     * Retrieves all reviews related to a specific property.
+     *
+     * @param propertyId The ID of the property.
+     * @return A list of Review objects associated with the specified property.
+     */
     public List<Review> getReviewsByProperty(int propertyId) {
         List<Review> reviews = getAllReviews();
         List<Review> propertyReviews = new ArrayList<>();
@@ -155,7 +315,12 @@ public class Service {
         }
         return propertyReviews;
     }
-
+    /**
+     * Retrieves all reviews related to a specific agent.
+     *
+     * @param agentId The ID of the agent.
+     * @return A list of Review objects associated with the specified agent.
+     */
     public List<Review> getReviewsByAgent(int agentId) {
         List<Review> reviews = getAllReviews();
         List<Review> agentReviews = new ArrayList<>();
@@ -182,7 +347,13 @@ public class Service {
 //            }
 //        }
 //    }
-
+    /**
+     * Links a property to a client, marking that the client has viewed the
+     * property.
+     *
+     * @param propertyId The ID of the property.
+     * @param clientId   The ID of the client.
+     */
     public void linkPropertyAndClient(int propertyId, int clientId){
         Property property = getPropertyById(propertyId);
         Client client = getClientById(clientId);
@@ -202,7 +373,13 @@ public class Service {
             property.getSeenByClient().add(client);
         }
     }
-
+    /**
+     * Links a property to an agent, marking that the agent is associated with
+     * the property.
+     *
+     * @param propertyId The ID of the property.
+     * @param agentId    The ID of the agent.
+     */
     public void linkPropertyAndAgent(int propertyId, int agentId) {
         Property property = getPropertyById(propertyId);
         Agent agent = getAgentById(agentId);
@@ -217,7 +394,9 @@ public class Service {
             System.out.println("Property not found.");
         }
     }
-
+    /**
+     * Displays all properties that have not been visited by any clients.
+     */
     public void viewUnvisitedProperties(){
         List<Property> unvisitedProperties = new ArrayList<>();
         for (Property property : propertyRepository.getAll()) {
@@ -236,7 +415,11 @@ public class Service {
             }
         }
     }
-
+    /**
+     * Recommends properties for a client based on their preferences.
+     *
+     * @param ClientID The ID of the client.
+     */
     public void recommendPropertiesForClient(Integer ClientID){
         Client client = getClientById(ClientID);
        ClientPreferences preferences=getClientPreferencesByClientId(ClientID);
@@ -261,6 +444,7 @@ public class Service {
             System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
         }
     }
+
     public int countPropertiesListed(int month, int year){
         List<Property> allProperties = getAllProperties();
         int count=0;
@@ -306,8 +490,12 @@ public class Service {
     }
     //TODO: e deja un generateActivityReport care face cam acelasi lucru
 
+    /**
+     * Analyzes an agent's performance based on reviews and contracts.
+     *
+     * @param AgentID The ID of the agent.
+     */
     public void analyzeAgentPerformance(Integer AgentID){
-
             List<Review> reviews = getAllReviews();
             List<Contract> contracts = getAllContracts();
             Agent agent = getAgentById(AgentID);
@@ -350,7 +538,10 @@ public class Service {
                 System.out.println("This agent needs improvement.");
             }
     }
-
+    /**
+     * Generates a report on the current activity, including counts of all main
+     * entities in the system.
+     */
     public void generateActivityReport(){
         System.out.println("--Activity report--\n" +
                 "Number of properties: " + getAllProperties().size() + "\n" +
@@ -359,7 +550,12 @@ public class Service {
                 "Number of clients: " + getAllClients().size() + "\n" +
                 "Number of reviews: " + getAllReviews().size());
     }
-
+    /**
+     * Checks if a property is currently under contract.
+     *
+     * @param propertyID The ID of the property.
+     * @return true if the property is under contract; false otherwise.
+     */
     public boolean isPropertyUnderContract(int propertyID) {
         List<Contract> contracts = getAllContracts();
         for (Contract contract : contracts) {

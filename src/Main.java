@@ -3,6 +3,10 @@ import Controller.*;
 import Model.*;
 import Repository.*;
 import Service.*;
+/**
+ * The Main class serves as the entry point for the application, initializing
+ * the repositories, services, controller, and user interface components.
+ */
 public class Main {
     public static void main(String[] args) {
         IRepository<Agent> agentRepository = new InMemoryRepository<>();
