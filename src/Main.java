@@ -5,10 +5,6 @@ import Repository.*;
 import Service.*;
 public class Main {
     public static void main(String[] args) {
-        /*TODO:
-            -Make use of: seeProperty from Client class, linkPropertyToClient from Service class; Din astea rezulta cred viewUnvisitedProperties
-         */
-
         IRepository<Agent> agentRepository = new InMemoryRepository<>();
         IRepository<Property> propertyRepository = new InMemoryRepository<>();
         IRepository<Contract> contractRepository = new InMemoryRepository<>();
