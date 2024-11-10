@@ -90,6 +90,8 @@ public class UI {
             System.out.println("6. View Client by ID");
             System.out.println("7. View All Clients and Preferences");
             System.out.println("8. Recommend Properties For Client");
+            System.out.println("9.Authenticate");
+            System.out.print("10.Add a property");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -105,6 +107,8 @@ public class UI {
                 case 6 -> viewClientById();
                 case 7 -> viewAllClients();
                 case 8 -> recommendPropertiesForClient(viewClientById());
+                case 9 -> authentificate();
+                case 10 ->linkProperty();
                 case 0 -> {
                     return;
                 }
@@ -124,6 +128,7 @@ public class UI {
             System.out.println("5. View All Agents");
             System.out.println("6. View Assigned Properties");
             System.out.println("7. Analyze Agent Performance");
+            System.out.print("8.Authenticate:");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -138,6 +143,7 @@ public class UI {
                 case 5 -> viewAllAgents();
                 case 6 -> viewAssignedProperties();
                 case 7 -> analyzeAgentPerformance(viewAgentById());
+                case 8 -> authentificate();
                 case 0 -> {
                     return;
                 }
@@ -363,6 +369,16 @@ public class UI {
         System.out.println("List of the unvisited properties: ");
         controller.viewUnvisitedProperties();
     }
+    private void linkProperty(){
+        System.out.print("Enter your Client ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter the property ID: ");
+        int propertyId = scanner.nextInt();
+        scanner.nextLine();
+        controller.linkPropertyAndClient(id,propertyId);
+    }
+
 
     private void addClient() {
         System.out.print("Enter client ID: ");
@@ -674,6 +690,28 @@ public class UI {
 
     private void analyzeAgentPerformance(int agentID) {
         controller.analyzeAgentPerformance(agentID);
+    }
+    public static String capitalizeFirstLetterOnly(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
+    private void authentificate(){
+        System.out.println("Enter username:");
+        String user = scanner.nextLine();
+        System.out.println("Enter password:");
+        String pass = scanner.nextLine();
+        System.out.println("Enter Type:");
+        String type = scanner.nextLine();
+        try{
+            type=capitalizeFirstLetterOnly(type);
+        } catch (IllegalArgumentException e){
+            System.out.println("Invalid type");
+            return;
+        }
+        controller.authentificateUser(user,pass,type);
     }
 
     private void addContract() {

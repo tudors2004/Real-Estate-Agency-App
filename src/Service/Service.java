@@ -220,7 +220,8 @@ public class Service {
 
     public void viewUnvisitedProperties(){
         List<Property> unvisitedProperties = new ArrayList<>();
-        for (Property property : propertyRepository.getAll()) {
+        List<Property> properties=propertyRepository.getAll();
+        for (Property property : properties) {
             if (property.getSeenByClient() == null) {
                 unvisitedProperties.add(property);
             }
@@ -292,18 +293,18 @@ public class Service {
         }
         return visitedCount;
     }
-//    public int generateMonthlyActivityReport(Integer month, Integer year){
-//        Integer propertiesListed=countPropertiesListed(month, year);
-//        Integer propertiesSold=countPropertiesSold(month, year);
-//        int count=0;
-//        List<Property> allProperties = getAllProperties();
-//        for(Property property : allProperties){
-//            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
-//                count++;
-//            }
-//        }
-//        return count;
-//    }
+    public int generateMonthlyActivityReport(Integer month, Integer year){
+        Integer propertiesListed=countPropertiesListed(month, year);
+        Integer propertiesSold=countPropertiesSold(month, year);
+        int count=0;
+        List<Property> allProperties = getAllProperties();
+        for(Property property : allProperties){
+            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
+                count++;
+            }
+        }
+        return count;
+    }
     //TODO: am comentat asta ca poate dai rename la functie/functii ca e deja una generateActivityReport care face altceva
 
     public void analyzeAgentPerformance(Integer AgentID){
@@ -366,4 +367,55 @@ public class Service {
         }
         return false;
     }
+    public void createAccountforClient(Client client, String username, String password){
+        if(client.getUsername()==null || client.getPassword()==null){
+            client.setUsername(username);
+            client.setPassword(password);
+            System.out.println("Created account for client " + client.getUsername());
+        }else {
+            System.out.println("Account for client " + client.getUsername() + " already exists.");
+        }
+    }
+    public void createAccountforAgent(Agent agent, String username, String password){
+        if(agent.getUsername()==null || agent.getPassword()==null){
+            agent.setUsername(username);
+            agent.setPassword(password);
+            System.out.println("Created account for agent " + agent.getUsername());
+        }
+        else {
+            System.out.println("Agent for agent " + agent.getUsername() + " already exists.");
+        }
+    }
+    public boolean authenticateUser(String username, String password,String userType) {
+        if (userType.equals("Client")) {
+            List<Client> clients = getAllClients();
+            for (Client client : clients) {
+                if (username.equals(client.getUsername()) && password.equals(client.getPassword())) {
+                    return true;
+                }
+                else{
+                    createAccountforClient(client,username,password);
+                }
+            }
+        } else if (userType.equals("Agent")) {
+            List<Agent> agents = getAllAgents();
+            for (Agent agent : agents) {
+                if (username.equals(agent.getUsername()) && password.equals(agent.getPassword())) {
+                    return true;
+                }
+                else{
+                    createAccountforAgent(agent,username,password);
+                }
+
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
 }

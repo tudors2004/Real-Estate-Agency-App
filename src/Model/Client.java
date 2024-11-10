@@ -5,7 +5,7 @@ import java.util.List;
 public class Client extends Person implements HasID {
     ClientType client_type;
     private List<Property> seeProperty;
-    public Client(Integer id, String name, String email, Integer phoneNumber, ClientType clientType) {
+    public Client(Integer id, String name, String email,  Integer phoneNumber, ClientType clientType) {
         super(id, name,phoneNumber,email);
         this.client_type = clientType;
     }

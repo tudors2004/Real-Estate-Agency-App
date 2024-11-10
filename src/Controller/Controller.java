@@ -135,8 +135,8 @@ public class Controller {
         service.linkPropertyAndAgent(agentID, propertyID);
     }
 
-    public void linkPropertyAndClient(int propertyId, int clientId) {
-        service.linkPropertyAndClient(propertyId, clientId);
+    public void linkPropertyAndClient(int propertyId, int clientID) {
+        service.linkPropertyAndClient(propertyId, clientID);
     }
 
     public void addClientPreferences(ClientPreferences clientPreferences) {
@@ -152,9 +152,8 @@ public class Controller {
     public ClientPreferences viewClientPreferencesById(int clientId) {
         return service.getClientPreferencesByClientId(clientId);
     }
-
     public boolean propertyUnderContract(int propertyID) {
         return service.isPropertyUnderContract(propertyID);
     }
-
+    public boolean authentificateUser(String username, String password,String userType) {return service.authenticateUser(username, password, userType);}
 }
