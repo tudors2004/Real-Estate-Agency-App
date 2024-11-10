@@ -6,12 +6,21 @@ public class Review implements HasID{
     private String comment;
     private Property property;
     private Client client;
+    private Agent agent;
 
     public Review(Integer id, int rating, String comment, Property property, Client client) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
         this.property = property;
+        this.client = client;
+    }
+
+    public Review(Integer id, int rating, String comment, Agent agent, Client client) {
+        this.id = id;
+        this.rating = rating;
+        this.comment = comment;
+        this.agent = agent;
         this.client = client;
     }
 
@@ -56,14 +65,32 @@ public class Review implements HasID{
         this.client = client;
     }
 
+    public Agent getAgent(){
+        return agent;
+
+    }
+    public void setAgent(Agent agent){
+        this.agent=agent;
+    }
+
     @Override
     public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", rating=" + rating + " Stars"+
-                ", comment='" + comment + '\'' +
-                ", property=" + property +
-                ", client=" + client +
-                '}';
+        if (property != null) {
+            return "Review{" +
+                    "id=" + id +
+                    ", rating=" + rating + " Stars" +
+                    ", comment='" + comment + '\'' +
+                    ", property=" + property +
+                    ", client=" + client +
+                    '}';
+        } else {
+            return "Review{" +
+                    "id=" + id +
+                    ", rating=" + rating + " Stars" +
+                    ", comment='" + comment + '\'' +
+                    ", agent=" + agent +
+                    ", client=" + client +
+                    '}';
+        }
     }
 }

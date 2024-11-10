@@ -6,9 +6,6 @@ import Service.*;
 public class Main {
     public static void main(String[] args) {
         /*TODO:
-            - 2 sau mai multe contracte nu pot avea aceeasi proprietate
-            -O proprietate sa nu aiba mai mult de un assigned agent
-            -Un client sa nu poate sa dea mai mult de un review la aceeasi proprietate
             -Make use of: seeProperty from Client class, linkPropertyToClient from Service class; Din astea rezulta cred viewUnvisitedProperties
          */
 

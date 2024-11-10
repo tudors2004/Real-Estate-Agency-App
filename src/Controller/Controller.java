@@ -111,6 +111,10 @@ public class Controller {
         return service.getReviewsByProperty(propertyId);
     }
 
+    public List<Review> viewReviewsByAgent(int agentId) {
+        return service.getReviewsByAgent(agentId);
+    }
+
     public Appointment viewAppointmentById(int appointmentID) {
         return service.getAppointmentById(appointmentID);
     }
@@ -148,4 +152,9 @@ public class Controller {
     public ClientPreferences viewClientPreferencesById(int clientId) {
         return service.getClientPreferencesByClientId(clientId);
     }
+
+    public boolean propertyUnderContract(int propertyID) {
+        return service.isPropertyUnderContract(propertyID);
+    }
+
 }
