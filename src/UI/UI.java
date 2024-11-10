@@ -180,10 +180,11 @@ public class UI {
     private void manageReviews() {
         while (true) {
             System.out.println("\n--- Manage Reviews ---");
-            System.out.println("1. Add Review");
-            System.out.println("2. Delete Review");
-            System.out.println("3. View Reviews by Property");
-            System.out.println("4. View All Reviews");
+            System.out.println("1. Add Property Review");
+            System.out.println("2. Add Agent Review");
+            System.out.println("3. Delete Review");
+            System.out.println("4. View Reviews by Property");
+            System.out.println("5. View Reviews by Agent");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -191,10 +192,11 @@ public class UI {
             scanner.nextLine();
 
             switch (option) {
-                case 1 -> addReview();
-                case 2 -> deleteReview();
-                case 3 -> viewReviewsByProperty();
-                case 4 -> viewAllReviews();
+                case 1 -> addPropertyReview();
+                case 2 -> addAgentReview();
+                case 3 -> deleteReview();
+                case 4 -> viewReviewsByProperty();
+                case 5 -> viewReviewsByAgent();
                 case 0 -> {
                     return;
                 }
@@ -409,18 +411,8 @@ public class UI {
         System.out.print("Enter client's budget(in EUR): ");
         double budget = scanner.nextDouble();
         scanner.nextLine();
-        /*TODO: Locatia ca preferinta pentru client.
-           (daca era "adresa" puteam scoate cu totul "locatia" ca preferinta, ca nu poti sa ai preferinta la adresa, la locatie poti)
-           Daca locatia proprietatii e un string care contine nume de tara/judet/oras :
-            -de exemplu: Proprietatea cu locatia : "Cluj-Napoca". Preferinta trebuie sa fie oras??
-            -daca clientul are preferinta: Cluj-Napoca, Gheorgheni... ? n o sa apara nicio proprietate'
-            (Decat daca fac o functie care verifica daca stringul din locatia proprietatii contine stringul din preferinta clientului)-asta are sens
-            -dar un client poate avea preferinta de exemplu Franta, si eu locatia la toate proprietatile am orase din Romania.. nu prea se pupa zic eu
-         */
-        //????????????????????????????????????????????????????????
         System.out.print("Enter client's preferred location: ");
         String location = scanner.nextLine();
-        //????????????????????????????????????????????????????????
         System.out.print("Enter client's preferred property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
         String str1 = scanner.nextLine().toUpperCase();
         Property.PropertyType type;
@@ -454,22 +446,22 @@ public class UI {
 
     }
     private void updateClientPreferences(){
-        System.out.println("Enter client's ID: ");
+        System.out.print("Enter client's ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         Client client = controller.viewClientById(id);
         if (client == null) {
-            System.out.println("Client not found. Returning to previous menu.");
+            System.out.print("Client not found. Returning to previous menu.");
             return;
         }
-        System.out.println("Enter client's new budget(in EUR): ");
+        System.out.print("Enter client's new budget(in EUR): ");
         double budget = scanner.nextDouble();
         scanner.nextLine();
         //???????????????????????????????????????????????????????????
-        System.out.println("Enter client's new preferred location: ");
+        System.out.print("Enter client's new preferred location: ");
         String location = scanner.nextLine();
         //???????????????????????????????????????????????????????????
-        System.out.println("Enter client's new preferred property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
+        System.out.print("Enter client's new preferred property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
         String str1 = scanner.nextLine().toUpperCase();
         Property.PropertyType type;
         try {
@@ -478,22 +470,22 @@ public class UI {
             System.out.println("Invalid property type. Please enter RESIDENTIAL/COMMERCIAL/INDUSTRIAL or SPECIAL. Returning to previous menu.");
             return;
         }
-        System.out.println("Enter client's new preferred property status (AVAILABLE/UNDER_CONSTRUCTION/RENTED): ");
+        System.out.print("Enter client's new preferred property status (AVAILABLE/UNDER_CONSTRUCTION/RENTED): ");
         String str2 = scanner.nextLine().toUpperCase();
         Property.PropertyStatus status;
         try {
             status = Property.PropertyStatus.valueOf(str2.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid property status. Please enter AVAILABLE/UNDER_CONSTRUCTION or RENTED. Returning to previous menu.");
+            System.out.print("Invalid property status. Please enter AVAILABLE/UNDER_CONSTRUCTION or RENTED. Returning to previous menu.");
             return;
         }
-        System.out.println("Enter client's new preferred year of construction: ");
+        System.out.print("Enter client's new preferred year of construction: ");
         int year = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Enter client's new preferred size (in meters squared): ");
+        System.out.print("Enter client's new preferred size (in meters squared): ");
         double size = scanner.nextDouble();
         scanner.nextLine();
-        System.out.println("Enter client's new preferred number of rooms: ");
+        System.out.print("Enter client's new preferred number of rooms: ");
         int rooms = scanner.nextInt();
         scanner.nextLine();
         ClientPreferences clientPreferences = new ClientPreferences(client, budget, location, type, status, year, size, rooms);
@@ -709,6 +701,10 @@ public class UI {
         System.out.print("Enter property ID: ");
         int propertyID = scanner.nextInt();
         scanner.nextLine();
+        if(controller.propertyUnderContract(propertyID)){
+            System.out.println("Property is already under contract. Returning to previous menu.");
+            return;
+        }
         Agent agent = controller.viewAgentById(agentID);
         Client client = controller.viewClientById(clientID);
         Property property = controller.viewPropertyById(propertyID);
@@ -785,8 +781,8 @@ public class UI {
         controller.generateActivityReport();
     }
 
-    private void addReview() {
-        System.out.print("Enter review ID:");
+    private void addPropertyReview() {
+        System.out.print("Enter review ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter rating (between 1 and 5): ");
@@ -807,6 +803,32 @@ public class UI {
         Property property = controller.viewPropertyById(propertyId);
         Client client = controller.viewClientById(clientId);
         Review review = new Review(id, rating, comment, property, client);
+        controller.addReview(review);
+        System.out.println("Review added successfully.");
+    }
+
+    private void addAgentReview() {
+        System.out.print("Enter review ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter rating (between 1 and 5): ");
+        int rating = scanner.nextInt();
+        if(rating < 1 || rating > 5){
+            System.out.println("Invalid rating. Returning to previous menu.");
+            return;
+        }
+        scanner.nextLine();
+        System.out.print("Enter comment: ");
+        String comment = scanner.nextLine();
+        System.out.print("Enter agent ID: ");
+        int agentId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter client ID: ");
+        int clientId = scanner.nextInt();
+        scanner.nextLine();
+        Agent agent = controller.viewAgentById(agentId);
+        Client client = controller.viewClientById(clientId);
+        Review review = new Review(id, rating, comment, agent, client);
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -836,15 +858,15 @@ public class UI {
         }
     }
 
-    private void viewAllReviews() {
-        List<Review> reviews = controller.viewAllReviews();
+    private void viewReviewsByAgent() {
+        System.out.print("Enter agent ID to view reviews: ");
+        int agentId = scanner.nextInt();
+        scanner.nextLine();
+        List<Review> reviews = controller.viewReviewsByAgent(agentId);
         for (Review review : reviews) {
             System.out.println(review);
         }
     }
-
-    //TODO: rename addReview to addPropertyReview
-    //TODO: create addAgentReview (ajutor pentru functia de analyzeAgentPerformance)
 
     private void addAppointment() {
         System.out.print("Enter appointment ID: ");

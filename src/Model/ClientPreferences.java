@@ -82,7 +82,7 @@ public class ClientPreferences extends Client {
     }
 
     public boolean matchesPreferences(Property property) {
-        return property.getLocation().equalsIgnoreCase(location) &&
+        return property.getLocation().toLowerCase().contains(location.toLowerCase()) &&
                 property.getPrice() <= budget &&
                 property.getYear() <= year &&
                 property.getStatus() == preferredStatus &&

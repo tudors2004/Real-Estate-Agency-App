@@ -155,6 +155,17 @@ public class Service {
         }
         return propertyReviews;
     }
+
+    public List<Review> getReviewsByAgent(int agentId) {
+        List<Review> reviews = getAllReviews();
+        List<Review> agentReviews = new ArrayList<>();
+        for (Review review : reviews) {
+            if (review.getAgent().getId() == agentId) {
+                agentReviews.add(review);
+            }
+        }
+        return agentReviews;
+    }
 //    public void linkContract(int agentId, int clientId ) {
 //        List<Contract> contracts = getAllContracts();
 //        Agent agent=getAgentById(agentId);
@@ -171,7 +182,6 @@ public class Service {
 //            }
 //        }
 //    }
-    //TODO: Nu stiu ce face asta dar trebuie sa facem ca 2 sau mai multe contracte sa nu poata avea aceeasi proprietate!!!!!!!
 
     public void linkPropertyAndClient(int propertyId, int clientId){
         Property property = getPropertyById(propertyId);
@@ -345,5 +355,15 @@ public class Service {
                 "Number of appointments: " + getAllAppointments().size() + "\n" +
                 "Number of clients: " + getAllClients().size() + "\n" +
                 "Number of reviews: " + getAllReviews().size());
+    }
+
+    public boolean isPropertyUnderContract(int propertyID) {
+        List<Contract> contracts = getAllContracts();
+        for (Contract contract : contracts) {
+            if (contract.getProperty().getId() == propertyID) {
+                return true;
+            }
+        }
+        return false;
     }
 }
