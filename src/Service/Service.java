@@ -299,6 +299,9 @@ public class Service {
     public Appointment getAppointmentById(int appointmentID) {
         return appointmentRepository.read(appointmentID);
     }
+    /*TODO: Cele 2 metode de mai jos cred ca se potrivesc pt cerinta 3 de la ultima tema
+       Adica ambele filtreaza recenziile pentru o proprietate respectiv un agent
+    */
     /**
      * Retrieves all reviews related to a specific property.
      *
@@ -495,6 +498,7 @@ public class Service {
      *
      * @param AgentID The ID of the agent.
      */
+    //TODO: Metoda asta cred ca se potriveste pentru cerinta 4 din ultima tema!!!!!!!!!!! (are 3 entitati)
     public void analyzeAgentPerformance(Integer AgentID){
             List<Review> reviews = getAllReviews();
             List<Contract> contracts = getAllContracts();

@@ -16,6 +16,9 @@ public abstract class Person {
      * @param email       The email address of the person.
      */
     public Person(Integer id, String Name, Integer phone_number, String email){
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
         this.id=id;
         this.Name=Name;
         this.Phone_Number=phone_number;

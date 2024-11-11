@@ -43,6 +43,9 @@ public class Property implements HasID{
      * @param associatedAgent The agent associated with the property.
      */
     public Property(Integer id, PropertyType type, String location, double price, Integer year, Integer rooms, PropertyStatus status, double size, String description, Agent associatedAgent) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
         this.id = id;
         this.type = type;
         this.location = location;
