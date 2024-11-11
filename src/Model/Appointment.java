@@ -20,6 +20,9 @@ public class Appointment implements HasID{
      * @param propertyID  The property involved in the appointment.
      */
     public Appointment(Integer id,Date date, Agent agentID, Client clientID, Property propertyID){
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
         this.id=id;
         this.date=date;
         this.agentID=agentID;

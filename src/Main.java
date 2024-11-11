@@ -9,6 +9,8 @@ import Service.*;
  */
 public class Main {
     public static void main(String[] args) {
+        //TODO: Toate astea trebuie sa fie: new FileRepository<>("data/exemplu.txt");
+        //TODO: Trebuie sa scapam de toate afisarile din Service si sa le mutam in UI!!!!!!
         IRepository<Agent> agentRepository = new InMemoryRepository<>();
         IRepository<Property> propertyRepository = new InMemoryRepository<>();
         IRepository<Contract> contractRepository = new InMemoryRepository<>();

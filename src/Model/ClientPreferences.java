@@ -101,6 +101,9 @@ public class ClientPreferences extends Client {
      */
     public ClientPreferences(Client client, double budget, String location, PropertyType preferredType, PropertyStatus preferredStatus, int year, double size, int rooms) {
         super(client.getId(),client.getName(),client.getEmail(), client.getPhone_numb(),client.getClientType());
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
         this.budget = budget;
         this.location = location;
         this.preferredType = preferredType;
