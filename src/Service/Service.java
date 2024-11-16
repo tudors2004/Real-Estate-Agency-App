@@ -569,4 +569,11 @@ public class Service {
         }
         return false;
     }
+
+    public void sortPropertiesByPrice(){
+        //TODO
+    }
+    public void sortReviewsByRating(){
+        //TODO
+    }
 }
