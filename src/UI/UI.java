@@ -5,14 +5,25 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.Date;
-
+/**
+ * The UI class provides a command-line interface for managing the real estate agency.
+ * It interacts with the user to perform various operations such as managing properties, clients, agents, contracts, reviews, and appointments.
+ */
 @SuppressWarnings("DuplicatedCode")
 public class UI {
     Scanner scanner = new Scanner(System.in);
     private final Controller controller;
+    /**
+     * Constructs a UI object with the specified controller.
+     *
+     * @param controller The controller to be used for managing the real estate agency operations.
+     */
     public UI(Controller controller) {
         this.controller = controller;
     }
+    /**
+     * Starts the command-line interface for managing the real estate agency.
+     */
     public void run() {
         while(true){
             System.out.println("---- Real Estate Agency Management ----");
@@ -48,7 +59,11 @@ public class UI {
             }
         }
     }
-
+    /**
+     * Manages the properties in the real estate agency.
+     * Provides options to add, update, delete, view properties by ID, view all properties, and view unvisited properties.
+     * The method runs in a loop until the user chooses to return to the main menu.
+     */
     private void manageProperties() {
         while (true) {
             System.out.println("\n--- Manage Properties ---");
@@ -79,6 +94,11 @@ public class UI {
         }
     }
 
+    /**
+     * Manages the clients in the real estate agency.
+     * Provides options to add, update, delete, view clients by ID, view all clients, add client preferences, update client preferences, and recommend properties for a client.
+     * The method runs in a loop until the user chooses to return to the main menu.
+     */
     private void manageClients() {
         while (true) {
             System.out.println("\n--- Manage Clients ---");
@@ -90,8 +110,6 @@ public class UI {
             System.out.println("6. View Client by ID");
             System.out.println("7. View All Clients and Preferences");
             System.out.println("8. Recommend Properties For Client");
-            System.out.println("9.Authenticate");
-            System.out.print("10.Add a property");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -107,8 +125,6 @@ public class UI {
                 case 6 -> viewClientById();
                 case 7 -> viewAllClients();
                 case 8 -> recommendPropertiesForClient(viewClientById());
-                case 9 -> authentificate();
-                case 10 ->linkProperty();
                 case 0 -> {
                     return;
                 }
@@ -117,7 +133,11 @@ public class UI {
         }
     }
 
-
+    /**
+     * Manages the agents in the real estate agency.
+     * Provides options to add, update, delete, view agents by ID, view all agents, view assigned properties, and analyze agent performance.
+     * The method runs in a loop until the user chooses to return to the main menu.
+     */
     private void manageAgents() {
         while (true) {
             System.out.println("\n--- Manage Agents ---");
@@ -128,7 +148,6 @@ public class UI {
             System.out.println("5. View All Agents");
             System.out.println("6. View Assigned Properties");
             System.out.println("7. Analyze Agent Performance");
-            System.out.print("8.Authenticate:");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -143,7 +162,6 @@ public class UI {
                 case 5 -> viewAllAgents();
                 case 6 -> viewAssignedProperties();
                 case 7 -> analyzeAgentPerformance(viewAgentById());
-                case 8 -> authentificate();
                 case 0 -> {
                     return;
                 }
@@ -152,7 +170,11 @@ public class UI {
         }
     }
 
-
+    /**
+     * Manages the contracts in the real estate agency.
+     * Provides options to add, update, delete, view contracts by ID, view all contracts, and generate an activity report.
+     * The method runs in a loop until the user chooses to return to the main menu.
+     */
     private void manageContracts() {
         while (true) {
             System.out.println("\n--- Manage Contracts ---");
@@ -183,6 +205,11 @@ public class UI {
         }
     }
 
+    /**
+     * Manages the reviews in the real estate agency.
+     * Provides options to add property reviews, add agent reviews, delete reviews, view reviews by property, and view reviews by agent.
+     * The method runs in a loop until the user chooses to return to the main menu.
+     */
     private void manageReviews() {
         while (true) {
             System.out.println("\n--- Manage Reviews ---");
@@ -211,6 +238,11 @@ public class UI {
         }
     }
 
+    /**
+     * Manages the appointments in the real estate agency.
+     * Provides options to add, update, delete, view appointments by ID, and view all appointments.
+     * The method runs in a loop until the user chooses to return to the main menu.
+     */
     private void manageAppointments() {
         while (true) {
             System.out.println("\n--- Manage Appointments ---");
@@ -238,7 +270,12 @@ public class UI {
             }
         }
     }
-
+    /**
+     * Adds a new property to the real estate agency.
+     * Prompts the user to enter various details about the property, including ID, type, address, price, year, number of rooms, status, size, description, and associated agent ID.
+     * Validates the property type and status, and links the property with the specified agent.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addProperty() {
         System.out.print("Enter property ID: ");
         int id = scanner.nextInt();
@@ -287,6 +324,12 @@ public class UI {
         System.out.println("Property added successfully.");
     }
 
+    /**
+     * Updates an existing property in the real estate agency.
+     * Prompts the user to enter the property ID to update, and then enter the new details about the property, including type, address, price, year, number of rooms, status, size, description, and associated agent ID.
+     * Validates the property type and status, and links the property with the specified agent.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void updateProperty() {
         System.out.print("Enter property ID to update: ");
         int id = scanner.nextInt();
@@ -334,7 +377,11 @@ public class UI {
         controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property updated successfully.");
     }
-
+    /**
+     * Deletes an existing property from the real estate agency.
+     * Prompts the user to enter the property ID to delete, and then confirms the deletion.
+     * If the user confirms the deletion, the property is removed from the database.
+     */
     private void deleteProperty() {
         System.out.print("Enter property ID to delete: ");
         int id = scanner.nextInt();
@@ -350,6 +397,11 @@ public class UI {
         }
     }
 
+    /**
+     * Views a property by its ID.
+     * Prompts the user to enter the property ID to view, and then displays the property details.
+     * If the property is not found, the method returns to the previous menu.
+     */
     private void viewPropertyById() {
         System.out.print("Enter property ID to view: ");
         int id = scanner.nextInt();
@@ -357,29 +409,30 @@ public class UI {
         Property property = controller.viewPropertyById(id);
         System.out.println(property);
     }
-
+    /**
+     * Views all properties in the real estate agency.
+     * Retrieves all properties from the database and displays their details.
+     */
     private void viewAllProperties() {
         List<Property> properties = controller.viewAllProperties();
         for (Property property : properties) {
             System.out.println(property);
         }
     }
-
+    /**
+     * Views all unvisited properties in the real estate agency.
+     * Retrieves all properties that have not been visited by any client and displays their details.
+     */
     private void viewUnvisitedProperties() {
         System.out.println("List of the unvisited properties: ");
         controller.viewUnvisitedProperties();
     }
-    private void linkProperty(){
-        System.out.print("Enter your Client ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter the property ID: ");
-        int propertyId = scanner.nextInt();
-        scanner.nextLine();
-        controller.linkPropertyAndClient(id,propertyId);
-    }
-
-
+    /**
+     * Adds a new client to the real estate agency.
+     * Prompts the user to enter various details about the client, including ID, name, email, phone number, and type.
+     * Validates the client type, and adds the client to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addClient() {
         System.out.print("Enter client ID: ");
         int id = scanner.nextInt();
@@ -414,7 +467,12 @@ public class UI {
         controller.addClient(client);
         System.out.println("Client added successfully.");
     }
-
+    /**
+     * Adds client preferences to the real estate agency.
+     * Prompts the user to enter various details about the client preferences, including budget, location, property type, property status, year of construction, size, and number of rooms.
+     * Validates the property type and status, and adds the client preferences to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addClientPreferences(){
         System.out.print("Enter client's ID: ");
         int id = scanner.nextInt();
@@ -461,6 +519,13 @@ public class UI {
         System.out.println("Client preferences added successfully.");
 
     }
+
+    /**
+     * Updates client preferences in the real estate agency.
+     * Prompts the user to enter various details about the client preferences, including budget, location, property type, property status, year of construction, size, and number of rooms.
+     * Validates the property type and status, and updates the client preferences in the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void updateClientPreferences(){
         System.out.print("Enter client's ID: ");
         int id = scanner.nextInt();
@@ -473,10 +538,8 @@ public class UI {
         System.out.print("Enter client's new budget(in EUR): ");
         double budget = scanner.nextDouble();
         scanner.nextLine();
-        //???????????????????????????????????????????????????????????
         System.out.print("Enter client's new preferred location: ");
         String location = scanner.nextLine();
-        //???????????????????????????????????????????????????????????
         System.out.print("Enter client's new preferred property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
         String str1 = scanner.nextLine().toUpperCase();
         Property.PropertyType type;
@@ -508,6 +571,12 @@ public class UI {
         controller.updateClientPreferences(clientPreferences);
     }
 
+    /**
+     * Updates an existing client in the real estate agency.
+     * Prompts the user to enter the client ID to update, and then enter the new details about the client, including name, email, phone number, and type.
+     * Validates the client type, and updates the client in the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void updateClient() {
         System.out.print("Enter client ID to update: ");
         int id = scanner.nextInt();
@@ -542,7 +611,11 @@ public class UI {
         controller.updateClient(client);
         System.out.println("Client updated successfully.");
     }
-
+    /**
+     * Deletes an existing client from the real estate agency.
+     * Prompts the user to enter the client ID to delete, and then confirms the deletion.
+     * If the user confirms the deletion, the client is removed from the database.
+     */
     private void deleteClient() {
         System.out.print("Enter client ID to delete: ");
         int id = scanner.nextInt();
@@ -557,7 +630,11 @@ public class UI {
             System.out.println("Client deleted successfully.");
         }
     }
-
+    /**
+     * Views a client by their ID.
+     * Prompts the user to enter the client ID to view, and then displays the client details.
+     * If the client is not found, the method returns to the previous menu.
+     */
     private int viewClientById() {
         System.out.print("Enter client ID to view: ");
         int id = scanner.nextInt();
@@ -571,7 +648,10 @@ public class UI {
         System.out.println();
         return id;
     }
-
+    /**
+     * Views all clients in the real estate agency.
+     * Retrieves all clients from the database and displays their details.
+     */
     private void viewAllClients() {
         List<Client> clients = controller.viewAllClients();
         for (Client client : clients) {
@@ -583,10 +663,20 @@ public class UI {
         }
     }
 
+    /**
+     * Recommends properties for a client based on their preferences.
+     * @param id The ID of the client to recommend properties for.
+     */
     private void recommendPropertiesForClient(Integer id) {
         controller.recommendPropertiesForClient(id);
     }
 
+    /**
+     * Adds a new agent to the real estate agency.
+     * Prompts the user to enter various details about the agent, including ID, license number, name, email, and phone number.
+     * Validates the email address, and adds the agent to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addAgent() {
         System.out.print("Enter agent ID: ");
         int id = scanner.nextInt();
@@ -615,7 +705,12 @@ public class UI {
         controller.addAgent(agent);
         System.out.println("Agent added successfully.");
     }
-
+    /**
+     * Updates an existing agent in the real estate agency.
+     * Prompts the user to enter the agent ID to update, and then enter the new details about the agent, including license number, name, email, and phone number.
+     * Validates the email address, and updates the agent in the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void updateAgent() {
         System.out.print("Enter agent ID to update: ");
         int id = scanner.nextInt();
@@ -644,7 +739,11 @@ public class UI {
         controller.updateAgent(agent);
         System.out.println("Agent updated successfully.");
     }
-
+    /**
+     * Deletes an existing agent from the real estate agency.
+     * Prompts the user to enter the agent ID to delete, and then confirms the deletion.
+     * If the user confirms the deletion, the agent is removed from the database.
+     */
     private void deleteAgent() {
         System.out.print("Enter agent ID to delete: ");
         int id = scanner.nextInt();
@@ -659,7 +758,11 @@ public class UI {
             System.out.println("Agent deleted successfully.");
         }
     }
-
+    /**
+     * Views an agent by their ID.
+     * Prompts the user to enter the agent ID to view, and then displays the agent details.
+     * If the agent is not found, the method returns to the previous menu.
+     */
     private int viewAgentById() {
         System.out.print("Enter agent ID to view: ");
         int id = scanner.nextInt();
@@ -668,14 +771,21 @@ public class UI {
         System.out.println(agent);
         return id;
     }
-
+    /**
+     * Views all agents in the real estate agency.
+     * Retrieves all agents from the database and displays their details.
+     */
     private void viewAllAgents() {
         List<Agent> agents = controller.viewAllAgents();
         for (Agent agent : agents) {
             System.out.println(agent);
         }
     }
-
+    /**
+     * Views all properties assigned to an agent.
+     * Prompts the user to enter the agent ID to view, and then displays the properties assigned to the agent.
+     * If the agent is not found, the method returns to the previous menu.
+     */
     private void viewAssignedProperties() {
         System.out.print("Enter agent ID to view assigned properties: ");
         int agentId = scanner.nextInt();
@@ -688,32 +798,20 @@ public class UI {
         }
     }
 
+    /**
+     * Analyzes the performance of an agent.
+     * @param agentID The ID of the agent to analyze.
+     */
     private void analyzeAgentPerformance(int agentID) {
         controller.analyzeAgentPerformance(agentID);
     }
-    public static String capitalizeFirstLetterOnly(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
-    }
 
-    private void authentificate(){
-        System.out.println("Enter username:");
-        String user = scanner.nextLine();
-        System.out.println("Enter password:");
-        String pass = scanner.nextLine();
-        System.out.println("Enter Type:");
-        String type = scanner.nextLine();
-        try{
-            type=capitalizeFirstLetterOnly(type);
-        } catch (IllegalArgumentException e){
-            System.out.println("Invalid type");
-            return;
-        }
-        controller.authentificateUser(user,pass,type);
-    }
-
+    /**
+     * Adds a new contract to the real estate agency.
+     * Prompts the user to enter various details about the contract, including ID, type, duration, agent ID, client ID, and property ID.
+     * Validates the contract type, and adds the contract to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addContract() {
         System.out.print("Enter contract ID: ");
         int id = scanner.nextInt();
@@ -750,7 +848,12 @@ public class UI {
         controller.addContract(contract);
         System.out.println("Contract added successfully.");
     }
-
+    /**
+     * Updates an existing contract in the real estate agency.
+     * Prompts the user to enter the contract ID to update, and then enter the new details about the contract, including type, duration, agent ID, client ID, and property ID.
+     * Validates the contract type, and updates the contract in the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void updateContract() {
         System.out.print("Enter contract ID to update: ");
         int id = scanner.nextInt();
@@ -764,7 +867,6 @@ public class UI {
             System.out.println("Invalid contract type. Please enter PURCHASE, LEASE, or RENTAL.");
             return;
         }
-
         System.out.print("Enter new contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
@@ -784,7 +886,11 @@ public class UI {
         controller.updateContract(contract);
         System.out.println("Contract updated successfully.");
     }
-
+    /**
+     * Deletes an existing contract from the real estate agency.
+     * Prompts the user to enter the contract ID to delete, and then confirms the deletion.
+     * If the user confirms the deletion, the contract is removed from the database.
+     */
     private void deleteContract() {
         System.out.print("Enter contract ID to delete: ");
         int id = scanner.nextInt();
@@ -799,7 +905,11 @@ public class UI {
             System.out.println("Contract deleted successfully.");
         }
     }
-
+    /**
+     * Views a contract by its ID.
+     * Prompts the user to enter the contract ID to view, and then displays the contract details.
+     * If the contract is not found, the method returns to the previous menu.
+     */
     private void viewContractById() {
         System.out.print("Enter contract ID to view: ");
         int id = scanner.nextInt();
@@ -807,18 +917,29 @@ public class UI {
         Contract contract = controller.viewContractById(id);
         System.out.println(contract);
     }
-
+    /**
+     * Views all contracts in the real estate agency.
+     * Retrieves all contracts from the database and displays their details.
+     */
     private void viewAllContracts() {
         List<Contract> contracts = controller.viewAllContracts();
         for (Contract contract : contracts) {
             System.out.println(contract);
         }
     }
-
+    /**
+     * Generates an activity report for the real estate agency.
+     * Displays the total number of properties, clients, agents, contracts, reviews, and appointments in the database.
+     */
     private void generateActivityReport() {
         controller.generateActivityReport();
     }
-
+    /**
+     * Adds a new review to the property belonging to the real estate agency.
+     * Prompts the user to enter various details about the review, including ID, rating, comment, property ID, and client ID.
+     * Validates the rating, and adds the review to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addPropertyReview() {
         System.out.print("Enter review ID: ");
         int id = scanner.nextInt();
@@ -844,7 +965,12 @@ public class UI {
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
-
+    /**
+     * Adds a new review to the agent belonging to the real estate agency.
+     * Prompts the user to enter various details about the review, including ID, rating, comment, agent ID, and client ID.
+     * Validates the rating, and adds the review to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addAgentReview() {
         System.out.print("Enter review ID: ");
         int id = scanner.nextInt();
@@ -870,7 +996,11 @@ public class UI {
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
-
+    /**
+     * Deletes an existing review from the real estate agency.
+     * Prompts the user to enter the review ID to delete, and then confirms the deletion.
+     * If the user confirms the deletion, the review is removed from the database.
+     */
     private void deleteReview() {
         System.out.print("Enter review ID to delete: ");
         int id = scanner.nextInt();
@@ -885,7 +1015,10 @@ public class UI {
             System.out.println("Review deleted successfully.");
         }
     }
-
+    /**
+     * Views all reviews for a property.
+     * Prompts the user to enter the property ID to view, and then displays all reviews for the property.
+     */
     private void viewReviewsByProperty() {
         System.out.print("Enter property ID to view reviews: ");
         int propertyId = scanner.nextInt();
@@ -895,7 +1028,10 @@ public class UI {
             System.out.println(review);
         }
     }
-
+    /**
+     * Views all reviews for an agent.
+     * Prompts the user to enter the agent ID to view, and then displays all reviews for the agent.
+     */
     private void viewReviewsByAgent() {
         System.out.print("Enter agent ID to view reviews: ");
         int agentId = scanner.nextInt();
@@ -906,6 +1042,12 @@ public class UI {
         }
     }
 
+    /**
+     * Adds a new appointment to the real estate agency.
+     * Prompts the user to enter various details about the appointment, including ID, date, agent ID, client ID, and property ID.
+     * Validates the date, and adds the appointment to the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void addAppointment() {
         System.out.print("Enter appointment ID: ");
         int id = scanner.nextInt();
@@ -929,7 +1071,12 @@ public class UI {
         controller.addAppointment(appointment);
         System.out.println("Appointment added successfully.");
     }
-
+    /**
+     * Updates an existing appointment in the real estate agency.
+     * Prompts the user to enter the appointment ID to update, and then enter the new details about the appointment, including date, agent ID, client ID, and property ID.
+     * Validates the date, and updates the appointment in the database.
+     * If the input is invalid, the method returns to the previous menu.
+     */
     private void updateAppointment() {
         System.out.print("Enter appointment ID to update: ");
         int id = scanner.nextInt();
@@ -953,7 +1100,11 @@ public class UI {
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
     }
-
+    /**
+     * Deletes an existing appointment from the real estate agency.
+     * Prompts the user to enter the appointment ID to delete, and then confirms the deletion.
+     * If the user confirms the deletion, the appointment is removed from the database.
+     */
     private void deleteAppointment() {
         System.out.print("Enter appointment ID to delete: ");
         int id = scanner.nextInt();
@@ -968,7 +1119,11 @@ public class UI {
             System.out.println("Appointment deleted successfully.");
         }
     }
-
+    /**
+     * Views an appointment by its ID.
+     * Prompts the user to enter the appointment ID to view, and then displays the appointment details.
+     * If the appointment is not found, the method returns to the previous menu.
+     */
     private void viewAppointmentById() {
         System.out.print("Enter appointment ID to view: ");
         int id = scanner.nextInt();
@@ -976,7 +1131,10 @@ public class UI {
         Appointment appointment = controller.viewAppointmentById(id);
         System.out.println(appointment);
     }
-
+    /**
+     * Views all appointments in the real estate agency.
+     * Retrieves all appointments from the database and displays their details.
+     */
     private void viewAllAppointments() {
         List<Appointment> appointments = controller.viewAllAppointments();
         for (Appointment appointment : appointments) {
