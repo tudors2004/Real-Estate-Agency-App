@@ -2,6 +2,15 @@ package Repository;
 import java.io.*;
 import java.util.*;
 import Model.HasID;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 /**
  * FileRepository is a generic repository that manages data storage for entities
  * in a file, with each entity stored on a new line in a comma-separated format.
@@ -29,12 +38,7 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void create(T obj) {
-        List<T> data = getAll();
-        if (data.stream().anyMatch(object -> object.getId().equals(obj.getId()))) {
-            throw new IllegalArgumentException("Object with the same ID already exists!!");
-        }
-        data.add(obj);
-        writeToFile(data);
+        doInFile(storage->storage.putIfAbsent(obj.getId(),obj));
     }
 
     /**
@@ -45,19 +49,20 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void update(T obj) {
-        List<T> data = getAll();
-        boolean found = false;
-        for(int i=0; i<data.size(); i++) {
-            if(data.get(i).getId().equals(obj.getId())){
-                data.set(i, obj);
-                found = true;
-                break;
-            }
-        }
-        if(!found){
-            throw new IllegalArgumentException("Object with given ID doesnt exist!!!");
-        }
-        writeToFile(data);
+//        List<T> data = getAll();
+//        boolean found = false;
+//        for(int i=0; i<data.size(); i++) {
+//            if(data.get(i).getId().equals(obj.getId())){
+//                data.set(i, obj);
+//                found = true;
+//                break;
+//            }
+//        }
+//        if(!found){
+//            throw new IllegalArgumentException("Object with given ID doesnt exist!!!");
+//        }
+//        writeToFile(data);
+        doInFile(storage->storage.replace(obj.getId(),obj));
     }
 
     /**
@@ -67,9 +72,7 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void delete(Integer id) {
-        List<T> data = getAll();
-        data.removeIf(obj -> obj.getId().equals(id));
-        writeToFile(data);
+       doInFile(storage->storage.remove(id));
     }
 
     /**
@@ -80,7 +83,7 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public T read(Integer id) {
-        return getAll().stream().filter(obj -> obj.getId().equals(id)).findFirst().orElse(null);
+        return readDataFromFile().get(id);
     }
 
     /**
@@ -90,33 +93,53 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public List<T> getAll() {
-        List<T> data = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                data.add(parseLine(line));
-            }
+//        List<T> data = new ArrayList<>();
+//        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                data.add(parseLine(line));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return data;
+        return readDataFromFile().values().stream().toList();
+    }
+    private void doInFile(Consumer<Map<Integer, T>> function) {
+        Map<Integer, T> data = readDataFromFile();
+        function.accept(data);
+        writeDataToFile(data);
+    }
+    private Map<Integer, T> readDataFromFile() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (Map<Integer, T>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return new HashMap<>();
+        }
+    }
+    private void writeDataToFile(Map<Integer, T> data) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return data;
     }
 
-    private T parseLine(String line) {
-       String[] parts = line.split(",");
-         return null;
-         //TODO: Implement this method
-    }
-
-    private void writeToFile(List<T> data) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-            for (T obj : data) {
-                bw.write(obj.toString());
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private T parseLine(String line) {
+//       String[] parts = line.split(",");
+//         return null;
+//         //TODO: Implement this method
+//    }
+//
+//    private void writeToFile(List<T> data) {
+//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+//            for (T obj : data) {
+//                bw.write(obj.toString());
+//                bw.newLine();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

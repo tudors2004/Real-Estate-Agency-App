@@ -303,6 +303,45 @@ public class Service {
        Adica ambele filtreaza recenziile pentru o proprietate respectiv un agent
     */
     /**
+     * Filters a list of properties by their price range.
+     * Only properties with a price between the specified minPrice and maxPrice (inclusive) will be included in the result.
+     *
+     * @param minPrice The minimum price a property can have to be included in the filtered list.
+     * @param maxPrice The maximum price a property can have to be included in the filtered list.
+     * @return A list of properties whose prices fall within the specified range.
+     */
+    public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
+        List<Property> properties = getAllProperties();
+        List<Property> filteredProperties = new ArrayList<>();
+
+        for (Property property : properties) {
+            if (property.getPrice() >= minPrice && property.getPrice() <= maxPrice) {
+                filteredProperties.add(property);
+            }
+        }
+        return filteredProperties;
+    }
+    /**
+     * Filters a list of reviews by their rating.
+     * Only reviews with a rating greater than or equal to the specified minRating will be included in the result.
+     *
+     * @param minRating The minimum rating a review can have to be included in the filtered list.
+     * @return A list of reviews with a rating greater than or equal to minRating.
+     */
+    public List<Review> filterReviewByRating(double minRating) {
+        List<Review> reviews = getAllReviews();
+        List<Review> filteredReviews = new ArrayList<>();
+
+        for (Review review : reviews) {
+            if (review.getRating() >= minRating) {
+                filteredReviews.add(review);
+            }
+        }
+
+        return filteredReviews;
+    }
+
+    /**
      * Retrieves all reviews related to a specific property.
      *
      * @param propertyId The ID of the property.
@@ -569,11 +608,22 @@ public class Service {
         }
         return false;
     }
-
+    /**
+     * Sorts the list of properties by their price in ascending order.
+     * The properties are sorted from the lowest price to the highest price.
+     * The sorting is performed in-place on the list returned by {@code getAllProperties()}.
+     */
     public void sortPropertiesByPrice(){
-        //TODO
+        List<Property> properties=getAllProperties();
+        properties.sort((p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
     }
+    /**
+     * Sorts the list of reviews by their rating in descending order.
+     * The reviews are sorted from the highest rating to the lowest rating.
+     * The sorting is performed in-place on the list returned by {@code getAllReviews()}.
+     */
     public void sortReviewsByRating(){
-        //TODO
+       List<Review> reviews=getAllReviews();
+        reviews.sort((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()));
     }
 }
