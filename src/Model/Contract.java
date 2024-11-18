@@ -30,6 +30,14 @@ public class Contract implements HasID {
         this.client = client;
         this.property = property;
     }
+    public Contract(String[] data, Agent agent, Client client, Property property) {
+        this.id = Integer.parseInt(data[0]);
+        this.type = ContractType.valueOf(data[1]);
+        this.duration = Integer.parseInt(data[2]);
+        this.agent = agent;
+        this.client = client;
+        this.property = property;
+    }
     /**
      * Enum representing the type of the contract.
      */
@@ -143,13 +151,17 @@ public class Contract implements HasID {
      */
     @Override
     public String toString() {
-        return "Contract{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", duration=" + duration + " months"+
-                ", agent=" + agent +
-                ", client=" + client +
-                ", property=" + property +
-                '}';
+        return id + "," + type + "," + duration + "," + agent + "," + client + "," + property;
     }
+//    @Override
+//    public String toString() {
+//        return "Contract{" +
+//                "id=" + id +
+//                ", type='" + type + '\'' +
+//                ", duration=" + duration + " months"+
+//                ", agent=" + agent +
+//                ", client=" + client +
+//                ", property=" + property +
+//                '}';
+//    }
 }

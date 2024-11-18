@@ -25,6 +25,17 @@ public abstract class Person {
         this.Email=email;
     }
     /**
+     * Constructs a Person object with the specified data.
+     *
+     * @param data The data of the person.
+     */
+    public Person(String[] data) {
+        this.id = Integer.parseInt(data[0]);
+        this.Name = data[1];
+        this.Phone_Number = Integer.parseInt(data[2]);
+        this.Email = data[3];
+    }
+    /**
      * Gets the unique identifier of the person.
      *
      * @return The unique identifier of the person.

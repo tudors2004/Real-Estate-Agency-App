@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Represents a client in the real estate agency, inheriting from the Person class and implementing the HasID interface.
@@ -20,6 +21,16 @@ public class Client extends Person implements HasID {
         super(id, name,phoneNumber,email);
         this.client_type = clientType;
     }
+    /**
+     * Constructs a Client object with the specified data.
+     *
+     * @param data The data of the client.
+     */
+    public Client(String[] data, ClientType clientType) {
+        super(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]), data[3]);
+        this.client_type = clientType;
+    }
+
     /**
      * Enum representing the type of the client.
      */
@@ -68,13 +79,17 @@ public class Client extends Person implements HasID {
      */
     @Override
     public String toString() {
-        return "Client{" +
-                "client_type=" + client_type +
-                ", id=" + id +
-                ", Name='" + Name + '\'' +
-                ", Phone_Number=+40" + Phone_Number +
-                ", Email='" + Email + '\'' +
-                '}';
+        return id + "," + Name + "," + Phone_Number + "," + Email + "," + client_type;
     }
+//    @Override
+//    public String toString() {
+//        return "Client{" +
+//                "client_type=" + client_type +
+//                ", id=" + id +
+//                ", Name='" + Name + '\'' +
+//                ", Phone_Number=+40" + Phone_Number +
+//                ", Email='" + Email + '\'' +
+//                '}';
+//    }
 }
 

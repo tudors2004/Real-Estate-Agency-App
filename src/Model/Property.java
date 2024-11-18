@@ -1,5 +1,4 @@
 package Model;
-
 import java.time.LocalDate;
 import java.util.List;
 /**
@@ -58,6 +57,24 @@ public class Property implements HasID{
         this.associatedAgent = associatedAgent;
     }
     /**
+     * Constructs a Property object from a CSV array.
+     *
+     * @param data An array of strings containing the property's ID, type, location, price, year, rooms, status, size, description, and associated agent ID.
+     * @param associatedAgent The agent associated with the property.
+     */
+    public Property(String[] data, Agent associatedAgent){
+        this.id = Integer.parseInt(data[0]);
+        this.type = PropertyType.valueOf(data[1]);
+        this.location = data[2];
+        this.price = Double.parseDouble(data[3]);
+        this.year = Integer.parseInt(data[4]);
+        this.rooms = Integer.parseInt(data[5]);
+        this.status = PropertyStatus.valueOf(data[6]);
+        this.size = Double.parseDouble(data[7]);
+        this.description = data[8];
+        this.associatedAgent = null; // TODO: For the moment it stays like this
+    }
+    /**
      * Enum representing the type of the property.
      */
     public enum PropertyType{
@@ -81,19 +98,23 @@ public class Property implements HasID{
      */
     @Override
     public String toString() {
-        return "Property{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", location='" + location + '\'' +
-                ", price=" + price + "€"+
-                ", year=" + year +
-                ", rooms=" + rooms +
-                ", status='" + status + '\'' +
-                ", size=" + size + " m^2" +
-                ", description='" + description + '\'' +
-                ", associatedAgent=" + associatedAgent +
-                '}';
+        return id + "," + type + "," + location + "," + price + "," + year + "," + rooms + "," + status + "," + size + "," + description + "," + associatedAgent;
     }
+//    @Override
+//    public String toString() {
+//        return "Property{" +
+//                "id=" + id +
+//                ", type='" + type + '\'' +
+//                ", location='" + location + '\'' +
+//                ", price=" + price + "€"+
+//                ", year=" + year +
+//                ", rooms=" + rooms +
+//                ", status='" + status + '\'' +
+//                ", size=" + size + " m^2" +
+//                ", description='" + description + '\'' +
+//                ", associatedAgent=" + associatedAgent +
+//                '}';
+//    }
     /**
      * Gets the list of clients who have seen the property.
      *

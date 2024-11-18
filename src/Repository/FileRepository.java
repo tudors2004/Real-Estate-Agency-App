@@ -1,4 +1,5 @@
 package Repository;
+
 import java.io.*;
 import java.util.*;
 import Model.HasID;
@@ -11,16 +12,16 @@ import Model.HasID;
  */
 public class FileRepository<T extends HasID> implements IRepository<T> {
     private final String fileName;
-
+    private final Class<T> type;
     /**
      * Constructs a new FileRepository with the specified file name.
      *
      * @param fileName The name of the file used for storing and retrieving data.
      */
-    public FileRepository(String fileName) {
+    public FileRepository(String fileName, Class<T> type) {
         this.fileName = fileName;
+        this.type = type;
     }
-
     /**
      * Adds a new object to the file. Throws an exception if an object with the same ID already exists.
      *
@@ -29,14 +30,13 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void create(T obj) {
-        List<T> data = getAll();
-        if (data.stream().anyMatch(object -> object.getId().equals(obj.getId()))) {
-            throw new IllegalArgumentException("Object with the same ID already exists!!");
+        List<T> objects = getAll();
+        if (objects.stream().anyMatch(o -> o.getId().equals(obj.getId()))) {
+            throw new IllegalArgumentException("Object with ID " + obj.getId() + " already exists.");
         }
-        data.add(obj);
-        writeToFile(data);
+        objects.add(obj);
+        writeToFile(objects);
     }
-
     /**
      * Updates an existing object in the file. Throws an exception if the object does not exist.
      *
@@ -45,21 +45,20 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void update(T obj) {
-        List<T> data = getAll();
+        List<T> objects = getAll();
         boolean found = false;
-        for(int i=0; i<data.size(); i++) {
-            if(data.get(i).getId().equals(obj.getId())){
-                data.set(i, obj);
+        for (int i = 0; i < objects.size(); i++) {
+            if (objects.get(i).getId().equals(obj.getId())) {
+                objects.set(i, obj);
                 found = true;
                 break;
             }
         }
-        if(!found){
-            throw new IllegalArgumentException("Object with given ID doesnt exist!!!");
+        if (!found) {
+            throw new IllegalArgumentException("Object with ID " + obj.getId() + " not found.");
         }
-        writeToFile(data);
+        writeToFile(objects);
     }
-
     /**
      * Deletes an object by its ID from the file.
      *
@@ -67,11 +66,10 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void delete(Integer id) {
-        List<T> data = getAll();
-        data.removeIf(obj -> obj.getId().equals(id));
-        writeToFile(data);
+        List<T> objects = getAll();
+        objects.removeIf(o -> o.getId().equals(id));
+        writeToFile(objects);
     }
-
     /**
      * Retrieves an object by its ID from the file.
      *
@@ -80,43 +78,48 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public T read(Integer id) {
-        return getAll().stream().filter(obj -> obj.getId().equals(id)).findFirst().orElse(null);
+        return getAll().stream().filter(o -> o.getId().equals(id)).findFirst().orElse(null);
     }
-
     /**
-     * Retrieves all entities from the file.
-     *
-     * @return A list of all entities stored in the file.
+          * Retrieves all entities from the file.
+          *
+          * @return A list of all entities stored in the file.
      */
     @Override
     public List<T> getAll() {
-        List<T> data = new ArrayList<>();
+        List<T> objects = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
-            while ((line = br.readLine()) != null) {
-                data.add(parseLine(line));
+            while((line = br.readLine()) != null){
+                objects.add(parseFromCSV(line));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error reading from file: " + e.getMessage(), e);
         }
-        return data;
+        return objects;
     }
 
-    private T parseLine(String line) {
-       String[] parts = line.split(",");
-         return null;
-         //TODO: Implement this method
+    private T parseFromCSV(String csv) {
+        try {
+            String[] parts = csv.split(",");
+            return type.getDeclaredConstructor(String[].class).newInstance((Object) parts);
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing CSV: " + e.getMessage(), e);
+        }
     }
 
-    private void writeToFile(List<T> data) {
+    private void writeToFile(List<T> objects) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-            for (T obj : data) {
-                bw.write(obj.toString());
+            for (T obj : objects) {
+                bw.write(convertToCSV(obj));
                 bw.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error writing to file: " + e.getMessage(), e);
         }
     }
 
+    private String convertToCSV(T obj) {
+        return obj.toString();
+    }
 }

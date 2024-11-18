@@ -30,6 +30,18 @@ public class Appointment implements HasID{
         this.propertyID=propertyID;
     }
     /**
+     * Constructs an Appointment object with the specified data.
+     *
+     * @param data The data of the appointment.
+     */
+    public Appointment(String[] data, Agent agentID, Client clientID, Property propertyID){
+        this.id = Integer.parseInt(data[0]);
+        this.date = Date.valueOf(data[1]);
+        this.agentID = agentID;
+        this.clientID = clientID;
+        this.propertyID = propertyID;
+    }
+    /**
      * Gets the unique identifier of the appointment.
      *
      * @return The unique identifier of the appointment.
@@ -116,13 +128,18 @@ public class Appointment implements HasID{
      * @return A string containing the appointment's ID, date, agent, client, and property.
      */
     @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", date=" + date +
-                ", agentID=" + agentID +
-                ", clientID=" + clientID +
-                ", propertyID=" + propertyID +
-                '}';
+    public String toString(){
+        return id + "," + date + "," + agentID + "," + clientID + "," + propertyID;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Appointment{" +
+//                "id=" + id +
+//                ", date=" + date +
+//                ", agentID=" + agentID +
+//                ", clientID=" + clientID +
+//                ", propertyID=" + propertyID +
+//                '}';
+//    }
 }

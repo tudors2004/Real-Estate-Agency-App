@@ -9,14 +9,13 @@ import Service.*;
  */
 public class Main {
     public static void main(String[] args) {
-        //TODO: Trebuie sa scapam de toate afisarile din Service si sa le mutam in UI!!!!!!
-        IRepository<Agent> agentRepository = new FileRepository<>("data/agent.txt");
-        IRepository<Property> propertyRepository = new FileRepository<>("data/property.txt");
-        IRepository<Contract> contractRepository = new FileRepository<>("data/contract.txt");
-        IRepository<Appointment> appointmentRepository = new FileRepository<>("data/appointment.txt");
-        IRepository<Client> clientRepository = new FileRepository<>("data/client.txt");
-        IRepository<Review> reviewRepository = new FileRepository<>("data/review.txt");
-        IRepository<ClientPreferences> clientPreferencesRepository = new FileRepository<>("data/clientpreferences.txt");
+        IRepository<Agent> agentRepository = new FileRepository<>("data/agents.txt", Agent.class);
+        IRepository<Property> propertyRepository = new FileRepository<>("data/properties.txt", Property.class);
+        IRepository<Contract> contractRepository = new FileRepository<>("data/contracts.txt", Contract.class);
+        IRepository<Appointment> appointmentRepository = new FileRepository<>("data/appointments.txt", Appointment.class);
+        IRepository<Client> clientRepository = new FileRepository<>("data/clients.txt", Client.class);
+        IRepository<Review> reviewRepository = new FileRepository<>("data/reviews.txt", Review.class);
+        IRepository<ClientPreferences> clientPreferencesRepository = new FileRepository<>("data/clientpreferences.txt", ClientPreferences.class);
 //        IRepository<Agent> agentRepository = new InMemoryRepository<>();
 //        IRepository<Property> propertyRepository = new InMemoryRepository<>();
 //        IRepository<Contract> contractRepository = new InMemoryRepository<>();

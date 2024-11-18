@@ -113,7 +113,22 @@ public class ClientPreferences extends Client {
         this.rooms = rooms;
 
     }
-
+    /**
+     * Constructs a ClientPreferences object with the specified data and client.
+     *
+     * @param data An array of strings containing the client's budget, location, preferred type, preferred status, year, size, and rooms.
+     * @param client The existing client object.
+     */
+   public ClientPreferences(String[] data, Client client){
+        super(client.getId(),client.getName(),client.getEmail(), client.getPhone_numb(),client.getClientType());
+        this.budget = Double.parseDouble(data[0]);
+        this.location = data[1];
+        this.preferredType = PropertyType.valueOf(data[2]);
+        this.preferredStatus = PropertyStatus.valueOf(data[3]);
+        this.year = Integer.parseInt(data[4]);
+        this.size = Double.parseDouble(data[5]);
+        this.rooms = Integer.parseInt(data[6]);
+    }
     /**
      * Gets the client's maximum budget.
      * @return The client's maximum budget.
@@ -164,19 +179,23 @@ public class ClientPreferences extends Client {
      */
     @Override
     public String toString() {
-        return "ClientPreferences{" +
-                "budget=" + budget +
-                ", location='" + location + '\'' +
-                ", preferredType=" + preferredType +
-                ", preferredStatus=" + preferredStatus +
-                ", year=" + year +
-                ", size=" + size + " m^2" +
-                ", rooms=" + rooms +
-                ", client_type=" + client_type +
-                ", id=" + id +
-                ", Name='" + Name + '\'' +
-                ", Phone_Number=" + Phone_Number +
-                ", Email='" + Email + '\'' +
-                '}';
+        return budget + "," + location + "," + preferredType + "," + preferredStatus + "," + year + "," + size + "," + rooms + "," + id + "," + Name + "," + Phone_Number + "," + Email;
     }
+//    @Override
+//    public String toString() {
+//        return "ClientPreferences{" +
+//                "budget=" + budget +
+//                ", location='" + location + '\'' +
+//                ", preferredType=" + preferredType +
+//                ", preferredStatus=" + preferredStatus +
+//                ", year=" + year +
+//                ", size=" + size + " m^2" +
+//                ", rooms=" + rooms +
+//                ", client_type=" + client_type +
+//                ", id=" + id +
+//                ", Name='" + Name + '\'' +
+//                ", Phone_Number=" + Phone_Number +
+//                ", Email='" + Email + '\'' +
+//                '}';
+//    }
 }

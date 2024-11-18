@@ -23,6 +23,17 @@ public class Agent extends Person implements HasID {
         this.assigned_Properties = new ArrayList<>();
     }
     /**
+     * Constructs an Agent object with the specified data.
+     *
+     * @param data The data of the agent.
+     */
+    public Agent(String[] data) {
+        super(Integer.parseInt(data[0]), data[2], Integer.parseInt(data[3]), data[4]);
+        this.License_Number = Integer.parseInt(data[1]);
+        this.assigned_Properties = new ArrayList<>();
+    }
+
+    /**
      * Gets the license number of the agent.
      *
      * @return The license number of the agent.
@@ -69,12 +80,18 @@ public class Agent extends Person implements HasID {
      */
     @Override
     public String toString() {
-        return "Agent{" +
-                "License_Number=" + License_Number +
-                ", id=" + id +
-                ", Name='" + Name + '\'' +
-                ", Phone_Number=+40" + Phone_Number +
-                ", Email='" + Email + '\'' +
-                '}';
+        return id + "," + License_Number + "," + Name + "," + Phone_Number + "," + Email;
     }
+
+
+//    @Override
+//    public String toString() {
+//        return "Agent{" +
+//                "License_Number=" + License_Number +
+//                ", id=" + id +
+//                ", Name='" + Name + '\'' +
+//                ", Phone_Number=+40" + Phone_Number +
+//                ", Email='" + Email + '\'' +
+//                '}';
+//    }
 }

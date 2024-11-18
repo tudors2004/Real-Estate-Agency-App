@@ -45,6 +45,31 @@ public class Review implements HasID{
         this.client = client;
     }
     /**
+     * Constructs a Review object from a CSV array for a Property.
+     *
+     * @param data An array of strings containing the review's ID, rating, comment, property ID, and client ID.
+     */
+    public Review(String[] data, Property property, Client client) {
+        this.id = Integer.parseInt(data[0]);
+        this.rating = Integer.parseInt(data[1]);
+        this.comment = data[2];
+        this.property = property;
+        this.client = client;
+    }
+
+    /**
+     * Constructs a Review object from a CSV array for an Agent.
+     *
+     * @param data An array of strings containing the review's ID, rating, comment, agent ID, and client ID.
+     */
+    public Review(String[] data, Agent agent, Client client) {
+        this.id = Integer.parseInt(data[0]);
+        this.rating = Integer.parseInt(data[1]);
+        this.comment = data[2];
+        this.agent = agent;
+        this.client = client;
+    }
+    /**
      * Gets the unique identifier of the review.
      *
      * @return The unique identifier of the review.
@@ -151,21 +176,29 @@ public class Review implements HasID{
     @Override
     public String toString() {
         if (property != null) {
-            return "Review{" +
-                    "id=" + id +
-                    ", rating=" + rating + " Stars" +
-                    ", comment='" + comment + '\'' +
-                    ", property=" + property +
-                    ", client=" + client +
-                    '}';
+            return id + "," + rating + " Stars" + "," + comment + "," + property + "," + client;
         } else {
-            return "Review{" +
-                    "id=" + id +
-                    ", rating=" + rating + " Stars" +
-                    ", comment='" + comment + '\'' +
-                    ", agent=" + agent +
-                    ", client=" + client +
-                    '}';
+            return id + "," + rating + " Stars" + "," + comment + "," + agent + "," + client;
         }
     }
+//    @Override
+//    public String toString() {
+//        if (property != null) {
+//            return "Review{" +
+//                    "id=" + id +
+//                    ", rating=" + rating + " Stars" +
+//                    ", comment='" + comment + '\'' +
+//                    ", property=" + property +
+//                    ", client=" + client +
+//                    '}';
+//        } else {
+//            return "Review{" +
+//                    "id=" + id +
+//                    ", rating=" + rating + " Stars" +
+//                    ", comment='" + comment + '\'' +
+//                    ", agent=" + agent +
+//                    ", client=" + client +
+//                    '}';
+//        }
+//    }
 }

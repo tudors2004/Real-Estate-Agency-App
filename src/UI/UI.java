@@ -172,7 +172,7 @@ public class UI {
 
     /**
      * Manages the contracts in the real estate agency.
-     * Provides options to add, update, delete, view contracts by ID, view all contracts, and generate an activity report.
+     * Provides options to add, update, delete, view contracts by ID and view all contracts.
      * The method runs in a loop until the user chooses to return to the main menu.
      */
     private void manageContracts() {
@@ -183,7 +183,6 @@ public class UI {
             System.out.println("3. Delete Contract");
             System.out.println("4. View Contract by ID");
             System.out.println("5. View All Contracts");
-            System.out.println("6. Generate Activity Report");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -196,7 +195,6 @@ public class UI {
                 case 3 -> deleteContract();
                 case 4 -> viewContractById();
                 case 5 -> viewAllContracts();
-                case 6 -> generateActivityReport();
                 case 0 -> {
                     return;
                 }
@@ -926,13 +924,6 @@ public class UI {
         for (Contract contract : contracts) {
             System.out.println(contract);
         }
-    }
-    /**
-     * Generates an activity report for the real estate agency.
-     * Displays the total number of properties, clients, agents, contracts, reviews, and appointments in the database.
-     */
-    private void generateActivityReport() {
-        controller.generateActivityReport();
     }
     /**
      * Adds a new review to the property belonging to the real estate agency.

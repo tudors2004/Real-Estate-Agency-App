@@ -299,9 +299,6 @@ public class Service {
     public Appointment getAppointmentById(int appointmentID) {
         return appointmentRepository.read(appointmentID);
     }
-    /*TODO: Cele 2 metode de mai jos cred ca se potrivesc pt cerinta 3 de la ultima tema
-       Adica ambele filtreaza recenziile pentru o proprietate respectiv un agent
-    */
     /**
      * Retrieves all reviews related to a specific property.
      *
@@ -334,22 +331,6 @@ public class Service {
         }
         return agentReviews;
     }
-//    public void linkContract(int agentId, int clientId ) {
-//        List<Contract> contracts = getAllContracts();
-//        Agent agent=getAgentById(agentId);
-//        Client client=getClientById(clientId);
-//        if(agent==null){
-//            throw new RuntimeException("Agent "+agentId+" not found");
-//        }
-//        if(client==null){
-//            throw new RuntimeException("Client "+clientId+" not found");
-//        }
-//        for(Contract contract : contracts){
-//            if(!contract.getAgent() && !contract.getClient().getId()==client){
-//                contractRepository.create(contract);
-//            }
-//        }
-//    }
     /**
      * Links a property to a client, marking that the client has viewed the
      * property.
@@ -447,58 +428,11 @@ public class Service {
             System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
         }
     }
-
-    public int countPropertiesListed(int month, int year){
-        List<Property> allProperties = getAllProperties();
-        int count=0;
-        for (Property property : allProperties) {
-            if (property.getListedDate().getMonthValue() == month &&
-                    property.getListedDate().getYear() == year) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int countPropertiesSold(int month, int year){
-        List<Property> allProperties = getAllProperties();
-        int count=0;
-        for (Property property : allProperties) {
-            if(property.getSoldDate().getMonthValue()==month && property.getSoldDate().getYear()==year){
-                count++;
-            }
-        }
-        return count;
-    }
-    public int countVisitedProperties() {
-        int visitedCount = 0;
-        for (Property property : propertyRepository.getAll()) {
-            if (property.getSeenByClient() != null && !property.getSeenByClient().isEmpty()) {
-                visitedCount++;
-            }
-        }
-        return visitedCount;
-    }
-    public int generateMonthlyActivityReport(Integer month, Integer year){
-        Integer propertiesListed=countPropertiesListed(month, year);
-        Integer propertiesSold=countPropertiesSold(month, year);
-        int count=0;
-        List<Property> allProperties = getAllProperties();
-        for(Property property : allProperties){
-            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
-                count++;
-            }
-        }
-        return count;
-    }
-    //TODO: e deja un generateActivityReport care face cam acelasi lucru
-
     /**
      * Analyzes an agent's performance based on reviews and contracts.
      *
      * @param AgentID The ID of the agent.
      */
-    //TODO: Metoda asta cred ca se potriveste pentru cerinta 4 din ultima tema!!!!!!!!!!! (are 3 entitati)
     public void analyzeAgentPerformance(Integer AgentID){
             List<Review> reviews = getAllReviews();
             List<Contract> contracts = getAllContracts();
@@ -543,18 +477,6 @@ public class Service {
             }
     }
     /**
-     * Generates a report on the current activity, including counts of all main
-     * entities in the system.
-     */
-    public void generateActivityReport(){
-        System.out.println("--Activity report--\n" +
-                "Number of properties: " + getAllProperties().size() + "\n" +
-                "Number of contracts: " + getAllContracts().size() + "\n" +
-                "Number of appointments: " + getAllAppointments().size() + "\n" +
-                "Number of clients: " + getAllClients().size() + "\n" +
-                "Number of reviews: " + getAllReviews().size());
-    }
-    /**
      * Checks if a property is currently under contract.
      *
      * @param propertyID The ID of the property.
@@ -568,12 +490,5 @@ public class Service {
             }
         }
         return false;
-    }
-
-    public void sortPropertiesByPrice(){
-        //TODO
-    }
-    public void sortReviewsByRating(){
-        //TODO
     }
 }

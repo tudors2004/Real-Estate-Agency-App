@@ -287,12 +287,6 @@ public class Controller {
         service.analyzeAgentPerformance(agentID);
     }
     /**
-     * Generates a report of all activities within the system.
-     */
-    public void generateActivityReport() {
-        service.generateActivityReport();
-    }
-    /**
      * Links a property to an agent.
      *
      * @param agentID The ID of the agent.
