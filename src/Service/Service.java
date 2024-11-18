@@ -4,6 +4,8 @@ import Repository.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * The Service class serves as the business logic layer, managing operations on
  * entities such as agents, properties, contracts, appointments, clients, reviews,
@@ -299,6 +301,35 @@ public class Service {
     public Appointment getAppointmentById(int appointmentID) {
         return appointmentRepository.read(appointmentID);
     }
+    /*TODO: Cele 2 metode de mai jos cred ca se potrivesc pt cerinta 3 de la ultima tema
+       Adica ambele filtreaza recenziile pentru o proprietate respectiv un agent
+    */
+    /**
+     * Filters a list of properties by their price range.
+     * Only properties with a price between the specified minPrice and maxPrice (inclusive) will be included in the result.
+     *
+     * @param minPrice The minimum price a property can have to be included in the filtered list.
+     * @param maxPrice The maximum price a property can have to be included in the filtered list.
+     * @return A list of properties whose prices fall within the specified range.
+     */
+    public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
+        return getAllProperties().stream()
+                .filter(property -> property.getPrice()>minPrice && property.getPrice()<maxPrice)
+                .collect(Collectors.toList());
+    }
+    /**
+     * Filters a list of reviews by their rating.
+     * Only reviews with a rating greater than or equal to the specified minRating will be included in the result.
+     *
+     * @param minRating The minimum rating a review can have to be included in the filtered list.
+     * @return A list of reviews with a rating greater than or equal to minRating.
+     */
+    public List<Review> filterReviewByRating(double minRating) {
+        return getAllReviews().stream()
+                .filter(review -> review.getRating()>=minRating)
+                .collect(Collectors.toList());
+    }
+
     /**
      * Retrieves all reviews related to a specific property.
      *
@@ -331,6 +362,22 @@ public class Service {
         }
         return agentReviews;
     }
+//    public void linkContract(int agentId, int clientId ) {
+//        List<Contract> contracts = getAllContracts();
+//        Agent agent=getAgentById(agentId);
+//        Client client=getClientById(clientId);
+//        if(agent==null){
+//            throw new RuntimeException("Agent "+agentId+" not found");
+//        }
+//        if(client==null){
+//            throw new RuntimeException("Client "+clientId+" not found");
+//        }
+//        for(Contract contract : contracts){
+//            if(!contract.getAgent() && !contract.getClient().getId()==client){
+//                contractRepository.create(contract);
+//            }
+//        }
+//    }
     /**
      * Links a property to a client, marking that the client has viewed the
      * property.
@@ -428,11 +475,58 @@ public class Service {
             System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
         }
     }
+
+    public int countPropertiesListed(int month, int year){
+        List<Property> allProperties = getAllProperties();
+        int count=0;
+        for (Property property : allProperties) {
+            if (property.getListedDate().getMonthValue() == month &&
+                    property.getListedDate().getYear() == year) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countPropertiesSold(int month, int year){
+        List<Property> allProperties = getAllProperties();
+        int count=0;
+        for (Property property : allProperties) {
+            if(property.getSoldDate().getMonthValue()==month && property.getSoldDate().getYear()==year){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int countVisitedProperties() {
+        int visitedCount = 0;
+        for (Property property : propertyRepository.getAll()) {
+            if (property.getSeenByClient() != null && !property.getSeenByClient().isEmpty()) {
+                visitedCount++;
+            }
+        }
+        return visitedCount;
+    }
+    public int generateMonthlyActivityReport(Integer month, Integer year){
+        Integer propertiesListed=countPropertiesListed(month, year);
+        Integer propertiesSold=countPropertiesSold(month, year);
+        int count=0;
+        List<Property> allProperties = getAllProperties();
+        for(Property property : allProperties){
+            if (property.getListedDate().getMonthValue() == month && property.getListedDate().getYear() == year) {
+                count++;
+            }
+        }
+        return count;
+    }
+    //TODO: e deja un generateActivityReport care face cam acelasi lucru
+
     /**
      * Analyzes an agent's performance based on reviews and contracts.
      *
      * @param AgentID The ID of the agent.
      */
+    //TODO: Metoda asta cred ca se potriveste pentru cerinta 4 din ultima tema!!!!!!!!!!! (are 3 entitati)
     public void analyzeAgentPerformance(Integer AgentID){
             List<Review> reviews = getAllReviews();
             List<Contract> contracts = getAllContracts();
@@ -477,6 +571,18 @@ public class Service {
             }
     }
     /**
+     * Generates a report on the current activity, including counts of all main
+     * entities in the system.
+     */
+    public void generateActivityReport(){
+        System.out.println("--Activity report--\n" +
+                "Number of properties: " + getAllProperties().size() + "\n" +
+                "Number of contracts: " + getAllContracts().size() + "\n" +
+                "Number of appointments: " + getAllAppointments().size() + "\n" +
+                "Number of clients: " + getAllClients().size() + "\n" +
+                "Number of reviews: " + getAllReviews().size());
+    }
+    /**
      * Checks if a property is currently under contract.
      *
      * @param propertyID The ID of the property.
@@ -490,5 +596,23 @@ public class Service {
             }
         }
         return false;
+    }
+    /**
+     * Sorts the list of properties by their price in ascending order.
+     * The properties are sorted from the lowest price to the highest price.
+     * The sorting is performed in-place on the list returned by {@code getAllProperties()}.
+     */
+    public void sortPropertiesByPrice(){
+        List<Property> properties=getAllProperties();
+        properties.sort((p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
+    }
+    /**
+     * Sorts the list of reviews by their rating in descending order.
+     * The reviews are sorted from the highest rating to the lowest rating.
+     * The sorting is performed in-place on the list returned by {@code getAllReviews()}.
+     */
+    public void sortReviewsByRating(){
+       List<Review> reviews=getAllReviews();
+        reviews.sort((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()));
     }
 }

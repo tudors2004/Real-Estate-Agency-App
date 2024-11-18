@@ -346,4 +346,11 @@ public class Controller {
     public boolean propertyUnderContract(int propertyID) {
         return service.isPropertyUnderContract(propertyID);
     }
+    public List<Property> filterPropertiesByPrice(int minPrice, int maxPrice) {
+        return service.filterPropertyByPrice(minPrice, maxPrice);
+    }
+    public List<Review> filterReviewByRating(double rating) {
+        return service.filterReviewByRating(rating);
+    }
+
 }
