@@ -73,7 +73,7 @@ public class UI {
             System.out.println("4. View Property by ID");
             System.out.println("5. View All Properties");
             System.out.println("6. View Unvisited Properties");
-            System.out.print("7.Filter properties by price");
+            System.out.println("7. Filter Properties by Price");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -218,7 +218,7 @@ public class UI {
             System.out.println("3. Delete Review");
             System.out.println("4. View Reviews by Property");
             System.out.println("5. View Reviews by Agent");
-            System.out.println("6. Filter Review by Rating");
+            System.out.println("6. Filter Reviews by Rating");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -231,7 +231,7 @@ public class UI {
                 case 3 -> deleteReview();
                 case 4 -> viewReviewsByProperty();
                 case 5 -> viewReviewsByAgent();
-                case 6-> filterReviewByRating();
+                case 6 -> filterReviewByRating();
                 case 0 -> {
                     return;
                 }
