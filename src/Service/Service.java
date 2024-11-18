@@ -4,6 +4,8 @@ import Repository.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * The Service class serves as the business logic layer, managing operations on
  * entities such as agents, properties, contracts, appointments, clients, reviews,
@@ -311,15 +313,9 @@ public class Service {
      * @return A list of properties whose prices fall within the specified range.
      */
     public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
-        List<Property> properties = getAllProperties();
-        List<Property> filteredProperties = new ArrayList<>();
-
-        for (Property property : properties) {
-            if (property.getPrice() >= minPrice && property.getPrice() <= maxPrice) {
-                filteredProperties.add(property);
-            }
-        }
-        return filteredProperties;
+        return getAllProperties().stream()
+                .filter(property -> property.getPrice()>minPrice && property.getPrice()<maxPrice)
+                .collect(Collectors.toList());
     }
     /**
      * Filters a list of reviews by their rating.
@@ -329,16 +325,9 @@ public class Service {
      * @return A list of reviews with a rating greater than or equal to minRating.
      */
     public List<Review> filterReviewByRating(double minRating) {
-        List<Review> reviews = getAllReviews();
-        List<Review> filteredReviews = new ArrayList<>();
-
-        for (Review review : reviews) {
-            if (review.getRating() >= minRating) {
-                filteredReviews.add(review);
-            }
-        }
-
-        return filteredReviews;
+        return getAllReviews().stream()
+                .filter(review -> review.getRating()>=minRating)
+                .collect(Collectors.toList());
     }
 
     /**

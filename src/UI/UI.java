@@ -73,6 +73,7 @@ public class UI {
             System.out.println("4. View Property by ID");
             System.out.println("5. View All Properties");
             System.out.println("6. View Unvisited Properties");
+            System.out.print("7.Filter properties by price");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -86,6 +87,7 @@ public class UI {
                 case 4 -> viewPropertyById();
                 case 5 -> viewAllProperties();
                 case 6 -> viewUnvisitedProperties();
+                case 7 -> filterPropertiesByPrice();
                 case 0 -> {
                     return;
                 }
@@ -218,6 +220,7 @@ public class UI {
             System.out.println("3. Delete Review");
             System.out.println("4. View Reviews by Property");
             System.out.println("5. View Reviews by Agent");
+            System.out.println("6. Filter Review by Rating");
             System.out.println("0. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -230,6 +233,7 @@ public class UI {
                 case 3 -> deleteReview();
                 case 4 -> viewReviewsByProperty();
                 case 5 -> viewReviewsByAgent();
+                case 6-> filterReviewByRating();
                 case 0 -> {
                     return;
                 }
@@ -269,6 +273,20 @@ public class UI {
                 default -> System.out.println("Invalid option. Please try again.");
             }
         }
+    }
+    private void filterReviewByRating() {
+        System.out.println("Enter the minimum rating: ");
+        int minRating = scanner.nextInt();
+        scanner.nextLine();
+        controller.filterReviewByRating(minRating);
+    }
+    private void filterPropertiesByPrice(){
+        System.out.println("Enter minimum price: ");
+        int minPrice = scanner.nextInt();
+        System.out.println("Enter maximum price: ");
+        int maxPrice = scanner.nextInt();
+        controller.filterPropertiesByPrice(minPrice, maxPrice);
+        System.out.println("Filtered properties by price");
     }
     /**
      * Adds a new property to the real estate agency.
