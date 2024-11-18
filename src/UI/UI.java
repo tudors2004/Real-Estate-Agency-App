@@ -272,20 +272,6 @@ public class UI {
             }
         }
     }
-    private void filterReviewByRating() {
-        System.out.println("Enter the minimum rating: ");
-        int minRating = scanner.nextInt();
-        scanner.nextLine();
-        controller.filterReviewByRating(minRating);
-    }
-    private void filterPropertiesByPrice(){
-        System.out.println("Enter minimum price: ");
-        int minPrice = scanner.nextInt();
-        System.out.println("Enter maximum price: ");
-        int maxPrice = scanner.nextInt();
-        controller.filterPropertiesByPrice(minPrice, maxPrice);
-        System.out.println("Filtered properties by price");
-    }
     /**
      * Adds a new property to the real estate agency.
      * Prompts the user to enter various details about the property, including ID, type, address, price, year, number of rooms, status, size, description, and associated agent ID.
@@ -1149,5 +1135,27 @@ public class UI {
         for (Appointment appointment : appointments) {
             System.out.println(appointment);
         }
+    }
+    /**
+     * Views all appointments for a client.
+     * Prompts the user to enter the client ID to view, and then displays all appointments for the client.
+     */
+    private void filterReviewByRating() {
+        System.out.println("Enter the minimum rating: ");
+        int minRating = scanner.nextInt();
+        scanner.nextLine();
+        controller.filterReviewByRating(minRating);
+    }
+    /**
+     * Views all appointments for an agent.
+     * Prompts the user to enter the agent ID to view, and then displays all appointments for the agent.
+     */
+    private void filterPropertiesByPrice(){
+        System.out.println("Enter minimum price: ");
+        int minPrice = scanner.nextInt();
+        System.out.println("Enter maximum price: ");
+        int maxPrice = scanner.nextInt();
+        controller.filterPropertiesByPrice(minPrice, maxPrice);
+        System.out.println("Filtered properties by price");
     }
 }
