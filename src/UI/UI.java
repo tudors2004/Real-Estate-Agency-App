@@ -318,7 +318,7 @@ public class UI {
         int agentId = scanner.nextInt();
         scanner.nextLine();
         Agent associatedAgent = controller.viewAgentById(agentId);
-        Property property = new Property(id, type, address, price, year, rooms, status, size, description, associatedAgent);
+        Property property = new Property(id, type, address, price, year, rooms, status, size, description, associatedAgent.getId());
         controller.addProperty(property);
         controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property added successfully.");
@@ -372,7 +372,7 @@ public class UI {
         int agentId = scanner.nextInt();
         scanner.nextLine();
         Agent associatedAgent = controller.viewAgentById(agentId);
-        Property property = new Property(id, type, address, price, year, rooms, status, size, description, associatedAgent);
+        Property property = new Property(id, type, address, price, year, rooms, status, size, description, associatedAgent.getId());
         controller.updateProperty(property);
         controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property updated successfully.");
@@ -844,7 +844,7 @@ public class UI {
         Agent agent = controller.viewAgentById(agentID);
         Client client = controller.viewClientById(clientID);
         Property property = controller.viewPropertyById(propertyID);
-        Contract contract = new Contract(id, type, duration, agent, client, property);
+        Contract contract = new Contract(id, type, duration, agent.getId(), client.getId(), property.getId());
         controller.addContract(contract);
         System.out.println("Contract added successfully.");
     }
@@ -882,7 +882,7 @@ public class UI {
         Agent agent = controller.viewAgentById(agentID);
         Client client = controller.viewClientById(clientID);
         Property property = controller.viewPropertyById(propertyID);
-        Contract contract = new Contract(id, type, duration, agent, client, property);
+        Contract contract = new Contract(id, type, duration, agent.getId(), client.getId(), property.getId());
         controller.updateContract(contract);
         System.out.println("Contract updated successfully.");
     }
@@ -961,7 +961,7 @@ public class UI {
         scanner.nextLine();
         Property property = controller.viewPropertyById(propertyId);
         Client client = controller.viewClientById(clientId);
-        Review review = new Review(id, rating, comment, property, client);
+        Review review = new Review(id, rating, comment, property.getId(), client.getId());
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -992,7 +992,7 @@ public class UI {
         scanner.nextLine();
         Agent agent = controller.viewAgentById(agentId);
         Client client = controller.viewClientById(clientId);
-        Review review = new Review(id, rating, comment, agent, client);
+        Review review = new Review(agent.getId(), client.getId(),id, rating, comment );
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -1067,7 +1067,7 @@ public class UI {
         Agent agent = controller.viewAgentById(agentID);
         Client client = controller.viewClientById(clientID);
         Property property = controller.viewPropertyById(propertyID);
-        Appointment appointment = new Appointment(id, date, agent, client, property);
+        Appointment appointment = new Appointment(id, date, agent.getId(), client.getId(), property.getId());
         controller.addAppointment(appointment);
         System.out.println("Appointment added successfully.");
     }
@@ -1096,7 +1096,7 @@ public class UI {
         Agent agent = controller.viewAgentById(agentID);
         Client client = controller.viewClientById(clientID);
         Property property = controller.viewPropertyById(propertyID);
-        Appointment appointment = new Appointment(id, date, agent, client, property);
+        Appointment appointment = new Appointment(id, date, agent.getId(), client.getId(), property.getId());
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
     }

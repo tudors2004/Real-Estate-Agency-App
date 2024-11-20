@@ -28,6 +28,7 @@ public class Service {
      * @param review              Repository for managing Review entities.
      * @param clientPreferences   Repository for managing ClientPreferences entities.
      */
+
     public Service(IRepository<Agent> agent, IRepository<Property> property, IRepository<Contract> contract, IRepository<Appointment> appointment, IRepository<Client> client, IRepository<Review> review, IRepository<ClientPreferences> clientPreferences) {
         this.agentRepository = agent;
         this.propertyRepository = property;
@@ -351,7 +352,7 @@ public class Service {
         List<Review> reviews = getAllReviews();
         List<Review> propertyReviews = new ArrayList<>();
         for (Review review : reviews) {
-            if (review.getProperty().getId() == propertyId) {
+            if (review.getProperty() == propertyId) {
                 propertyReviews.add(review);
             }
         }
@@ -367,7 +368,7 @@ public class Service {
         List<Review> reviews = getAllReviews();
         List<Review> agentReviews = new ArrayList<>();
         for (Review review : reviews) {
-            if (review.getAgent().getId() == agentId) {
+            if (review.getAgent() == agentId) {
                 agentReviews.add(review);
             }
         }
@@ -424,7 +425,7 @@ public class Service {
      */
     public void linkPropertyAndAgent(int propertyId, int agentId) {
         Property property = getPropertyById(propertyId);
-        Agent agent = getAgentById(agentId);
+        Agent agent = getAgentById(agentId).getId();
 
         if (property != null && agent != null) {
             property.setAssociatedAgent(agent);
@@ -564,7 +565,7 @@ public class Service {
 
             int contractCount = 0;
             for (Contract contract : contracts) {
-                if (Objects.equals(contract.getAgent().getId(), AgentID)) {
+                if (Objects.equals(contract.getAgent(), AgentID)) {
                     contractCount++;
                 }
             }
@@ -602,7 +603,7 @@ public class Service {
     public boolean isPropertyUnderContract(int propertyID) {
         List<Contract> contracts = getAllContracts();
         for (Contract contract : contracts) {
-            if (contract.getProperty().getId() == propertyID) {
+            if (contract.getProperty() == propertyID) {
                 return true;
             }
         }

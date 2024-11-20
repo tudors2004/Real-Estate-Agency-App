@@ -3,10 +3,12 @@ package Model;
 import  Model.Property.PropertyType;
 import Model.Property.PropertyStatus;
 import java.util.Objects;
+import java.util.prefs.Preferences;
+
 /**
  * Represents the preferences of a client in the real estate agency, extending the Client class.
  */
-public class ClientPreferences extends Client {
+public class ClientPreferences extends Client{
     private double budget;
     private String location;
     private PropertyType preferredType;
@@ -104,6 +106,7 @@ public class ClientPreferences extends Client {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
+
         this.budget = budget;
         this.location = location;
         this.preferredType = preferredType;

@@ -15,7 +15,7 @@ public class Property implements HasID{
     private PropertyStatus status;
     private double size;
     private String description;
-    private Agent associatedAgent;
+    private Integer associatedAgent;
     private List<Client> seenByClient;
     private LocalDate listDate;
     private LocalDate soldDate;
@@ -42,7 +42,7 @@ public class Property implements HasID{
      * @param description     The description of the property.
      * @param associatedAgent The agent associated with the property.
      */
-    public Property(Integer id, PropertyType type, String location, double price, Integer year, Integer rooms, PropertyStatus status, double size, String description, Agent associatedAgent) {
+    public Property(Integer id, PropertyType type, String location, double price, Integer year, Integer rooms, PropertyStatus status, double size, String description, Integer associatedAgent) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
@@ -251,7 +251,7 @@ public class Property implements HasID{
      *
      * @return The agent associated with the property.
      */
-    public Agent getAssociatedAgent() {
+    public Integer getAssociatedAgent() {
         return associatedAgent;
     }
     /**
@@ -259,7 +259,7 @@ public class Property implements HasID{
      *
      * @param associatedAgent The agent associated with the property.
      */
-    public void setAssociatedAgent(Agent associatedAgent) {
+    public void setAssociatedAgent(Integer associatedAgent) {
         this.associatedAgent = associatedAgent;
     }
     /**

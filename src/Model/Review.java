@@ -4,11 +4,11 @@ package Model;
  */
 public class Review implements HasID{
     private Integer id;
-    private int rating;
+    private Integer rating;
     private String comment;
-    private Property property;
-    private Client client;
-    private Agent agent;
+    private Integer propertyID;
+    private Integer clientID;
+    private Integer agentID;
     /**
      * Constructs a Review object meant for a Property, with the specified ID, rating, comment, property, and client.
      *
@@ -18,15 +18,15 @@ public class Review implements HasID{
      * @param property The property associated with the review.
      * @param client  The client who wrote the review.
      */
-    public Review(Integer id, int rating, String comment, Property property, Client client) {
+    public Review(Integer id, Integer rating, String comment, Integer property, Integer client) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
         this.id = id;
         this.rating = rating;
         this.comment = comment;
-        this.property = property;
-        this.client = client;
+        this.propertyID = property;
+        this.clientID = client;
     }
     /**
      * Constructs a Review object meant for an Agent, with the specified ID, rating, comment, agent, and client.
@@ -37,12 +37,12 @@ public class Review implements HasID{
      * @param agent The agent associated with the review.
      * @param client  The client who wrote the review.
      */
-    public Review(Integer id, int rating, String comment, Agent agent, Client client) {
+    public Review(Integer agent, Integer client,Integer id, Integer rating, String comment) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
-        this.agent = agent;
-        this.client = client;
+        this.agentID = agent;
+        this.clientID= client;
     }
     /**
      * Gets the unique identifier of the review.
@@ -98,48 +98,48 @@ public class Review implements HasID{
      *
      * @return The property associated with the review.
      */
-    public Property getProperty() {
-        return property;
+    public Integer getProperty() {
+        return propertyID;
     }
     /**
      * Sets the property associated with the review.
      *
      * @param property The property associated with the review.
      */
-    public void setProperty(Property property) {
-        this.property = property;
+    public void setProperty(Integer property) {
+        this.propertyID = property;
     }
     /**
      * Gets the client who wrote the review.
      *
      * @return The client who wrote the review.
      */
-    public Client getClient() {
-        return client;
+    public Integer getClient() {
+        return clientID;
     }
     /**
      * Sets the client who wrote the review.
      *
      * @param client The client who wrote the review.
      */
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(Integer client) {
+        this.clientID = client;
     }
     /**
      * Gets the agent associated with the review.
      *
      * @return The agent associated with the review.
      */
-    public Agent getAgent(){
-        return agent;
+    public Integer getAgent(){
+        return agentID;
     }
     /**
      * Sets the agent associated with the review.
      *
      * @param agent The agent associated with the review.
      */
-    public void setAgent(Agent agent){
-        this.agent=agent;
+    public void setAgent(Integer agent){
+        this.agentID=agent;
     }
     /**
      * Returns a string representation of the review.
@@ -150,21 +150,21 @@ public class Review implements HasID{
      */
     @Override
     public String toString() {
-        if (property != null) {
+        if (propertyID != null) {
             return "Review{" +
                     "id=" + id +
                     ", rating=" + rating + " Stars" +
                     ", comment='" + comment + '\'' +
-                    ", property=" + property +
-                    ", client=" + client +
+                    ", property=" + propertyID +
+                    ", client=" + clientID +
                     '}';
         } else {
             return "Review{" +
                     "id=" + id +
                     ", rating=" + rating + " Stars" +
                     ", comment='" + comment + '\'' +
-                    ", agent=" + agent +
-                    ", client=" + client +
+                    ", agent=" + agentID +
+                    ", client=" + clientID +
                     '}';
         }
     }

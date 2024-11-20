@@ -7,9 +7,9 @@ import java.sql.Date;
 public class Appointment implements HasID{
     private Integer id;
     private Date date;
-    private Agent agentID;
-    private Client clientID;
-    private Property propertyID;
+    private Integer agentID;
+    private Integer clientID;
+    private Integer propertyID;
     /**
      * Constructs an Appointment object with the specified ID, date, agent, client, and property.
      *
@@ -19,7 +19,7 @@ public class Appointment implements HasID{
      * @param clientID    The client involved in the appointment.
      * @param propertyID  The property involved in the appointment.
      */
-    public Appointment(Integer id,Date date, Agent agentID, Client clientID, Property propertyID){
+    public Appointment(Integer id,Date date, Integer agentID, Integer clientID, Integer propertyID){
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
@@ -67,7 +67,7 @@ public class Appointment implements HasID{
      *
      * @return The agent involved in the appointment.
      */
-    public Agent getAgentID() {
+    public Integer getAgentID() {
         return agentID;
     }
     /**
@@ -75,7 +75,7 @@ public class Appointment implements HasID{
      *
      * @param agentID The agent involved in the appointment.
      */
-    public void setAgentID(Agent agentID) {
+    public void setAgentID(Integer agentID) {
         this.agentID = agentID;
     }
     /**
@@ -83,7 +83,7 @@ public class Appointment implements HasID{
      *
      * @return The client involved in the appointment.
      */
-    public Client getClientID() {
+    public Integer getClientID() {
         return clientID;
     }
     /**
@@ -91,7 +91,7 @@ public class Appointment implements HasID{
      *
      * @param clientID The client involved in the appointment.
      */
-    public void setClientID(Client clientID) {
+    public void setClientID(Integer clientID) {
         this.clientID = clientID;
     }
     /**
@@ -99,7 +99,7 @@ public class Appointment implements HasID{
      *
      * @return The property involved in the appointment.
      */
-    public Property getPropertyID() {
+    public Integer getPropertyID() {
         return propertyID;
     }
     /**
@@ -107,7 +107,7 @@ public class Appointment implements HasID{
      *
      * @param propertyID The property involved in the appointment.
      */
-    public void setPropertyID(Property propertyID) {
+    public void setPropertyID(Integer propertyID) {
         this.propertyID = propertyID;
     }
     /**

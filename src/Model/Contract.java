@@ -5,10 +5,10 @@ package Model;
 public class Contract implements HasID {
     private Integer id;
     private ContractType type;
-    private int duration;
-    private Agent agent;
-    private Client client;
-    private Property property;
+    private Integer duration;
+    private Integer agent;
+    private Integer client;
+    private Integer property;
     /**
      * Constructs a Contract object with the specified ID, type, duration, agent, client, and property.
      *
@@ -19,7 +19,7 @@ public class Contract implements HasID {
      * @param client   The client involved in the contract.
      * @param property The property involved in the contract.
      */
-    public Contract(Integer id, ContractType type, int duration, Agent agent, Client client, Property property) {
+    public Contract(Integer id, ContractType type, Integer duration, Integer agent, Integer client, Integer property) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
@@ -93,15 +93,15 @@ public class Contract implements HasID {
      *
      * @return The agent involved in the contract.
      */
-    public Agent getAgent() {
-        return agent;
+    public Integer getAgent() {
+        return this.agent;
     }
     /**
      * Sets the agent involved in the contract.
      *
      * @param agent The agent involved in the contract.
      */
-    public void setAgent(Agent agent) {
+    public void setAgent(Integer agent) {
         this.agent = agent;
     }
     /**
@@ -109,7 +109,7 @@ public class Contract implements HasID {
      *
      * @return The client involved in the contract.
      */
-    public Client getClient() {
+    public Integer getClient() {
         return client;
     }
     /**
@@ -117,7 +117,7 @@ public class Contract implements HasID {
      *
      * @param client The client involved in the contract.
      */
-    public void setClient(Client client) {
+    public void setClient(Integer client) {
         this.client = client;
     }
     /**
@@ -125,7 +125,7 @@ public class Contract implements HasID {
      *
      * @return The property involved in the contract.
      */
-    public Property getProperty() {
+    public Integer getProperty() {
         return property;
     }
     /**
@@ -133,7 +133,7 @@ public class Contract implements HasID {
      *
      * @param property The property involved in the contract.
      */
-    public void setProperty(Property property) {
+    public void setProperty(Integer property) {
         this.property = property;
     }
     /**

@@ -66,6 +66,7 @@ public class Client extends Person implements HasID {
      *
      * @return A string containing the client's ID, name, phone number, and email.
      */
+
     @Override
     public String toString() {
         return "Client{" +

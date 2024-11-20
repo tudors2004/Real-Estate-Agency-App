@@ -1,7 +1,10 @@
 package Repository;
 import java.io.*;
+import java.lang.reflect.Constructor;
 import java.util.*;
 import Model.HasID;
+import Parsers.LineParser;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,48 +23,27 @@ import java.util.function.Consumer;
  */
 public class FileRepository<T extends HasID> implements IRepository<T> {
     private final String fileName;
+    private final LineParser<T> lineParser;
+
 
     /**
      * Constructs a new FileRepository with the specified file name.
      *
      * @param fileName The name of the file used for storing and retrieving data.
      */
-    public FileRepository(String fileName) {
+    public <P extends T>FileRepository(String fileName,LineParser<T> lineParser) {
         this.fileName = fileName;
+        this.lineParser = lineParser;
     }
 
-    /**
-     * Adds a new object to the file. Throws an exception if an object with the same ID already exists.
-     *
-     * @param obj The object to be added to the file.
-     * @throws IllegalArgumentException if an object with the same ID already exists.
-     */
     @Override
     public void create(T obj) {
         doInFile(storage->storage.putIfAbsent(obj.getId(),obj));
     }
 
-    /**
-     * Updates an existing object in the file. Throws an exception if the object does not exist.
-     *
-     * @param obj The object with updated information.
-     * @throws IllegalArgumentException if the object with the given ID does not exist.
-     */
+
     @Override
     public void update(T obj) {
-//        List<T> data = getAll();
-//        boolean found = false;
-//        for(int i=0; i<data.size(); i++) {
-//            if(data.get(i).getId().equals(obj.getId())){
-//                data.set(i, obj);
-//                found = true;
-//                break;
-//            }
-//        }
-//        if(!found){
-//            throw new IllegalArgumentException("Object with given ID doesnt exist!!!");
-//        }
-//        writeToFile(data);
         doInFile(storage->storage.replace(obj.getId(),obj));
     }
 
@@ -93,16 +75,7 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public List<T> getAll() {
-//        List<T> data = new ArrayList<>();
-//        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                data.add(parseLine(line));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return data;
+
         return readDataFromFile().values().stream().toList();
     }
     private void doInFile(Consumer<Map<Integer, T>> function) {
@@ -110,36 +83,35 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
         function.accept(data);
         writeDataToFile(data);
     }
+
     private Map<Integer, T> readDataFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (Map<Integer, T>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new HashMap<>();
+        Map<Integer, T> data = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                T obj = lineParser.parse(line);
+                if (obj != null) {
+                    data.put(obj.getId(), obj);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return data;
     }
     private void writeDataToFile(Map<Integer, T> data) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(data);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (T obj : data.values()) {
+                writer.write(obj.toString());
+                writer.newLine();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-//    private T parseLine(String line) {
-//       String[] parts = line.split(",");
-//         return null;
-//         //TODO: Implement this method
-//    }
-//
-//    private void writeToFile(List<T> data) {
-//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-//            for (T obj : data) {
-//                bw.write(obj.toString());
-//                bw.newLine();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+
+
 
 }
