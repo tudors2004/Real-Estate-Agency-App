@@ -10,13 +10,13 @@ import org.example.Service.*;
  */
 public class Main {
     public static void main(String[] args) {
-        IRepository<Agent> agentRepository = new FileRepository<>("src/main/data/agents.txt", Agent.class);
-        IRepository<Property> propertyRepository = new FileRepository<>("src/main/data/properties.txt", Property.class);
-        IRepository<Contract> contractRepository = new FileRepository<>("src/main/data/contracts.txt", Contract.class);
-        IRepository<Appointment> appointmentRepository = new FileRepository<>("src/main/data/appointments.txt", Appointment.class);
-        IRepository<Client> clientRepository = new FileRepository<>("src/main/data/clients.txt", Client.class);
-        IRepository<Review> reviewRepository = new FileRepository<>("src/main/data/reviews.txt", Review.class);
-        IRepository<ClientPreferences> clientPreferencesRepository = new FileRepository<>("src/main/data/clientPreferences.txt", ClientPreferences.class);
+        IRepository<Agent> agentRepository = new FileRepository<>("data/agents.txt", Agent.class);
+        IRepository<Property> propertyRepository = new FileRepository<>("data/properties.txt", Property.class);
+        IRepository<Contract> contractRepository = new FileRepository<>("data/contracts.txt", Contract.class);
+        IRepository<Appointment> appointmentRepository = new FileRepository<>("data/appointments.txt", Appointment.class);
+        IRepository<Client> clientRepository = new FileRepository<>("data/clients.txt", Client.class);
+        IRepository<Review> reviewRepository = new FileRepository<>("data/reviews.txt", Review.class);
+        IRepository<ClientPreferences> clientPreferencesRepository = new FileRepository<>("data/clientPreferences.txt", ClientPreferences.class);
 //        IRepository<Agent> agentRepository = new InMemoryRepository<>();
 //        IRepository<Property> propertyRepository = new InMemoryRepository<>();
 //        IRepository<Contract> contractRepository = new InMemoryRepository<>();
