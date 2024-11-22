@@ -1,1 +1,0 @@
-Client{client_type=BUYER, id=1, Name='John Doe', Phone_Number=+404567823, Email='johndoe@gmail.com'}
