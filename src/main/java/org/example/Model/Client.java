@@ -45,4 +45,9 @@ public class Client extends Person implements HasID {
     public String toCsv() {
         return id+","+name+","+phoneNumber+","+email+","+clientType;
     }
+
+    @Override
+    public String toString() {
+        return id+","+name+","+phoneNumber+","+email+","+clientType;
+    }
 }

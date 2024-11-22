@@ -91,4 +91,9 @@ public class Contract implements HasID {
                 clientID + "," +
                 propertyID;
     }
+
+    @Override
+    public String toString() {
+        return id+","+type+","+duration+","+agentID+","+clientID+","+propertyID;
+    }
 }

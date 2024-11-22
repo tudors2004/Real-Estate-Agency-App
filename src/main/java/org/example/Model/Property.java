@@ -152,4 +152,18 @@ public class Property implements HasID {
                 agentID;
     }
 
+    @Override
+    public String toString() {
+        return id + "," +
+                type + "," +
+                location + "," +
+                price + "," +
+                year + "," +
+                rooms + "," +
+                status + "," +
+                size + "," +
+                description + "," +
+                agentID;
+    }
+
 }

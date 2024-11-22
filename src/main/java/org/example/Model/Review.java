@@ -92,4 +92,13 @@ public class Review implements HasID{
             return id + "," + rating + "," + comment + "," + agentID + "," + clientID;
         }
     }
+
+    @Override
+    public String toString() {
+        if (propertyID != null) {
+            return id + "," + rating + "," + comment + "," + propertyID + "," + clientID;
+        } else {
+            return id + "," + rating + "," + comment + "," + agentID + "," + clientID;
+        }
+    }
 }

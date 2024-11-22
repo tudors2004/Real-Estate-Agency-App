@@ -68,4 +68,9 @@ public class Appointment implements HasID {
     public String toCsv() {
         return id + "," + date + "," + agentID + "," + clientID + "," + propertyID;
     }
+
+    @Override
+    public String toString() {
+        return id+","+date+","+agentID+","+clientID+","+propertyID;
+    }
 }

@@ -35,4 +35,9 @@ public class Agent extends Person implements HasID {
     public String toCsv() {
         return id + "," + name + "," + phoneNumber + "," + email + "," + licenseNumber;
     }
+
+    @Override
+    public String toString() {
+        return id + "," + name + "," + phoneNumber + "," + email + "," + licenseNumber;
+    }
 }

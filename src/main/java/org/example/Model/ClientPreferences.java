@@ -100,4 +100,20 @@ public class ClientPreferences extends Client {
                 size + "," +
                 rooms;
     }
+
+    @Override
+    public String toString() {
+        return id + "," +
+                name + "," +
+                phoneNumber + "," +
+                email + "," +
+                clientType + "," +
+                budget + "," +
+                location + "," +
+                preferredType + "," +
+                preferredStatus + "," +
+                year + "," +
+                size + "," +
+                rooms;
+    }
 }
