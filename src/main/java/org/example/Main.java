@@ -27,6 +27,28 @@ public class Main {
         Service service = new Service(agentRepository, propertyRepository, contractRepository, appointmentRepository, clientRepository, reviewRepository,clientPreferencesRepository);
         Controller controller = new Controller(service);
         UI ui = new UI(controller);
+
+        Agent agent1=new Agent(1,"Mihai",567983,"pmihai@hash.com",8743223);
+        Agent agent2=new Agent(2,"Andrei",873242,"andreip@hash.com",87431223);
+        Agent agent3=new Agent(3,"Alex",567421,"alex@hash.com",8755223);
+        Agent agent4=new Agent(4,"Ion",1413134,"ion@hash.com",8721223);
+        Client client1=new Client(1,"Alexandru",8731531,"alexandru@yahoo.com", Client.ClientType.BUYER);
+        Client client2=new Client(2,"Mihnea",3243143,"mihnea@yahoo.com", Client.ClientType.INVESTOR);
+        Client client3=new Client(3,"George",2313123,"george@yahoo.com", Client.ClientType.SELLER);
+        Property property1=new Property(1, Property.PropertyType.RESIDENTIAL , "Str.Ciresilor",43350,2004,312,
+                Property.PropertyStatus.AVAILABLE,412.2,"There is this very nice residency.",2);
+
+
+        agentRepository.create(agent1);
+        agentRepository.create(agent2);
+        agentRepository.create(agent3);
+        agentRepository.create(agent4);
+        clientRepository.create(client1);
+        clientRepository.create(client2);
+        clientRepository.create(client3);
+        propertyRepository.create(property1);
+
+
         ui.run();
     }
 }

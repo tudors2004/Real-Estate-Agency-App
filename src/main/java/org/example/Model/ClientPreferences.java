@@ -12,8 +12,10 @@ public class ClientPreferences extends Client {
     private Integer year;
     private double size;
     private Integer rooms;
+    private Boolean matchesPreferences;
 
-    public ClientPreferences(Client client, double budget, String location, PropertyType preferredType, PropertyStatus preferredStatus, int year, double size, int rooms) {
+    public ClientPreferences(Client client, double budget, String location,
+                             PropertyType preferredType, PropertyStatus preferredStatus, int year, double size, int rooms) {
         super(client.getId(), client.getName(), client.getPhoneNumber(), client.getEmail(), client.getClientType());
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
@@ -85,6 +87,16 @@ public class ClientPreferences extends Client {
         this.rooms = rooms;
     }
 
+    public boolean matchesPreferences(Property property) {
+        return property.getLocation().toLowerCase().contains(location.toLowerCase()) &&
+                property.getPrice() <= budget &&
+                property.getYear() <= year &&
+                property.getStatus() == preferredStatus &&
+                property.getType() == preferredType &&
+                property.getSize() == size &&
+                Objects.equals(property.getRooms(), rooms);
+    }
+
     @Override
     public String toCsv() {
         return id + "," +
@@ -116,4 +128,5 @@ public class ClientPreferences extends Client {
                 size + "," +
                 rooms;
     }
+
 }
