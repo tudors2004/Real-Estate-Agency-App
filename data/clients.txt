@@ -1,3 +1,6 @@
 2,wfd,124,wfw@dsf.saf,SELLER
 3,Bercea,12312,araw@saf.sdqw,INVESTOR
 1,wef,123,wfwe@wqef.wqf,BUYER
+1,Alexandru,8731531,alexandru@yahoo.com,BUYER
+2,Mihnea,3243143,mihnea@yahoo.com,INVESTOR
+3,George,2313123,george@yahoo.com,SELLER

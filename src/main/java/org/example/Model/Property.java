@@ -15,7 +15,7 @@ public class Property implements HasID {
     private double size;
     private String description;
     private Integer agentID;
-    private String seenByClient;
+    private List<Client> seenByClient;
 
     // Enum Definitions
     public enum PropertyType {
@@ -130,11 +130,11 @@ public class Property implements HasID {
         this.agentID = agentID;
     }
 
-    public String getSeenByClient() {
+    public List<Client> getSeenByClient() {
         return seenByClient;
     }
 
-    public void setSeenByClient(String seenByClient) {
+    public void setSeenByClient(List<Client> seenByClient) {
         this.seenByClient = seenByClient;
     }
 
