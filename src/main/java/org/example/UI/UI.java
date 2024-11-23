@@ -319,9 +319,9 @@ public class UI {
         System.out.print("Enter associated agent ID: ");
         int agentId = scanner.nextInt();
         scanner.nextLine();
-        //controller.linkPropertyAndAgent(agentId, id);//TODO: Verifica daca e buna functia
         Property property = new Property(id, type, address, price, year, rooms, status, size, description, agentId);
         controller.addProperty(property);
+        controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property added successfully.");
     }
     /**
@@ -371,9 +371,9 @@ public class UI {
         System.out.print("Enter new associated agent ID: ");
         int agentId = scanner.nextInt();
         scanner.nextLine();
-        //controller.linkPropertyAndAgent(agentId, id);//TODO: Verifica functia daca e buna
         Property property = new Property(id, type, address, price, year, rooms, status, size, description, agentId);
         controller.updateProperty(property);
+        controller.linkPropertyAndAgent(agentId, id);
         System.out.println("Property updated successfully.");
     }
     /**
@@ -395,7 +395,6 @@ public class UI {
             System.out.println("Property deleted successfully.");
         }
     }
-
     /**
      * Views a property by its ID.
      * Prompts the user to enter the property ID to view, and then displays the property details.
@@ -518,7 +517,6 @@ public class UI {
         System.out.println("Client preferences added successfully.");
 
     }
-
     /**
      * Updates client preferences in the real estate agency.
      * Prompts the user to enter various details about the client preferences, including budget, location, property type, property status, year of construction, size, and number of rooms.
@@ -569,7 +567,6 @@ public class UI {
         ClientPreferences clientPreferences = new ClientPreferences(client, budget, location, type, status, year, size, rooms);
         controller.updateClientPreferences(clientPreferences);
     }
-
     /**
      * Updates an existing client in the real estate agency.
      * Prompts the user to enter the client ID to update, and then enter the new details about the client, including name, email, phone number, and type.
@@ -667,9 +664,8 @@ public class UI {
      * @param id The ID of the client to recommend properties for.
      */
     private void recommendPropertiesForClient(Integer id) {
-        //controller.recommendPropertiesForClient(id);
+        controller.recommendPropertiesForClient(id);
     }
-
     /**
      * Adds a new agent to the real estate agency.
      * Prompts the user to enter various details about the agent, including ID, license number, name, email, and phone number.
@@ -791,20 +787,18 @@ public class UI {
         scanner.nextLine();
         Agent agent = controller.viewAgentById(agentId);
         if (agent != null) {
-            //agent.printAssignedProperties();
+            agent.printAssignedProperties();
         } else {
             System.out.println("Agent not found.");
         }
     }
-
     /**
      * Analyzes the performance of an agent.
      * @param agentID The ID of the agent to analyze.
      */
     private void analyzeAgentPerformance(int agentID) {
-        //controller.analyzeAgentPerformance(agentID);
+        controller.analyzeAgentPerformance(agentID);
     }
-
     /**
      * Adds a new contract to the real estate agency.
      * Prompts the user to enter various details about the contract, including ID, type, duration, agent ID, client ID, and property ID.
@@ -836,11 +830,10 @@ public class UI {
         System.out.print("Enter property ID: ");
         int propertyID = scanner.nextInt();
         scanner.nextLine();
-        //TODO Refa functia
-//        if(controller.propertyUnderContract(propertyID)){
-//            System.out.println("Property is already under contract. Returning to previous menu.");
-//            return;
-//        }
+        if(controller.propertyUnderContract(propertyID)){
+            System.out.println("Property is already under contract. Returning to previous menu.");
+            return;
+        }
 
         Contract contract = new Contract(id, type, duration, agentID, clientID, propertyID);
         controller.addContract(contract);
@@ -977,7 +970,7 @@ public class UI {
         System.out.print("Enter client ID: ");
         int clientId = scanner.nextInt();
         scanner.nextLine();
-        Review review = new Review(id, rating, comment, agentId, clientId);
+        Review review = new Review(id, rating, comment, agentId, clientId, null);
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -1008,10 +1001,10 @@ public class UI {
         System.out.print("Enter property ID to view reviews: ");
         int propertyId = scanner.nextInt();
         scanner.nextLine();
-//        List<Review> reviews = controller.viewReviewsByProperty(propertyId);
-//        for (Review review : reviews) {
-//            System.out.println(review);
-//        }
+        List<Review> reviews = controller.viewReviewsByProperty(propertyId);
+        for (Review review : reviews) {
+            System.out.println(review);
+        }
     }
     /**
      * Views all reviews for an agent.
@@ -1021,12 +1014,11 @@ public class UI {
         System.out.print("Enter agent ID to view reviews: ");
         int agentId = scanner.nextInt();
         scanner.nextLine();
-//        List<Review> reviews = controller.viewReviewsByAgent(agentId);
-//        for (Review review : reviews) {
-//            System.out.println(review);
-//        }
+        List<Review> reviews = controller.viewReviewsByAgent(agentId);
+        for (Review review : reviews) {
+            System.out.println(review);
+        }
     }
-
     /**
      * Adds a new appointment to the real estate agency.
      * Prompts the user to enter various details about the appointment, including ID, date, agent ID, client ID, and property ID.
@@ -1075,7 +1067,6 @@ public class UI {
         System.out.println("Enter new property ID: ");
         int propertyID = scanner.nextInt();
         scanner.nextLine();
-
         Appointment appointment = new Appointment(id, date, agentID, clientID, propertyID);
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
@@ -1108,8 +1099,8 @@ public class UI {
         System.out.print("Enter appointment ID to view: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        //Appointment appointment = controller.viewAppointmentById(id);
-        //System.out.println(appointment);
+        Appointment appointment = controller.viewAppointmentById(id);
+        System.out.println(appointment);
     }
     /**
      * Views all appointments in the real estate agency.
@@ -1122,8 +1113,9 @@ public class UI {
         }
     }
     /**
-     * Views all appointments for a client.
-     * Prompts the user to enter the client ID to view, and then displays all appointments for the client.
+     * Filters reviews by their rating.
+     * Prompts the user to enter the minimum rating, and then filters the reviews based on the specified rating.
+     * The filtered reviews are displayed to the user.
      */
     private void filterReviewByRating() {
         System.out.println("Enter the minimum rating: ");
@@ -1132,8 +1124,9 @@ public class UI {
         controller.filterReviewByRating(minRating);
     }
     /**
-     * Views all appointments for an agent.
-     * Prompts the user to enter the agent ID to view, and then displays all appointments for the agent.
+     * Filters properties by their price range.
+     * Prompts the user to enter the minimum and maximum price, and then filters the properties based on the specified price range.
+     * The filtered properties are displayed to the user.
      */
     private void filterPropertiesByPrice(){
         System.out.println("Enter minimum price: ");
@@ -1143,10 +1136,17 @@ public class UI {
         controller.filterPropertiesByPrice(minPrice, maxPrice);
         System.out.println("Filtered properties by price");
     }
-
+    /**
+     * Sorts the list of properties by their price in ascending order.
+     * The properties are sorted from the lowest price to the highest price.
+     */
     private void sortPropertiesByPrice() {
         controller.sortPropertiesByPrice();
     }
+    /**
+     * Sorts the list of reviews by their rating in descending order.
+     * The reviews are sorted from the highest rating to the lowest rating.
+     */
     private void sortReviewsByRating() {
         controller.sortReviewsByRating();
     }

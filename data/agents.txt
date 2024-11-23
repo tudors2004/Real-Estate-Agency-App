@@ -1,8 +1,3 @@
-1,wef,1234,wef@fs.wfe,1
-1,Mihai,567983,pmihai@hash.com,8743223
-2,Andrei,873242,andreip@hash.com,87431223
-1,Mihai,567983,pmihai@hash.com,8743223
-2,Andrei,873242,andreip@hash.com,87431223
 1,Mihai,567983,pmihai@hash.com,8743223
 2,Andrei,873242,andreip@hash.com,87431223
 3,Alex,567421,alex@hash.com,8755223

@@ -1,8 +1,9 @@
 package org.example.Service;
 import org.example.Model.*;
 import org.example.Repository.*;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 /**
  * The Service class serves as the business logic layer, managing operations on
@@ -300,63 +301,37 @@ public class Service {
         return appointmentRepository.read(appointmentID);
     }
     /**
-     * Filters a list of properties by their price range.
-     * Only properties with a price between the specified minPrice and maxPrice (inclusive) will be included in the result.
+     * Retrieves all reviews related to a specific property.
      *
-     * @param minPrice The minimum price a property can have to be included in the filtered list.
-     * @param maxPrice The maximum price a property can have to be included in the filtered list.
-     * @return A list of properties whose prices fall within the specified range.
+     * @param propertyId The ID of the property.
+     * @return A list of Review objects associated with the specified property.
      */
-    public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
-        return getAllProperties().stream()
-                .filter(property -> property.getPrice()>minPrice && property.getPrice()<maxPrice)
-                .collect(Collectors.toList());
+    public List<Review> getReviewsByProperty(int propertyId) {
+        List<Review> reviews = getAllReviews();
+        List<Review> propertyReviews = new ArrayList<>();
+        for (Review review : reviews) {
+            if (review.getPropertyID() == propertyId) {
+                propertyReviews.add(review);
+            }
+        }
+        return propertyReviews;
     }
     /**
-     * Filters a list of reviews by their rating.
-     * Only reviews with a rating greater than or equal to the specified minRating will be included in the result.
+     * Retrieves all reviews related to a specific agent.
      *
-     * @param minRating The minimum rating a review can have to be included in the filtered list.
-     * @return A list of reviews with a rating greater than or equal to minRating.
+     * @param agentId The ID of the agent.
+     * @return A list of Review objects associated with the specified agent.
      */
-    public List<Review> filterReviewByRating(double minRating) {
-        return getAllReviews().stream()
-                .filter(review -> review.getRating()>=minRating)
-                .collect(Collectors.toList());
+    public List<Review> getReviewsByAgent(int agentId) {
+        List<Review> reviews = getAllReviews();
+        List<Review> agentReviews = new ArrayList<>();
+        for (Review review : reviews) {
+            if (review.getAgentID() == agentId) {
+                agentReviews.add(review);
+            }
+        }
+        return agentReviews;
     }
-
-//    /**
-//     * Retrieves all reviews related to a specific property.
-//     *
-//     * @param propertyId The ID of the property.
-//     * @return A list of Review objects associated with the specified property.
-//     */
-//    public List<Review> getReviewsByProperty(int propertyId) {
-//        List<Review> reviews = getAllReviews();
-//        List<Review> propertyReviews = new ArrayList<>();
-//        for (Review review : reviews) {
-//            if (review.getProperty().getId() == propertyId) {
-//                propertyReviews.add(review);
-//            }
-//        }
-//        return propertyReviews;
-//    }
-//    /**
-//     * Retrieves all reviews related to a specific agent.
-//     *
-//     * @param agentId The ID of the agent.
-//     * @return A list of Review objects associated with the specified agent.
-//     */
-//    public List<Review> getReviewsByAgent(int agentId) {
-//        List<Review> reviews = getAllReviews();
-//        List<Review> agentReviews = new ArrayList<>();
-//        for (Review review : reviews) {
-//            if (review.getAgent().getId() == agentId) {
-//                agentReviews.add(review);
-//            }
-//        }
-//        return agentReviews;
-//    }
 //    /**
 //     * Links a property to a client, marking that the client has viewed the
 //     * property.
@@ -383,27 +358,27 @@ public class Service {
 //            property.getSeenByClient().add(client);
 //        }
 //    }
-//    /**
-//     * Links a property to an agent, marking that the agent is associated with
-//     * the property.
-//     *
-//     * @param propertyId The ID of the property.
-//     * @param agentId    The ID of the agent.
-//     */
-//    public void linkPropertyAndAgent(int propertyId, int agentId) {
-//        Property property = getPropertyById(propertyId);
-//        Agent agent = getAgentById(agentId);
-//
-//        if (property != null && agent != null) {
-//            property.setAssociatedAgent(agent);
-//            agent.getAssignedProperty().add(property);
-//            propertyRepository.update(property);
-//            agentRepository.update(agent);
-//        }
-//        else {
-//            System.out.println("Property not found.");
-//        }
-//    }
+    /**
+     * Links a property to an agent, marking that the agent is associated with
+     * the property.
+     *
+     * @param propertyId The ID of the property.
+     * @param agentId    The ID of the agent.
+     */
+    public void linkPropertyAndAgent(int agentId, int propertyId) {
+        Agent agent = getAgentById(agentId);
+        Property property = getPropertyById(propertyId);
+        if (agent != null && property != null) {
+            if (agent.getAssignedProperties() == null) {
+                agent.setAssignedProperties(new ArrayList<>());
+            }
+            agent.getAssignedProperties().add(property);
+            System.out.println("Property linked to agent successfully.");
+            System.out.println("Agent ID: " + agentId + ", Property ID: " + propertyId);
+        } else {
+            System.out.println("Agent or Property not found.");
+        }
+    }
 //    /**
 //     * Displays all properties that have not been visited by any clients.
 //     */
@@ -425,98 +400,101 @@ public class Service {
 //            }
 //        }
 //    }
-//    /**
-//     * Recommends properties for a client based on their preferences.
-//     *
-//     * @param ClientID The ID of the client.
-//     */
-//    public void recommendPropertiesForClient(Integer ClientID){
-//        Client client = getClientById(ClientID);
-//        ClientPreferences preferences=getClientPreferencesByClientId(ClientID);
-//        List<Property> allProperties = getAllProperties();
-//        List<Property> recommendedProperties = new ArrayList<>();
-//        if(client==null){
-//            System.out.println("Client with ID " + ClientID + " not found.");
-//            return;
-//        }
-//        if(preferences==null){
-//            System.out.println("Preferences not found.");
-//            return;
-//        }
-//        for (Property property : allProperties) {
-//            if(preferences.matchesPreferences(property)){
-//                recommendedProperties.add(property);
-//            }
-//        }
-//        if (recommendedProperties.isEmpty()) {
-//            System.out.println("No properties match the preferences of client ID " + ClientID + ".");
-//        } else {
-//            System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
-//        }
-//    }
-//    /**
-//     * Analyzes an agent's performance based on reviews and contracts.
-//     *
-//     * @param AgentID The ID of the agent.
-//     */
-//    public void analyzeAgentPerformance(Integer AgentID){
-//        List<Review> reviews = getAllReviews();
-//        List<Contract> contracts = getAllContracts();
-//        Agent agent = getAgentById(AgentID);
-//
-//        if (agent == null) {
-//            System.out.println("Agent with ID " + AgentID + " not found.");
-//            return;
-//        }
-//
-//        double totalRating = 0;
-//        int ratingCount = 0;
-//        for (Review review : reviews) {
-//            if (review.getAgent() != null && Objects.equals(review.getAgent().getId(), AgentID)) {
-//                totalRating += review.getRating();
-//                ratingCount++;
-//            } else if (review.getProperty() != null && Objects.equals(review.getProperty().getAssociatedAgent().getId(), AgentID)) {
-//                totalRating += review.getRating();
-//                ratingCount++;
-//            }
-//        }
-//        double averageRating = (ratingCount > 0) ? totalRating / ratingCount : 0;
-//
-//
-//        int contractCount = 0;
-//        for (Contract contract : contracts) {
-//            if (Objects.equals(contract.getAgent().getId(), AgentID)) {
-//                contractCount++;
-//            }
-//        }
-//
-//        System.out.println("Performance analysis for Agent " + AgentID + ":");
-//        System.out.println("Average Rating: " + averageRating + " stars");
-//        System.out.println("Number of Contracts: " + contractCount);
-//
-//        if (averageRating >= 4.5 && contractCount >= 10) {
-//            System.out.println("This agent is performing excellently!");
-//        } else if (averageRating >= 3.5) {
-//            System.out.println("This agent is performing well.");
-//        } else {
-//            System.out.println("This agent needs improvement.");
-//        }
-//    }
-//    /**
-//     * Checks if a property is currently under contract.
-//     *
-//     * @param propertyID The ID of the property.
-//     * @return true if the property is under contract; false otherwise.
-//     */
-//    public boolean isPropertyUnderContract(int propertyID) {
-//        List<Contract> contracts = getAllContracts();
-//        for (Contract contract : contracts) {
-//            if (contract.getProperty().getId() == propertyID) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    /**
+     * Recommends properties for a client based on their preferences.
+     *
+     * @param ClientID The ID of the client.
+     */
+    public void recommendPropertiesForClient(Integer ClientID){
+        Client client = getClientById(ClientID);
+        ClientPreferences preferences=getClientPreferencesByClientId(ClientID);
+        List<Property> allProperties = getAllProperties();
+        List<Property> recommendedProperties = new ArrayList<>();
+        if(client==null){
+            System.out.println("Client with ID " + ClientID + " not found.");
+            return;
+        }
+        if(preferences==null){
+            System.out.println("Preferences not found.");
+            return;
+        }
+        for (Property property : allProperties) {
+            if(preferences.matchesPreferences(property)){
+                recommendedProperties.add(property);
+            }
+        }
+        if (recommendedProperties.isEmpty()) {
+            System.out.println("No properties match the preferences of client ID " + ClientID + ".");
+        } else {
+            System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
+        }
+    }
+    /**
+     * Analyzes an agent's performance based on reviews and contracts.
+     *
+     * @param AgentID The ID of the agent.
+     */
+    public void analyzeAgentPerformance(Integer AgentID){
+        List<Review> reviews = getAllReviews();
+        List<Contract> contracts = getAllContracts();
+        Agent agent = getAgentById(AgentID);
+
+        if (agent == null) {
+            System.out.println("Agent with ID " + AgentID + " not found.");
+            return;
+        }
+
+        double totalRating = 0;
+        int ratingCount = 0;
+        for (Review review : reviews){
+            if (review.getAgentID() != null && Objects.equals(review.getAgentID(), AgentID)) {
+                totalRating += review.getRating();
+                ratingCount++;
+            }else if (review.getPropertyID() != null){
+                    Property property = getPropertyById(review.getPropertyID());
+                    if (property!=null && property.getAgentID()!=null && Objects.equals(property.getAgentID(),AgentID)) {
+                        totalRating += review.getRating();
+                        ratingCount++;
+                    }
+            }
+        }
+        double averageRating = (ratingCount > 0) ? totalRating / ratingCount : 0;
+
+
+        int contractCount = 0;
+        for (Contract contract : contracts) {
+            if (Objects.equals(contract.getAgentID(), AgentID)) {
+                contractCount++;
+            }
+        }
+
+        System.out.println("Performance analysis for Agent " + AgentID + ":");
+        System.out.println("Average Rating: " + averageRating + " stars");
+        System.out.println("Number of Contracts: " + contractCount);
+
+        if (averageRating >= 4.5 && contractCount >= 10) {
+            System.out.println("This agent is performing excellently!");
+        } else if (averageRating >= 3.5) {
+            System.out.println("This agent is performing well.");
+        } else {
+            System.out.println("This agent needs improvement.");
+        }
+    }
+    /**
+     * Checks if a property is currently under contract.
+     *
+     * @param propertyID The ID of the property.
+     * @return true if the property is under contract; false otherwise.
+     */
+    public boolean isPropertyUnderContract(int propertyID) {
+        List<Contract> contracts = getAllContracts();
+        for (Contract contract : contracts) {
+            if (contract.getPropertyID() == propertyID) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Sorts the list of properties by their price in ascending order.
      * The properties are sorted from the lowest price to the highest price.
@@ -534,5 +512,30 @@ public class Service {
     public void sortReviewsByRating(){
         List<Review> reviews=getAllReviews();
         reviews.sort((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()));
+    }
+    /**
+     * Filters a list of properties by their price range.
+     * Only properties with a price between the specified minPrice and maxPrice (inclusive) will be included in the result.
+     *
+     * @param minPrice The minimum price a property can have to be included in the filtered list.
+     * @param maxPrice The maximum price a property can have to be included in the filtered list.
+     * @return A list of properties whose prices fall within the specified range.
+     */
+    public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
+        return getAllProperties().stream()
+                .filter(property -> property.getPrice()>minPrice && property.getPrice()<maxPrice)
+                .collect(Collectors.toList());
+    }
+    /**
+     * Filters a list of reviews by their rating.
+     * Only reviews with a rating greater than or equal to the specified minRating will be included in the result.
+     *
+     * @param minRating The minimum rating a review can have to be included in the filtered list.
+     * @return A list of reviews with a rating greater than or equal to minRating.
+     */
+    public List<Review> filterReviewByRating(double minRating) {
+        return getAllReviews().stream()
+                .filter(review -> review.getRating()>=minRating)
+                .collect(Collectors.toList());
     }
 }

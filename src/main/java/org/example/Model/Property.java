@@ -1,8 +1,7 @@
 package org.example.Model;
-import java.time.LocalDate;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class Property implements HasID {
     private Integer id;
@@ -16,22 +15,37 @@ public class Property implements HasID {
     private String description;
     private Integer agentID;
     private List<Client> seenByClient;
-
-    // Enum Definitions
+    /**
+     * Enum representing the type of the property.
+     */
     public enum PropertyType {
         RESIDENTIAL,
         COMMERCIAL,
         INDUSTRIAL,
         SPECIAL
     }
-
+    /**
+     * Enum representing the status of the property.
+     */
     public enum PropertyStatus {
         AVAILABLE,
         UNDER_CONSTRUCTION,
         RENTED
     }
-
-    // Constructor
+    /**
+     * Constructs a Property object with the specified details.
+     *
+     * @param id          the unique identifier of the property
+     * @param type        the type of the property
+     * @param location    the location of the property
+     * @param price       the price of the property
+     * @param year        the construction year of the property
+     * @param rooms       the number of rooms in the property
+     * @param status      the status of the property
+     * @param size        the size of the property
+     * @param description the description of the property
+     * @param agentID     the unique identifier of the agent responsible for the property
+     */
     public Property(Integer id, PropertyType type, String location, double price, Integer year,
                     Integer rooms, PropertyStatus status, double size, String description,
                     Integer agentID) {
@@ -46,9 +60,15 @@ public class Property implements HasID {
         this.description = description;
         this.agentID = agentID;
     }
-    public Property(){
-        //default constructor
-    }
+    /**
+     * Default constructor for the Property class.
+     */
+    public Property(){}
+    /**
+     * Gets the unique identifier of the property.
+     *
+     * @return The unique identifier of the property.
+     */
     @Override
     public Integer getId() {
         return id;
