@@ -12,5 +12,10 @@ public interface HasID extends Serializable {
      * @return The unique identifier of the entity.
      */
     Integer getId();
+    /**
+     * Converts the entity's details into a CSV (Comma-Separated Values) format.
+     *
+     * @return A string representation of the entity in CSV format.
+     */
     String toCsv();
 }

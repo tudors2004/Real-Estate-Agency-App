@@ -10,6 +10,9 @@ import org.example.Service.*;
  */
 public class Main {
     public static void main(String[] args) {
+        //TODO: Nu merge nimic la Manage Reviews inafara de ADD si DELETE.
+        //TODO: La Property merge tot inafara de - Filter,Sort,ViewUnvisitedProperties.
+        //TODO: NU MERGE viewAssignedProperties !!!!!!!! neaparat
         IRepository<Agent> agentRepository = new FileRepository<>("data/agents.txt", Agent.class);
         IRepository<Property> propertyRepository = new FileRepository<>("data/properties.txt", Property.class);
         IRepository<Contract> contractRepository = new FileRepository<>("data/contracts.txt", Contract.class);

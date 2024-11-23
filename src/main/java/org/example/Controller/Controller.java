@@ -243,58 +243,58 @@ public class Controller {
      * @param propertyId The ID of the property.
      * @return A List of Review objects associated with the specified property.
      */
-//    public List<Review> viewReviewsByProperty(int propertyId) {
-//        return service.getReviewsByProperty(propertyId);
-//    }
-//    /**
-//     * Retrieves all reviews associated with a specific agent.
-//     *
-//     * @param agentId The ID of the agent.
-//     * @return A List of Review objects associated with the specified agent.
-//     */
-//    public List<Review> viewReviewsByAgent(int agentId) {
-//        return service.getReviewsByAgent(agentId);
-//    }
-//    /**
-//     * Retrieves an appointment by its ID.
-//     *
-//     * @param appointmentID The ID of the appointment.
-//     * @return The Appointment object with the specified ID.
-//     */
-//    public Appointment viewAppointmentById(int appointmentID) {
-//        return service.getAppointmentById(appointmentID);
-//    }
+    public List<Review> viewReviewsByProperty(int propertyId) {
+        return service.getReviewsByProperty(propertyId);
+    }
+    /**
+     * Retrieves all reviews associated with a specific agent.
+     *
+     * @param agentId The ID of the agent.
+     * @return A List of Review objects associated with the specified agent.
+     */
+    public List<Review> viewReviewsByAgent(int agentId) {
+        return service.getReviewsByAgent(agentId);
+    }
+    /**
+     * Retrieves an appointment by its ID.
+     *
+     * @param appointmentID The ID of the appointment.
+     * @return The Appointment object with the specified ID.
+     */
+    public Appointment viewAppointmentById(int appointmentID) {
+        return service.getAppointmentById(appointmentID);
+    }
 //    /**
 //     * Displays all unvisited properties.
 //     */
 //    public void viewUnvisitedProperties() {
 //        service.viewUnvisitedProperties();
 //    }
-//    /**
-//     * Recommends properties for a specific client based on their preferences.
-//     *
-//     * @param clientID The ID of the client.
-//     */
-//    public void recommendPropertiesForClient(Integer clientID) {
-//        service.recommendPropertiesForClient(clientID);
-//    }
-//    /**
-//     * Analyzes the performance of a specific agent.
-//     *
-//     * @param agentID The ID of the agent.
-//     */
-//    public void analyzeAgentPerformance(Integer agentID) {
-//        service.analyzeAgentPerformance(agentID);
-//    }
-//    /**
-//     * Links a property to an agent.
-//     *
-//     * @param agentID The ID of the agent.
-//     * @param propertyID The ID of the property.
-//     */
-//    public void linkPropertyAndAgent(int agentID, int propertyID){
-//        service.linkPropertyAndAgent(agentID, propertyID);
-//    }
+    /**
+     * Recommends properties for a specific client based on their preferences.
+     *
+     * @param clientID The ID of the client.
+     */
+    public void recommendPropertiesForClient(Integer clientID) {
+        service.recommendPropertiesForClient(clientID);
+    }
+    /**
+     * Analyzes the performance of a specific agent.
+     *
+     * @param agentID The ID of the agent.
+     */
+    public void analyzeAgentPerformance(Integer agentID) {
+        service.analyzeAgentPerformance(agentID);
+    }
+    /**
+     * Links a property to an agent.
+     *
+     * @param agentID The ID of the agent.
+     * @param propertyID The ID of the property.
+     */
+    public void linkPropertyAndAgent(int agentID, int propertyID){
+        service.linkPropertyAndAgent(agentID, propertyID);
+    }
 //    /**
 //     * Links a property to a client.
 //     *
@@ -337,25 +337,45 @@ public class Controller {
     public ClientPreferences viewClientPreferencesById(int clientId) {
         return service.getClientPreferencesByClientId(clientId);
     }
-//    /**
-//     * Checks if a property is under contract.
-//     *
-//     * @param propertyID The ID of the property.
-//     * @return True if the property is under contract, false otherwise.
-//     */
-//    public boolean propertyUnderContract(int propertyID) {
-//        return service.isPropertyUnderContract(propertyID);
-//    }
+    /**
+     * Checks if a property is under contract.
+     *
+     * @param propertyID The ID of the property.
+     * @return True if the property is under contract, false otherwise.
+     */
+    public boolean propertyUnderContract(int propertyID) {
+        return service.isPropertyUnderContract(propertyID);
+    }
+    /**
+     * Filters properties by their price range.
+     *
+     * @param minPrice The minimum price of the properties to filter.
+     * @param maxPrice The maximum price of the properties to filter.
+     * @return A list of properties within the specified price range.
+     */
     public List<Property> filterPropertiesByPrice(int minPrice, int maxPrice) {
         return service.filterPropertyByPrice(minPrice, maxPrice);
     }
+    /**
+     * Filters reviews by their rating.
+     *
+     * @param rating The minimum rating of the reviews to filter.
+     * @return A list of reviews with a rating equal to or higher than the specified rating.
+     */
     public List<Review> filterReviewByRating(double rating) {
         return service.filterReviewByRating(rating);
     }
-
+    /**
+     * Sorts the list of reviews by their rating in descending order.
+     * The reviews are sorted from the highest rating to the lowest rating.
+     */
     public void sortReviewsByRating() {
         service.sortReviewsByRating();
     }
+    /**
+     * Sorts the list of properties by their price in ascending order.
+     * The properties are sorted from the lowest price to the highest price.
+     */
     public void sortPropertiesByPrice() {
         service.sortPropertiesByPrice();
     }

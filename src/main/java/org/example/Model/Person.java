@@ -25,9 +25,10 @@ public abstract class Person {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-    public Person(){
-        //default constructor
-    }
+    /**
+     * Constructs a Person object with default values.
+     */
+    public Person(){}
     /**
      * Gets the unique identifier of the person.
      *

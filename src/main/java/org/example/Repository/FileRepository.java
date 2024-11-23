@@ -2,18 +2,34 @@ package org.example.Repository;
 import org.example.Model.*;
 import java.io.*;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A generic repository implementation that manages objects of type T, which extends HasID, using a CSV file for persistence.
+ *
+ * @param <T> the type of objects to be managed by the repository, which must implement HasID.
+ */
 public class FileRepository<T extends HasID> implements IRepository<T> {
     private final String filePath;
     private final Class<T> type;
-
+    /**
+     * Constructs a new FileRepository.
+     *
+     * @param filePath the file path where the repository data is stored.
+     * @param type     the class type of the objects to be managed by this repository.
+     */
     public FileRepository(String filePath, Class<T> type) {
         this.filePath = filePath;
         this.type = type;
     }
-
+    /**
+     * Adds a new object to the repository.
+     *
+     * @param obj the object to be added.
+     * @throws RuntimeException if there is an error writing to the file.
+     */
     @Override
     public void create(T obj) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -23,7 +39,12 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
             throw new RuntimeException("Error writing to file", e);
         }
     }
-
+    /**
+     * Updates an existing object in the repository.
+     *
+     * @param obj the updated object.
+     * @throws RuntimeException if there is an error writing to the file.
+     */
     @Override
     public void update(T obj) {
         List<T> objects = getAll();
@@ -40,7 +61,12 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
             throw new RuntimeException("Error writing to file", e);
         }
     }
-
+    /**
+     * Deletes an object from the repository by its ID.
+     *
+     * @param id the ID of the object to be deleted.
+     * @throws RuntimeException if there is an error writing to the file.
+     */
     @Override
     public void delete(Integer id) {
         List<T> objects = getAll();
@@ -55,7 +81,12 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
             throw new RuntimeException("Error writing to file", e);
         }
     }
-
+    /**
+     * Reads and returns an object by its ID.
+     *
+     * @param id the ID of the object to be retrieved.
+     * @return the object with the specified ID, or null if not found.
+     */
     @Override
     public T read(Integer id) {
         List<T> objects = getAll();
@@ -66,7 +97,12 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
         }
         return null;
     }
-
+    /**
+     * Retrieves all objects from the repository.
+     *
+     * @return a list of all objects in the repository.
+     * @throws RuntimeException if there is an error reading from the file.
+     */
     @Override
     public List<T> getAll() {
         List<T> objects = new ArrayList<>();
@@ -80,7 +116,14 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
         }
         return objects;
     }
-
+    /**
+     * Converts a CSV string into an object of type T.
+     *
+     * @param csv  the CSV representation of the object.
+     * @param type the class type of the object to be created.
+     * @return the object represented by the CSV string.
+     * @throws RuntimeException if there is an error during object instantiation or property setting.
+     */
     public T convertFromCsv(String csv, Class<T> type) {
         String[] values = csv.split(",");
         try {
@@ -124,7 +167,8 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
                 ((Property) obj).setAgentID(Integer.parseInt(values[9]));
             } else if (type == Appointment.class) {
                 ((Appointment) obj).setId(Integer.parseInt(values[0]));
-                ((Appointment) obj).setDate(new Date(Long.parseLong(values[1])));
+                LocalDate localDate = LocalDate.parse(values[1], DateTimeFormatter.ISO_DATE);
+                ((Appointment) obj).setDate(Date.valueOf(localDate));
                 ((Appointment) obj).setAgentID(Integer.parseInt(values[2]));
                 ((Appointment) obj).setClientID(Integer.parseInt(values[3]));
                 ((Appointment) obj).setPropertyID(Integer.parseInt(values[4]));
@@ -146,8 +190,11 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
             throw new RuntimeException("Error converting CSV to object", e);
         }
     }
-
-    // Helper method to get the class type in case we have a generic object
+    /**
+     * Gets the class type of the objects managed by this repository.
+     *
+     * @return the class type of the objects.
+     */
     private Class<T> getClassType() {
         return type;
     }
