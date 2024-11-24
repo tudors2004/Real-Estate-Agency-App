@@ -10,9 +10,7 @@ import org.example.Service.*;
  */
 public class Main {
     public static void main(String[] args) {
-        //TODO: Nu merge nimic la Manage Reviews inafara de ADD si DELETE.
-        //TODO: La Property merge tot inafara de - Filter,Sort,ViewUnvisitedProperties.
-        //TODO: NU MERGE viewAssignedProperties !!!!!!!! neaparat
+        //TODO: NU MERGE viewAssignedProperties si nu distinge property review de agent review
         IRepository<Agent> agentRepository = new FileRepository<>("data/agents.txt", Agent.class);
         IRepository<Property> propertyRepository = new FileRepository<>("data/properties.txt", Property.class);
         IRepository<Contract> contractRepository = new FileRepository<>("data/contracts.txt", Contract.class);
@@ -20,13 +18,6 @@ public class Main {
         IRepository<Client> clientRepository = new FileRepository<>("data/clients.txt", Client.class);
         IRepository<Review> reviewRepository = new FileRepository<>("data/reviews.txt", Review.class);
         IRepository<ClientPreferences> clientPreferencesRepository = new FileRepository<>("data/clientPreferences.txt", ClientPreferences.class);
-//        IRepository<Agent> agentRepository = new InMemoryRepository<>();
-//        IRepository<Property> propertyRepository = new InMemoryRepository<>();
-//        IRepository<Contract> contractRepository = new InMemoryRepository<>();
-//        IRepository<Appointment> appointmentRepository = new InMemoryRepository<>();
-//        IRepository<Client> clientRepository = new InMemoryRepository<>();
-//        IRepository<Review> reviewRepository = new InMemoryRepository<>();
-//        IRepository<ClientPreferences> clientPreferencesRepository = new InMemoryRepository<>();
         Service service = new Service(agentRepository, propertyRepository, contractRepository, appointmentRepository, clientRepository, reviewRepository,clientPreferencesRepository);
         Controller controller = new Controller(service);
         UI ui = new UI(controller);
