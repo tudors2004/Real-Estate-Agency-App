@@ -2,6 +2,7 @@ package org.example.Service;
 import org.example.Model.*;
 import org.example.Repository.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -300,6 +301,38 @@ public class Service {
     public Appointment getAppointmentById(int appointmentID) {
         return appointmentRepository.read(appointmentID);
     }
+//    /**
+//     * Retrieves all reviews related to a specific property.
+//     *
+//     * @param propertyId The ID of the property.
+//     * @return A list of Review objects associated with the specified property.
+//     */
+//    public List<Review> getReviewsByProperty(int propertyId) {
+//        List<Review> reviews = getAllReviews();
+//        List<Review> propertyReviews = new ArrayList<>();
+//        for (Review review : reviews) {
+//            if (review.getPropertyID() == propertyId) {
+//                propertyReviews.add(review);
+//            }
+//        }
+//        return propertyReviews;
+//    }
+//    /**
+//     * Retrieves all reviews related to a specific agent.
+//     *
+//     * @param agentId The ID of the agent.
+//     * @return A list of Review objects associated with the specified agent.
+//     */
+//    public List<Review> getReviewsByAgent(int agentId) {
+//        List<Review> reviews = getAllReviews();
+//        List<Review> agentReviews = new ArrayList<>();
+//        for (Review review : reviews) {
+//            if (review.getAgentID() == agentId) {
+//                agentReviews.add(review);
+//            }
+//        }
+//        return agentReviews;
+//    }
     /**
      * Retrieves all reviews related to a specific property.
      *
@@ -307,15 +340,11 @@ public class Service {
      * @return A list of Review objects associated with the specified property.
      */
     public List<Review> getReviewsByProperty(int propertyId) {
-        List<Review> reviews = getAllReviews();
-        List<Review> propertyReviews = new ArrayList<>();
-        for (Review review : reviews) {
-            if (review.getPropertyID() == propertyId) {
-                propertyReviews.add(review);
-            }
-        }
-        return propertyReviews;
+        return getAllReviews().stream()
+                .filter(review -> "property".equals(review.getType()) && review.getPropertyID() != null && review.getPropertyID().equals(propertyId))
+                .collect(Collectors.toList());
     }
+
     /**
      * Retrieves all reviews related to a specific agent.
      *
@@ -323,14 +352,9 @@ public class Service {
      * @return A list of Review objects associated with the specified agent.
      */
     public List<Review> getReviewsByAgent(int agentId) {
-        List<Review> reviews = getAllReviews();
-        List<Review> agentReviews = new ArrayList<>();
-        for (Review review : reviews) {
-            if (review.getAgentID() == agentId) {
-                agentReviews.add(review);
-            }
-        }
-        return agentReviews;
+        return getAllReviews().stream()
+                .filter(review -> "agent".equals(review.getType()) && review.getAgentID() != null && review.getAgentID().equals(agentId))
+                .collect(Collectors.toList());
     }
 //    /**
 //     * Links a property to a client, marking that the client has viewed the
@@ -498,20 +522,20 @@ public class Service {
     /**
      * Sorts the list of properties by their price in ascending order.
      * The properties are sorted from the lowest price to the highest price.
-     * The sorting is performed in-place on the list returned by {@code getAllProperties()}.
      */
-    public void sortPropertiesByPrice(){
-        List<Property> properties=getAllProperties();
-        properties.sort((p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
+    public List<Property> sortPropertiesByPrice(){
+        List<Property> properties = getAllProperties();
+        properties.sort(Comparator.comparingDouble(Property::getPrice));
+        return properties;
     }
     /**
      * Sorts the list of reviews by their rating in descending order.
      * The reviews are sorted from the highest rating to the lowest rating.
-     * The sorting is performed in-place on the list returned by {@code getAllReviews()}.
      */
-    public void sortReviewsByRating(){
-        List<Review> reviews=getAllReviews();
+    public List<Review> sortReviewsByRating(){
+        List<Review> reviews = getAllReviews();
         reviews.sort((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()));
+        return reviews;
     }
     /**
      * Filters a list of properties by their price range.
@@ -523,9 +547,10 @@ public class Service {
      */
     public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
         return getAllProperties().stream()
-                .filter(property -> property.getPrice()>minPrice && property.getPrice()<maxPrice)
+                .filter(property -> property.getPrice() >= minPrice && property.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
     }
+
     /**
      * Filters a list of reviews by their rating.
      * Only reviews with a rating greater than or equal to the specified minRating will be included in the result.
@@ -535,7 +560,7 @@ public class Service {
      */
     public List<Review> filterReviewByRating(double minRating) {
         return getAllReviews().stream()
-                .filter(review -> review.getRating()>=minRating)
+                .filter(review -> review.getRating() >= minRating)
                 .collect(Collectors.toList());
     }
 }

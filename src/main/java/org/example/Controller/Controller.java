@@ -264,12 +264,6 @@ public class Controller {
     public Appointment viewAppointmentById(int appointmentID) {
         return service.getAppointmentById(appointmentID);
     }
-//    /**
-//     * Displays all unvisited properties.
-//     */
-//    public void viewUnvisitedProperties() {
-//        service.viewUnvisitedProperties();
-//    }
     /**
      * Recommends properties for a specific client based on their preferences.
      *
@@ -303,6 +297,12 @@ public class Controller {
 //     */
 //    public void linkPropertyAndClient(int propertyId, int clientId) {
 //        service.linkPropertyAndClient(propertyId, clientId);
+//    }
+//    /**
+//     * Displays all unvisited properties.
+//     */
+//    public void viewUnvisitedProperties() {
+//        service.viewUnvisitedProperties();
 //    }
     /**
      * Adds client preferences to the system.
@@ -369,14 +369,14 @@ public class Controller {
      * Sorts the list of reviews by their rating in descending order.
      * The reviews are sorted from the highest rating to the lowest rating.
      */
-    public void sortReviewsByRating() {
-        service.sortReviewsByRating();
+    public List<Review> sortReviewsByRating() {
+        return service.sortReviewsByRating();
     }
     /**
      * Sorts the list of properties by their price in ascending order.
      * The properties are sorted from the lowest price to the highest price.
      */
-    public void sortPropertiesByPrice() {
-        service.sortPropertiesByPrice();
+    public List<Property> sortPropertiesByPrice() {
+       return service.sortPropertiesByPrice();
     }
 }

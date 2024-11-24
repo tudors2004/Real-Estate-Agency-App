@@ -1,6 +1,10 @@
 package org.example.UI;
 import org.example.Controller.Controller;
 import org.example.Model.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -781,15 +785,39 @@ public class UI {
      * Prompts the user to enter the agent ID to view, and then displays the properties assigned to the agent.
      * If the agent is not found, the method returns to the previous menu.
      */
+//    private void viewAssignedProperties() {
+//        System.out.print("Enter agent ID to view assigned properties: ");
+//        int agentId = scanner.nextInt();
+//        scanner.nextLine();
+//        Agent agent = controller.viewAgentById(agentId);
+//        if (agent != null) {
+//            agent.printAssignedProperties();
+//        } else {
+//            System.out.println("Agent not found.");
+//        }
+//    }
+    //TODO: IDK IF THIS IS RIGHT
     private void viewAssignedProperties() {
         System.out.print("Enter agent ID to view assigned properties: ");
         int agentId = scanner.nextInt();
         scanner.nextLine();
-        Agent agent = controller.viewAgentById(agentId);
-        if (agent != null) {
-            agent.printAssignedProperties();
-        } else {
-            System.out.println("Agent not found.");
+        String agentString = String.valueOf(agentId);
+
+        try (BufferedReader br = new BufferedReader(new FileReader("data/properties.txt"))) {
+            String line;
+            boolean found = false;
+            while ((line = br.readLine()) != null) {
+                if (line.endsWith("," + agentString)) {
+                    System.out.println(line);
+                    found = true;
+                }
+            }
+            if (!found) {
+                System.out.println("No properties assigned to this agent.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the properties file.");
+            e.printStackTrace();
         }
     }
     /**
@@ -970,7 +998,7 @@ public class UI {
         System.out.print("Enter client ID: ");
         int clientId = scanner.nextInt();
         scanner.nextLine();
-        Review review = new Review(id, rating, comment, agentId, clientId, null);
+        Review review = new Review(id, rating, agentId, comment, clientId);
         controller.addReview(review);
         System.out.println("Review added successfully.");
     }
@@ -1002,8 +1030,12 @@ public class UI {
         int propertyId = scanner.nextInt();
         scanner.nextLine();
         List<Review> reviews = controller.viewReviewsByProperty(propertyId);
-        for (Review review : reviews) {
-            System.out.println(review);
+        if (reviews.isEmpty()) {
+            System.out.println("No reviews found for property ID " + propertyId);
+        } else {
+            for (Review review : reviews) {
+                System.out.println(review);
+            }
         }
     }
     /**
@@ -1119,35 +1151,45 @@ public class UI {
      */
     private void filterReviewByRating() {
         System.out.println("Enter the minimum rating: ");
-        int minRating = scanner.nextInt();
-        scanner.nextLine();
-        controller.filterReviewByRating(minRating);
+        double minRating = scanner.nextDouble();
+        List<Review> filteredReviews = controller.filterReviewByRating(minRating);
+        for (Review review : filteredReviews) {
+            System.out.println(review);
+        }
     }
     /**
      * Filters properties by their price range.
      * Prompts the user to enter the minimum and maximum price, and then filters the properties based on the specified price range.
      * The filtered properties are displayed to the user.
      */
-    private void filterPropertiesByPrice(){
+    private void filterPropertiesByPrice() {
         System.out.println("Enter minimum price: ");
         int minPrice = scanner.nextInt();
         System.out.println("Enter maximum price: ");
         int maxPrice = scanner.nextInt();
-        controller.filterPropertiesByPrice(minPrice, maxPrice);
-        System.out.println("Filtered properties by price");
+        List<Property> filteredProperties = controller.filterPropertiesByPrice(minPrice, maxPrice);
+        for (Property property : filteredProperties) {
+            System.out.println(property);
+        }
     }
     /**
      * Sorts the list of properties by their price in ascending order.
      * The properties are sorted from the lowest price to the highest price.
      */
     private void sortPropertiesByPrice() {
-        controller.sortPropertiesByPrice();
+        List<Property> sortedProperties = controller.sortPropertiesByPrice();
+        for (Property property : sortedProperties) {
+            System.out.println(property);
+        }
     }
     /**
      * Sorts the list of reviews by their rating in descending order.
      * The reviews are sorted from the highest rating to the lowest rating.
      */
     private void sortReviewsByRating() {
-        controller.sortReviewsByRating();
+        List<Review> sortedReviews = controller.sortReviewsByRating();
+        for (Review review : sortedReviews) {
+            System.out.println(review);
+        }
     }
 }

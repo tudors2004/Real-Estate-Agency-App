@@ -9,6 +9,7 @@ public class Review implements HasID{
     private Integer propertyID;
     private Integer clientID;
     private Integer agentID;
+    private String type;
     /**
      * Constructs a Review object meant for a Property, with the specified ID, rating, comment, property, and client.
      *
@@ -27,6 +28,7 @@ public class Review implements HasID{
         this.comment = comment;
         this.propertyID = propertyID;
         this.clientID = clientID;
+        this.type = "property";
     }
     /**
      * Constructs a Review object meant for an Agent, with the specified ID, rating, comment, agent, and client.
@@ -37,16 +39,16 @@ public class Review implements HasID{
      * @param agentID The agent's ID associated with the review.
      * @param clientID  The client's ID who wrote the review.
      */
-    public Review(Integer id, int rating, String comment, Integer agentID, Integer clientID, Integer propertyID) {
+    public Review(Integer id, int rating, Integer agentID, String comment, Integer clientID) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
         this.id = id;
         this.rating = rating;
         this.comment = comment;
-        this.propertyID = null;
         this.clientID = clientID;
         this.agentID = agentID;
+        this.type = "agent";
     }
     /**
      * Default constructor for the Review class.
@@ -148,6 +150,22 @@ public class Review implements HasID{
      */
     public void setAgentID(Integer agentID) {
         this.agentID = agentID;
+    }
+    /**
+     * Gets the type of the review.
+     *
+     * @return The type of the review.
+     */
+    public String getType() {
+        return type;
+    }
+    /**
+     * Sets the type of the review.
+     *
+     * @param type The type of the review.
+     */
+    public void setType(String type) {
+        this.type = type;
     }
     /**
      * Returns a CSV representation of the review.
