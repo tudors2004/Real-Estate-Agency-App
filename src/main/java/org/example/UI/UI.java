@@ -441,6 +441,10 @@ public class UI {
         scanner.nextLine();
         System.out.print("Enter client name: ");
         String name = scanner.nextLine();
+        if(name.isEmpty()){
+            System.out.println("Name cannot be empty. Returning to previous menu.");
+            return;
+        }
         String email;
         while(true) {
             System.out.print("Enter client email (firstlastname@example.com): ");
@@ -796,29 +800,8 @@ public class UI {
 //            System.out.println("Agent not found.");
 //        }
 //    }
-    //TODO: IDK IF THIS IS RIGHT
     private void viewAssignedProperties() {
-        System.out.print("Enter agent ID to view assigned properties: ");
-        int agentId = scanner.nextInt();
-        scanner.nextLine();
-        String agentString = String.valueOf(agentId);
-
-        try (BufferedReader br = new BufferedReader(new FileReader("data/properties.txt"))) {
-            String line;
-            boolean found = false;
-            while ((line = br.readLine()) != null) {
-                if (line.endsWith("," + agentString)) {
-                    System.out.println(line);
-                    found = true;
-                }
-            }
-            if (!found) {
-                System.out.println("No properties assigned to this agent.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the properties file.");
-            e.printStackTrace();
-        }
+        //TODO
     }
     /**
      * Analyzes the performance of an agent.
