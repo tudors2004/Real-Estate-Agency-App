@@ -1,8 +1,8 @@
 package org.example.Model;
-
 import java.util.List;
-
-
+/**
+ * Represents a property in the real estate agency, implementing the HasID interface.
+ */
 public class Property implements HasID {
     private Integer id;
     private PropertyType type;

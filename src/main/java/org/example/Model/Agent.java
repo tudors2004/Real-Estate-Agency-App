@@ -18,6 +18,9 @@ public class Agent extends Person implements HasID {
      */
     public Agent(Integer id, String name, Integer phoneNumber,String email, Integer licenseNumber){
         super(id, name, phoneNumber, email);
+        if(name == null || email == null || phoneNumber == null || licenseNumber == null){
+            throw new IllegalArgumentException("Agent fields cannot be null");
+        }
         this.licenseNumber = licenseNumber;
         this.assignedProperties = new ArrayList<>();
     }

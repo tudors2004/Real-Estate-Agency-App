@@ -1,5 +1,4 @@
 package org.example.Model;
-import java.util.ArrayList;
 import java.util.List;
 /**
  * Represents a client in the real estate agency, inheriting from the Person class and implementing the HasID interface.
@@ -18,6 +17,9 @@ public class Client extends Person implements HasID {
      */
     public Client(Integer id, String name, Integer phoneNumber, String email, ClientType clientType) {
         super(id, name, phoneNumber, email);
+        if (name == null || email == null || phoneNumber == null || clientType == null) {
+            throw new IllegalArgumentException("Client fields cannot be null");
+        }
         this.clientType = clientType;
     }
     /**
