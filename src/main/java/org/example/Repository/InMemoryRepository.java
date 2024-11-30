@@ -4,6 +4,7 @@ import java.util.Map;
 import org.example.Model.HasID;
 import java.util.List;
 import java.util.ArrayList;
+import org.example.Exceptions.*;
 /**
  * In-memory implementation of the IRepository interface, using a HashMap to
  * store and manage entities. This repository stores entities that implement the

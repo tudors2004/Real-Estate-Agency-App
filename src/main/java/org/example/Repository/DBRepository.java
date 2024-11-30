@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.sql.*;
 import org.example.Model.*;
+import org.example.Exceptions.*;
 /**
  * The DBRepository class is a generic repository for performing CRUD operations on entities
  * that extend the HasID interface. It supports actions like creating, reading, updating, and deleting

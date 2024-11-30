@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.Date;
+import org.example.Exceptions.*;
 /**
  * The UI class provides a command-line interface for managing the real estate agency.
  * It interacts with the user to perform various operations such as managing properties, clients, agents, contracts, reviews, and appointments.
