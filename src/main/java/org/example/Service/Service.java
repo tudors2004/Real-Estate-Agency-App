@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.example.Exceptions.*;
 /**
  * The Service class serves as the business logic layer, managing operations on
  * entities such as agents, properties, contracts, appointments, clients, reviews,
