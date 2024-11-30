@@ -63,14 +63,6 @@ public class Agent extends Person implements HasID {
         this.assignedProperties = assignedProperties;
     }
     /**
-     * Prints the details of all properties assigned to the agent.
-     */
-    public void printAssignedProperties() {
-        for (Property property : assignedProperties) {
-            System.out.println(property);
-        }
-    }
-    /**
      * Converts the agent's details into a CSV (Comma-Separated Values) format.
      * The format includes ID, name, phone number, email, and license number.
      *
