@@ -1,10 +1,6 @@
 package org.example.UI;
 import org.example.Controller.Controller;
 import org.example.Model.*;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -789,19 +785,19 @@ public class UI {
      * Prompts the user to enter the agent ID to view, and then displays the properties assigned to the agent.
      * If the agent is not found, the method returns to the previous menu.
      */
-//    private void viewAssignedProperties() {
-//        System.out.print("Enter agent ID to view assigned properties: ");
-//        int agentId = scanner.nextInt();
-//        scanner.nextLine();
-//        Agent agent = controller.viewAgentById(agentId);
-//        if (agent != null) {
-//            agent.printAssignedProperties();
-//        } else {
-//            System.out.println("Agent not found.");
-//        }
-//    }
     private void viewAssignedProperties() {
-        //TODO
+        System.out.print("Enter agent ID to view assigned properties: ");
+        int agentId = scanner.nextInt();
+        scanner.nextLine();
+        List<Property> properties = controller.getPropertiesByAgentId(agentId);
+        if (properties.isEmpty()) {
+            System.out.println("No properties found for agent ID: " + agentId);
+        } else {
+            System.out.println("--- Properties assigned to agent ID: " + agentId + " ---");
+            for (Property property : properties) {
+                System.out.println(property);
+            }
+        }
     }
     /**
      * Analyzes the performance of an agent.
@@ -1175,4 +1171,5 @@ public class UI {
             System.out.println(review);
         }
     }
+
 }

@@ -301,38 +301,6 @@ public class Service {
     public Appointment getAppointmentById(int appointmentID) {
         return appointmentRepository.read(appointmentID);
     }
-//    /**
-//     * Retrieves all reviews related to a specific property.
-//     *
-//     * @param propertyId The ID of the property.
-//     * @return A list of Review objects associated with the specified property.
-//     */
-//    public List<Review> getReviewsByProperty(int propertyId) {
-//        List<Review> reviews = getAllReviews();
-//        List<Review> propertyReviews = new ArrayList<>();
-//        for (Review review : reviews) {
-//            if (review.getPropertyID() == propertyId) {
-//                propertyReviews.add(review);
-//            }
-//        }
-//        return propertyReviews;
-//    }
-//    /**
-//     * Retrieves all reviews related to a specific agent.
-//     *
-//     * @param agentId The ID of the agent.
-//     * @return A list of Review objects associated with the specified agent.
-//     */
-//    public List<Review> getReviewsByAgent(int agentId) {
-//        List<Review> reviews = getAllReviews();
-//        List<Review> agentReviews = new ArrayList<>();
-//        for (Review review : reviews) {
-//            if (review.getAgentID() == agentId) {
-//                agentReviews.add(review);
-//            }
-//        }
-//        return agentReviews;
-//    }
     /**
      * Retrieves all reviews related to a specific property.
      *
@@ -561,6 +529,17 @@ public class Service {
     public List<Review> filterReviewByRating(double minRating) {
         return getAllReviews().stream()
                 .filter(review -> review.getRating() >= minRating)
+                .collect(Collectors.toList());
+    }
+    /**
+     * Retrieves a list of properties assigned to a specific agent.
+     *
+     * @param agentId The ID of the agent.
+     * @return A list of Property objects assigned to the agent.
+     */
+    public List<Property> getPropertiesByAgentId(int agentId) {
+        return getAllProperties().stream()
+                .filter(property -> property.getAgentID() == agentId)
                 .collect(Collectors.toList());
     }
 }

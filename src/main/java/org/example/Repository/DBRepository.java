@@ -151,7 +151,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
         List<String> placeholders = new ArrayList<>();
 
         Class<?> currentClass = obj.getClass();
-        while (currentClass != null) {  // Parcurge ierarhia de clase
+        while (currentClass != null) {
             for (var field : currentClass.getDeclaredFields()) {
                 if (shouldIncludeField(field)) {
                     field.setAccessible(true);
@@ -159,7 +159,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
                     placeholders.add("?");
                 }
             }
-            currentClass = currentClass.getSuperclass();  // Mergi la clasa părinte
+            currentClass = currentClass.getSuperclass();
         }
 
         if (columns.isEmpty()) {
@@ -197,7 +197,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
                         }
                     }
                 }
-                currentClass = currentClass.getSuperclass();  // Mergi la clasa părinte
+                currentClass = currentClass.getSuperclass();
             }
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Error accessing field values.", e);

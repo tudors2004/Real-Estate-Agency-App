@@ -379,4 +379,8 @@ public class Controller {
     public List<Property> sortPropertiesByPrice() {
        return service.sortPropertiesByPrice();
     }
+
+    public List<Property> getPropertiesByAgentId(int agentId) {
+        return service.getPropertiesByAgentId(agentId);
+    }
 }

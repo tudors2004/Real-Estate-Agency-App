@@ -12,7 +12,6 @@ public class ClientPreferences extends Client {
     private Integer year;
     private double size;
     private Integer rooms;
-    private Boolean matchesPreferences;
     /**
      * Constructs a ClientPreferences object with the specified client information and preferences.
      *
