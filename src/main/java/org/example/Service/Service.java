@@ -6,7 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.example.Exceptions.*;
+import org.example.Exceptions.EntityNotFoundException;
+import org.example.Exceptions.ValidationException;
+import org.example.Exceptions.BusinessLogicException;
 /**
  * The Service class serves as the business logic layer, managing operations on
  * entities such as agents, properties, contracts, appointments, clients, reviews,
@@ -360,16 +362,17 @@ public class Service {
      */
     public void linkPropertyAndAgent(int agentId, int propertyId) {
         Agent agent = getAgentById(agentId);
+
         Property property = getPropertyById(propertyId);
         if (agent != null && property != null) {
             if (agent.getAssignedProperties() == null) {
                 agent.setAssignedProperties(new ArrayList<>());
             }
             agent.getAssignedProperties().add(property);
-            System.out.println("Property linked to agent successfully.");
-            System.out.println("Agent ID: " + agentId + ", Property ID: " + propertyId);
+            //System.out.println("Property linked to agent successfully.");
+            //System.out.println("Agent ID: " + agentId + ", Property ID: " + propertyId);
         } else {
-            System.out.println("Agent or Property not found.");
+            throw new EntityNotFoundException("Agent or property not found.");
         }
     }
 //    /**
@@ -404,12 +407,10 @@ public class Service {
         List<Property> allProperties = getAllProperties();
         List<Property> recommendedProperties = new ArrayList<>();
         if(client==null){
-            System.out.println("Client with ID " + ClientID + " not found.");
-            return;
+            throw new EntityNotFoundException("Client with ID " + ClientID + " not found.");
         }
         if(preferences==null){
-            System.out.println("Preferences not found.");
-            return;
+            throw new ValidationException("Client with ID " + ClientID + " does not have any preferences set.");
         }
         for (Property property : allProperties) {
             if(preferences.matchesPreferences(property)){
@@ -417,7 +418,7 @@ public class Service {
             }
         }
         if (recommendedProperties.isEmpty()) {
-            System.out.println("No properties match the preferences of client ID " + ClientID + ".");
+            throw new BusinessLogicException("No properties found that match the client's preferences.");
         } else {
             System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
         }
@@ -431,12 +432,9 @@ public class Service {
         List<Review> reviews = getAllReviews();
         List<Contract> contracts = getAllContracts();
         Agent agent = getAgentById(AgentID);
-
         if (agent == null) {
-            System.out.println("Agent with ID " + AgentID + " not found.");
-            return;
+            throw new EntityNotFoundException("Agent with ID " + AgentID + " not found.");
         }
-
         double totalRating = 0;
         int ratingCount = 0;
         for (Review review : reviews){
@@ -470,7 +468,7 @@ public class Service {
         } else if (averageRating >= 3.5) {
             System.out.println("This agent is performing well.");
         } else {
-            System.out.println("This agent needs improvement.");
+            throw new BusinessLogicException("This agent needs improvement.");
         }
     }
     /**

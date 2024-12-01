@@ -24,6 +24,9 @@ public class Controller {
      * @param property The Property object to add.
      */
     public void addProperty(Property property) {
+        if(property == null) {
+            throw new ValidationException("Property cannot be null");
+        }
         service.addProperty(property);
     }
     /**
@@ -32,6 +35,9 @@ public class Controller {
      * @param id The ID of the property to delete.
      */
     public void deleteProperty(int id) {
+        if(id <= 0) {
+            throw new ValidationException("Property ID must be greater than 0");
+        }
         service.deleteProperty(id);
     }
     /**
@@ -40,6 +46,9 @@ public class Controller {
      * @param property The Property object with updated details.
      */
     public void updateProperty(Property property) {
+        if(property == null || property.getId() <= 0) {
+            throw new ValidationException("Property is invalid. Ensure it is not null and has a valid ID.");
+        }
         service.updateProperty(property);
     }
     /**
@@ -48,6 +57,9 @@ public class Controller {
      * @param agent The Agent object to add.
      */
     public void addAgent(Agent agent) {
+        if(agent == null) {
+            throw new ValidationException("Agent cannot be null");
+        }
         service.addAgent(agent);
     }
     /**
@@ -56,6 +68,9 @@ public class Controller {
      * @param id The ID of the agent to delete.
      */
     public void deleteAgent(int id) {
+        if(id <= 0) {
+            throw new ValidationException("Agent ID must be greater than 0");
+        }
         service.deleteAgent(id);
     }
     /**
@@ -64,6 +79,9 @@ public class Controller {
      * @param agent The Agent object with updated details.
      */
     public void updateAgent(Agent agent) {
+        if(agent == null || agent.getId() <= 0) {
+            throw new ValidationException("Agent is invalid. Ensure it is not null and has a valid ID.");
+        }
         service.updateAgent(agent);
     }
     /**
@@ -72,6 +90,9 @@ public class Controller {
      * @param contract The Contract object to add.
      */
     public void addContract(Contract contract) {
+        if(contract == null) {
+            throw new ValidationException("Contract cannot be null");
+        }
         service.addContract(contract);
     }
     /**
@@ -80,6 +101,9 @@ public class Controller {
      * @param id The ID of the contract to delete.
      */
     public void deleteContract(int id) {
+        if(id <= 0) {
+            throw new ValidationException("Contract ID must be greater than 0");
+        }
         service.deleteContract(id);
     }
     /**
@@ -88,6 +112,9 @@ public class Controller {
      * @param contract The Contract object with updated details.
      */
     public void updateContract(Contract contract) {
+        if(contract == null || contract.getId() <= 0) {
+            throw new ValidationException("Contract is invalid. Ensure it is not null and has a valid ID.");
+        }
         service.updateContract(contract);
     }
     /**
@@ -96,6 +123,9 @@ public class Controller {
      * @param appointment The Appointment object to add.
      */
     public void addAppointment(Appointment appointment) {
+        if(appointment == null) {
+            throw new ValidationException("Appointment cannot be null");
+        }
         service.addAppointment(appointment);
     }
     /**
@@ -104,6 +134,9 @@ public class Controller {
      * @param id The ID of the appointment to delete.
      */
     public void deleteAppointment(int id) {
+        if(id <= 0) {
+            throw new ValidationException("Appointment ID must be greater than 0");
+        }
         service.deleteAppointment(id);
     }
     /**
@@ -112,6 +145,9 @@ public class Controller {
      * @param appointment The Appointment object with updated details.
      */
     public void updateAppointment(Appointment appointment) {
+        if(appointment == null || appointment.getId() <= 0) {
+            throw new ValidationException("Appointment is invalid. Ensure it is not null and has a valid ID.");
+        }
         service.updateAppointment(appointment);
     }
     /**
@@ -120,6 +156,9 @@ public class Controller {
      * @param client The Client object to add.
      */
     public void addClient(Client client) {
+        if(client == null) {
+            throw new ValidationException("Client cannot be null");
+        }
         service.addClient(client);
     }
     /**
@@ -128,6 +167,9 @@ public class Controller {
      * @param id The ID of the client to delete.
      */
     public void deleteClient(int id) {
+        if(id <= 0) {
+            throw new ValidationException("Client ID must be greater than 0");
+        }
         service.deleteClient(id);
     }
     /**
@@ -136,6 +178,9 @@ public class Controller {
      * @param client The Client object with updated details.
      */
     public void updateClient(Client client) {
+        if(client == null || client.getId() <= 0) {
+            throw new ValidationException("Client is invalid. Ensure it is not null and has a valid ID.");
+        }
         service.updateClient(client);
     }
     /**
@@ -144,6 +189,9 @@ public class Controller {
      * @param review The Review object to add.
      */
     public void addReview(Review review) {
+        if(review == null) {
+            throw new ValidationException("Review cannot be null");
+        }
         service.addReview(review);
     }
     /**
@@ -152,6 +200,9 @@ public class Controller {
      * @param id The ID of the review to delete.
      */
     public void deleteReview(int id) {
+        if(id <= 0) {
+            throw new ValidationException("Review ID must be greater than 0");
+        }
         service.deleteReview(id);
     }
     /**
@@ -209,6 +260,9 @@ public class Controller {
      * @return The Agent object with the specified ID.
      */
     public Agent viewAgentById(int agentId) {
+        if(agentId <= 0) {
+            throw new ValidationException("Agent ID must be greater than 0");
+        }
         return service.getAgentById(agentId);
     }
     /**
@@ -218,6 +272,9 @@ public class Controller {
      * @return The Property object with the specified ID.
      */
     public Property viewPropertyById(int propertyID) {
+        if(propertyID <= 0) {
+            throw new ValidationException("Property ID must be greater than 0");
+        }
         return service.getPropertyById(propertyID);
     }
     /**
@@ -227,6 +284,9 @@ public class Controller {
      * @return The Client object with the specified ID.
      */
     public Client viewClientById(int clientID) {
+        if(clientID <= 0) {
+            throw new ValidationException("Client ID must be greater than 0");
+        }
         return service.getClientById(clientID);
     }
     /**
@@ -236,6 +296,9 @@ public class Controller {
      * @return The Contract object with the specified ID.
      */
     public Contract viewContractById(int contractID) {
+        if(contractID <= 0) {
+            throw new ValidationException("Contract ID must be greater than 0");
+        }
         return service.getContractById(contractID);
     }
     /**
@@ -245,6 +308,9 @@ public class Controller {
      * @return A List of Review objects associated with the specified property.
      */
     public List<Review> viewReviewsByProperty(int propertyId) {
+        if(propertyId <= 0) {
+            throw new ValidationException("Property ID must be greater than 0");
+        }
         return service.getReviewsByProperty(propertyId);
     }
     /**
@@ -254,6 +320,9 @@ public class Controller {
      * @return A List of Review objects associated with the specified agent.
      */
     public List<Review> viewReviewsByAgent(int agentId) {
+        if(agentId <= 0) {
+            throw new ValidationException("Agent ID must be greater than 0");
+        }
         return service.getReviewsByAgent(agentId);
     }
     /**
@@ -263,6 +332,9 @@ public class Controller {
      * @return The Appointment object with the specified ID.
      */
     public Appointment viewAppointmentById(int appointmentID) {
+        if(appointmentID <= 0) {
+            throw new ValidationException("Appointment ID must be greater than 0");
+        }
         return service.getAppointmentById(appointmentID);
     }
     /**
@@ -271,6 +343,9 @@ public class Controller {
      * @param clientID The ID of the client.
      */
     public void recommendPropertiesForClient(Integer clientID) {
+        if(clientID <= 0){
+            throw new ValidationException("Client ID must be greater than 0");
+        }
         service.recommendPropertiesForClient(clientID);
     }
     /**
@@ -279,6 +354,9 @@ public class Controller {
      * @param agentID The ID of the agent.
      */
     public void analyzeAgentPerformance(Integer agentID) {
+        if(agentID <= 0){
+            throw new ValidationException("Agent ID must be greater than 0");
+        }
         service.analyzeAgentPerformance(agentID);
     }
     /**
@@ -288,6 +366,9 @@ public class Controller {
      * @param propertyID The ID of the property.
      */
     public void linkPropertyAndAgent(int agentID, int propertyID){
+        if(agentID <= 0 || propertyID <= 0){
+            throw new ValidationException("Agent ID and Property ID must be greater than 0");
+        }
         service.linkPropertyAndAgent(agentID, propertyID);
     }
 //    /**
@@ -311,6 +392,9 @@ public class Controller {
      * @param clientPreferences The ClientPreferences object to add.
      */
     public void addClientPreferences(ClientPreferences clientPreferences) {
+        if(clientPreferences == null) {
+            throw new ValidationException("ClientPreferences cannot be null");
+        }
         service.addClientPreferences(clientPreferences);
     }
     /**
@@ -319,6 +403,9 @@ public class Controller {
      * @param clientPreferences The ClientPreferences object with updated details.
      */
     public void updateClientPreferences(ClientPreferences clientPreferences) {
+        if(clientPreferences == null || clientPreferences.getId() <= 0) {
+            throw new ValidationException("ClientPreferences is invalid. Ensure it is not null and has a valid client ID.");
+        }
         service.updateClientPreferences(clientPreferences);
     }
     /**
@@ -336,6 +423,9 @@ public class Controller {
      * @return The ClientPreferences object with the specified client ID.
      */
     public ClientPreferences viewClientPreferencesById(int clientId) {
+        if(clientId <= 0) {
+            throw new ValidationException("Client ID must be greater than 0");
+        }
         return service.getClientPreferencesByClientId(clientId);
     }
     /**
@@ -355,6 +445,9 @@ public class Controller {
      * @return A list of properties within the specified price range.
      */
     public List<Property> filterPropertiesByPrice(int minPrice, int maxPrice) {
+        if(minPrice < 0 || maxPrice < 0) {
+            throw new ValidationException("Price cannot be negative");
+        }
         return service.filterPropertyByPrice(minPrice, maxPrice);
     }
     /**
@@ -364,6 +457,9 @@ public class Controller {
      * @return A list of reviews with a rating equal to or higher than the specified rating.
      */
     public List<Review> filterReviewByRating(double rating) {
+        if(rating <= 0 || rating >= 6) {
+            throw new ValidationException("Rating must be between 1 and 5");
+        }
         return service.filterReviewByRating(rating);
     }
     /**
@@ -382,6 +478,9 @@ public class Controller {
     }
 
     public List<Property> getPropertiesByAgentId(int agentId) {
+        if(agentId <= 0){
+            throw new ValidationException("Agent ID must be greater than 0");
+        }
         return service.getPropertiesByAgentId(agentId);
     }
 }
