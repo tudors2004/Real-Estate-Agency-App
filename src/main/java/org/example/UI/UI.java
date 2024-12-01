@@ -5,7 +5,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.Date;
-import org.example.Exceptions.*;
+import org.example.Exceptions.ValidationException;
+import org.example.Exceptions.BusinessLogicException;
 /**
  * The UI class provides a command-line interface for managing the real estate agency.
  * It interacts with the user to perform various operations such as managing properties, clients, agents, contracts, reviews, and appointments.
@@ -792,7 +793,7 @@ public class UI {
         scanner.nextLine();
         List<Property> properties = controller.getPropertiesByAgentId(agentId);
         if (properties.isEmpty()) {
-            System.out.println("No properties found for agent ID: " + agentId);
+            throw new BusinessLogicException("No properties assigned to agent ID: " + agentId);
         } else {
             System.out.println("--- Properties assigned to agent ID: " + agentId + " ---");
             for (Property property : properties) {
@@ -839,8 +840,7 @@ public class UI {
         int propertyID = scanner.nextInt();
         scanner.nextLine();
         if(controller.propertyUnderContract(propertyID)){
-            System.out.println("Property is already under contract. Returning to previous menu.");
-            return;
+            throw new BusinessLogicException("Property is already under contract.");
         }
 
         Contract contract = new Contract(id, type, duration, agentID, clientID, propertyID);
@@ -937,8 +937,7 @@ public class UI {
         System.out.print("Enter rating (between 1 and 5): ");
         int rating = scanner.nextInt();
         if(rating < 1 || rating > 5){
-            System.out.println("Invalid rating. Returning to previous menu.");
-            return;
+            throw new ValidationException("Invalid rating. Returning to previous menu.");
         }
         scanner.nextLine();
         System.out.print("Enter comment: ");
@@ -966,8 +965,7 @@ public class UI {
         System.out.print("Enter rating (between 1 and 5): ");
         int rating = scanner.nextInt();
         if(rating < 1 || rating > 5){
-            System.out.println("Invalid rating. Returning to previous menu.");
-            return;
+            throw new ValidationException("Invalid rating. Returning to previous menu.");
         }
         scanner.nextLine();
         System.out.print("Enter comment: ");
@@ -1011,8 +1009,8 @@ public class UI {
         scanner.nextLine();
         List<Review> reviews = controller.viewReviewsByProperty(propertyId);
         if (reviews.isEmpty()) {
-            System.out.println("No reviews found for property ID " + propertyId);
-        } else {
+            throw new BusinessLogicException("No reviews found for property ID: " + propertyId);
+        } else{
             for (Review review : reviews) {
                 System.out.println(review);
             }
@@ -1027,8 +1025,13 @@ public class UI {
         int agentId = scanner.nextInt();
         scanner.nextLine();
         List<Review> reviews = controller.viewReviewsByAgent(agentId);
-        for (Review review : reviews) {
-            System.out.println(review);
+        if(reviews.isEmpty()){
+            throw new BusinessLogicException("No reviews found for agent ID: " + agentId);
+        }
+        else{
+            for (Review review : reviews) {
+                System.out.println(review);
+            }
         }
     }
     /**
@@ -1172,5 +1175,4 @@ public class UI {
             System.out.println(review);
         }
     }
-
 }

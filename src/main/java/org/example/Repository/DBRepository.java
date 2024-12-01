@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.sql.*;
 import org.example.Model.*;
-import org.example.Exceptions.*;
+import org.example.Exceptions.DatabaseException;
+import org.example.Exceptions.EntityNotFoundException;
 /**
  * The DBRepository class is a generic repository for performing CRUD operations on entities
  * that extend the HasID interface. It supports actions like creating, reading, updating, and deleting
@@ -18,7 +19,6 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
     private static final String URL = "jdbc:postgresql://localhost:5432/realestate";
     private static final String USER = "postgres";
     private static final String PASSWORD = "a";
-    private final Class<T> type;
     private static final String AGENT_TABLE = "agents";
     private static final String PROPERTY_TABLE = "properties";
     private static final String CONTRACT_TABLE = "contracts";
@@ -26,6 +26,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
     private static final String CLIENT_TABLE = "clients";
     private static final String REVIEW_TABLE = "reviews";
     private static final String CLIENT_PREFERENCES_TABLE = "client_preferences";
+    private final Class<T> type;
     /**
      * Constructor for DBRepository.
      * Initializes the repository with a specific entity type.
@@ -38,11 +39,15 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
     /**
      * Establishes and returns a connection to the PostgreSQL database.
      *
-     * @return A {@link Connection} object used to interact with the database.
-     * @throws SQLException if there is an error establishing the connection.
+     * @return a Connection object used to interact with the database.
+     * @throws DatabaseException if there is an error establishing the connection.
      */
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    private Connection getConnection() {
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to establish database connection.");
+        }
     }
     /**
      * Creates a new entity record in the database based on the provided object.
@@ -51,14 +56,47 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
      */
     @Override
     public void create(T obj) {
-        String sql = generateInsertSQL(obj);
+        String createString = generateInsertSQL(obj);
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            setInsertParameters(statement, obj);
+             PreparedStatement statement = connection.prepareStatement(createString)){
+             setInsertParameters(statement, obj);
+             statement.executeUpdate();
+        }catch (SQLException e){
+            throw new DatabaseException("Error during create operation");
+        }
+    }
+    /**
+     * Deletes an entity record from the database based on its ID.
+     *
+     * @param id The ID of the entity to be deleted from the database.
+     */
+    @Override
+    public void delete(Integer id) {
+        String tableName = getTableName();
+        String deleteString = "DELETE FROM " + tableName + " WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(deleteString)) {
+            statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new EntityNotFoundException("Could not find entity with ID: " + id);
+        }
+    }
+    /**
+     * Updates an existing entity record in the database based on the provided object.
+     *
+     * @param obj The object containing the updated values to be applied to the database record.
+     */
+    @Override
+    public void update(T obj) {
+        String updateString = generateUpdateSQL(obj);
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateString)) {
+            setUpdateParameters(statement, obj);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new EntityNotFoundException("Could not update entity");
         }
     }
     /**
@@ -70,51 +108,19 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
     @Override
     public T read(Integer id) {
         String tableName = getTableName();
-        String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
+        String readString = "SELECT * FROM " + tableName + " WHERE id = ?";
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return mapResultSetToObject(resultSet);
-            }
+             PreparedStatement statement = connection.prepareStatement(readString)) {
+             statement.setInt(1, id);
+             ResultSet resultSet = statement.executeQuery();
+             if (resultSet.next()) {
+                 return mapResultSetToObject(resultSet);
+             }
         } catch (SQLException | ReflectiveOperationException e) {
-            e.printStackTrace();
+            throw new EntityNotFoundException("Could not find entity with ID: " + id);
         }
         return null;
-    }
-    /**
-     * Updates an existing entity record in the database based on the provided object.
-     *
-     * @param obj The object containing the updated values to be applied to the database record.
-     */
-    @Override
-    public void update(T obj) {
-        String sql = generateUpdateSQL(obj);
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            setUpdateParameters(statement, obj);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * Deletes an entity record from the database based on its ID.
-     *
-     * @param id The ID of the entity to be deleted from the database.
-     */
-    @Override
-    public void delete(Integer id) {
-        String tableName = getTableName();
-        String sql = "DELETE FROM " + tableName + " WHERE id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
     /**
      * Retrieves all entities from the database.
@@ -125,16 +131,16 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
     public List<T> getAll() {
         List<T> results = new ArrayList<>();
         String tableName = getTableName();
-        String sql = "SELECT * FROM " + tableName;
+        String getAllString = "SELECT * FROM " + tableName;
 
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                results.add(mapResultSetToObject(resultSet));
-            }
+             ResultSet resultSet = statement.executeQuery(getAllString)) {
+             while (resultSet.next()) {
+                 results.add(mapResultSetToObject(resultSet));
+             }
         } catch (SQLException | ReflectiveOperationException e) {
-            e.printStackTrace();
+            throw new EntityNotFoundException("Could not retrieve entities");
         }
         return results;
     }
@@ -164,15 +170,14 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
         }
 
         if (columns.isEmpty()) {
-            throw new IllegalStateException("No fields available for insertion");
+            throw new DatabaseException("No fields available for insertion");
         }
 
         sql.append(String.join(", ", columns));
         sql.append(") VALUES (");
         sql.append(String.join(", ", placeholders));
         sql.append(")");
-
-        System.out.println("Generated SQL: " + sql); // Log the SQL
+        //System.out.println("Generated SQL: " + sql);
         return sql.toString();
     }
     /**
@@ -201,7 +206,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
                 currentClass = currentClass.getSuperclass();
             }
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Error accessing field values.", e);
+            throw new DatabaseException("Error accessing field values.");
         }
     }
     /**
@@ -251,7 +256,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
             }
             statement.setInt(index, obj.getId());
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Error accessing field values.", e);
+            throw new DatabaseException("Error accessing field values.");
         }
     }
     /**
@@ -321,8 +326,7 @@ public class DBRepository<T extends HasID> implements IRepository<T> {
      * @return true if the field should be included; false otherwise.
      */
     private boolean shouldIncludeField(Field field) {
-        boolean included = !Collection.class.isAssignableFrom(field.getType());
-        return included;
+        return !Collection.class.isAssignableFrom(field.getType());
     }
     /**
      * Converts a camelCase string to snake_case.
