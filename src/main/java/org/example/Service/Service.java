@@ -361,18 +361,22 @@ public class Service {
      * @param agentId    The ID of the agent.
      */
     public void linkPropertyAndAgent(int agentId, int propertyId) {
-        Agent agent = getAgentById(agentId);
+        try {
+            Agent agent = getAgentById(agentId);
 
-        Property property = getPropertyById(propertyId);
-        if (agent != null && property != null) {
-            if (agent.getAssignedProperties() == null) {
-                agent.setAssignedProperties(new ArrayList<>());
+            Property property = getPropertyById(propertyId);
+            if (agent != null && property != null) {
+                if (agent.getAssignedProperties() == null) {
+                    agent.setAssignedProperties(new ArrayList<>());
+                }
+                agent.getAssignedProperties().add(property);
+                //System.out.println("Property linked to agent successfully.");
+                //System.out.println("Agent ID: " + agentId + ", Property ID: " + propertyId);
+            } else {
+                throw new EntityNotFoundException("Agent or property not found.");
             }
-            agent.getAssignedProperties().add(property);
-            //System.out.println("Property linked to agent successfully.");
-            //System.out.println("Agent ID: " + agentId + ", Property ID: " + propertyId);
-        } else {
-            throw new EntityNotFoundException("Agent or property not found.");
+        }catch (EntityNotFoundException e){
+            System.out.println(e.getMessage());
         }
     }
 //    /**
@@ -402,25 +406,29 @@ public class Service {
      * @param ClientID The ID of the client.
      */
     public void recommendPropertiesForClient(Integer ClientID){
-        Client client = getClientById(ClientID);
-        ClientPreferences preferences=getClientPreferencesByClientId(ClientID);
-        List<Property> allProperties = getAllProperties();
-        List<Property> recommendedProperties = new ArrayList<>();
-        if(client==null){
-            throw new EntityNotFoundException("Client with ID " + ClientID + " not found.");
-        }
-        if(preferences==null){
-            throw new ValidationException("Client with ID " + ClientID + " does not have any preferences set.");
-        }
-        for (Property property : allProperties) {
-            if(preferences.matchesPreferences(property)){
-                recommendedProperties.add(property);
+        try{
+            Client client = getClientById(ClientID);
+            ClientPreferences preferences=getClientPreferencesByClientId(ClientID);
+            List<Property> allProperties = getAllProperties();
+            List<Property> recommendedProperties = new ArrayList<>();
+            if(client==null){
+                throw new EntityNotFoundException("Client with ID " + ClientID + " not found.");
             }
-        }
-        if (recommendedProperties.isEmpty()) {
-            throw new BusinessLogicException("No properties found that match the client's preferences.");
-        } else {
-            System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
+            if(preferences==null){
+                throw new ValidationException("Client with ID " + ClientID + " does not have any preferences set.");
+            }
+            for (Property property : allProperties) {
+                if(preferences.matchesPreferences(property)){
+                    recommendedProperties.add(property);
+                }
+            }
+            if (recommendedProperties.isEmpty()) {
+                throw new BusinessLogicException("No properties found that match the client's preferences.");
+            } else {
+                System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
+            }
+        }catch (EntityNotFoundException | ValidationException | BusinessLogicException e){
+            System.out.println(e.getMessage());
         }
     }
     /**
@@ -429,6 +437,7 @@ public class Service {
      * @param AgentID The ID of the agent.
      */
     public void analyzeAgentPerformance(Integer AgentID){
+        try{
         List<Review> reviews = getAllReviews();
         List<Contract> contracts = getAllContracts();
         Agent agent = getAgentById(AgentID);
@@ -470,39 +479,70 @@ public class Service {
         } else {
             throw new BusinessLogicException("This agent needs improvement.");
         }
+        }catch (EntityNotFoundException | BusinessLogicException e){
+            System.out.println(e.getMessage());
+        }
     }
     /**
      * Checks if a property is currently under contract.
      *
      * @param propertyID The ID of the property.
      * @return true if the property is under contract; false otherwise.
+     * @throws EntityNotFoundException if the property is not found.
      */
     public boolean isPropertyUnderContract(int propertyID) {
-        List<Contract> contracts = getAllContracts();
-        for (Contract contract : contracts) {
-            if (contract.getPropertyID() == propertyID) {
-                return true;
+        try {
+            Property property = getPropertyById(propertyID);
+            if (property == null) {
+                throw new EntityNotFoundException("Property with ID " + propertyID + " not found.");
             }
+            List<Contract> contracts = getAllContracts();
+            for (Contract contract : contracts) {
+                if (contract.getPropertyID() == propertyID) {
+                    return true;
+                }
+            }
+            return false;
+        }catch (EntityNotFoundException e){
+            System.out.println(e.getMessage());
+            return false;
         }
-        return false;
     }
     /**
      * Sorts the list of properties by their price in ascending order.
      * The properties are sorted from the lowest price to the highest price.
+     * @throws BusinessLogicException if no properties are found.
      */
-    public List<Property> sortPropertiesByPrice(){
+    public List<Property> sortPropertiesByPrice() {
+        try{
         List<Property> properties = getAllProperties();
+        if (properties.isEmpty()) {
+            throw new BusinessLogicException("No properties found to sort.");
+        }
         properties.sort(Comparator.comparingDouble(Property::getPrice));
         return properties;
+        }catch (BusinessLogicException e){
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
     /**
      * Sorts the list of reviews by their rating in descending order.
      * The reviews are sorted from the highest rating to the lowest rating.
+     * @throws BusinessLogicException if no reviews are found.
      */
-    public List<Review> sortReviewsByRating(){
+    public List<Review> sortReviewsByRating() {
+        try{
         List<Review> reviews = getAllReviews();
+        if (reviews.isEmpty()) {
+            throw new BusinessLogicException("No reviews found to sort.");
+        }
         reviews.sort((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()));
         return reviews;
+        }catch (BusinessLogicException e){
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
     /**
      * Filters a list of properties by their price range.
@@ -511,11 +551,25 @@ public class Service {
      * @param minPrice The minimum price a property can have to be included in the filtered list.
      * @param maxPrice The maximum price a property can have to be included in the filtered list.
      * @return A list of properties whose prices fall within the specified range.
+     * @throws ValidationException if minPrice is greater than maxPrice.
+     * @throws BusinessLogicException if no properties are found within the specified range.
      */
     public List<Property> filterPropertyByPrice(int minPrice, int maxPrice) {
-        return getAllProperties().stream()
-                .filter(property -> property.getPrice() >= minPrice && property.getPrice() <= maxPrice)
-                .collect(Collectors.toList());
+        try {
+            if (minPrice > maxPrice) {
+                throw new ValidationException("Minimum price cannot be greater than maximum price.");
+            }
+            List<Property> filteredProperties = getAllProperties().stream()
+                    .filter(property -> property.getPrice() >= minPrice && property.getPrice() <= maxPrice)
+                    .collect(Collectors.toList());
+            if (filteredProperties.isEmpty()) {
+                throw new BusinessLogicException("No properties found within the specified price range.");
+            }
+            return filteredProperties;
+        }catch (ValidationException | BusinessLogicException e){
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -524,21 +578,50 @@ public class Service {
      *
      * @param minRating The minimum rating a review can have to be included in the filtered list.
      * @return A list of reviews with a rating greater than or equal to minRating.
+     * @throws ValidationException if minRating is less than 0 or greater than 5.
+     * @throws BusinessLogicException if no reviews are found with the specified rating.
      */
     public List<Review> filterReviewByRating(double minRating) {
-        return getAllReviews().stream()
+        try{
+        if (minRating < 0 || minRating > 5) {
+            throw new ValidationException("Rating must be between 0 and 5.");
+        }
+        List<Review> filteredReviews = getAllReviews().stream()
                 .filter(review -> review.getRating() >= minRating)
                 .collect(Collectors.toList());
+        if (filteredReviews.isEmpty()) {
+            throw new BusinessLogicException("No reviews found with the specified rating.");
+        }
+        return filteredReviews;
+        }catch (ValidationException | BusinessLogicException e){
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
     /**
      * Retrieves a list of properties assigned to a specific agent.
      *
      * @param agentId The ID of the agent.
      * @return A list of Property objects assigned to the agent.
+     * @throws EntityNotFoundException if the agent is not found.
+     * @throws BusinessLogicException if no properties are found for the specified agent.
      */
     public List<Property> getPropertiesByAgentId(int agentId) {
-        return getAllProperties().stream()
-                .filter(property -> property.getAgentID() == agentId)
-                .collect(Collectors.toList());
+        try {
+            Agent agent = getAgentById(agentId);
+            if (agent == null) {
+                throw new EntityNotFoundException("Agent with ID " + agentId + " not found.");
+            }
+            List<Property> properties = getAllProperties().stream()
+                    .filter(property -> property.getAgentID() == agentId)
+                    .collect(Collectors.toList());
+            if (properties.isEmpty()) {
+                throw new BusinessLogicException("No properties found for agent ID " + agentId);
+            }
+            return properties;
+        }catch (EntityNotFoundException | BusinessLogicException e){
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }
