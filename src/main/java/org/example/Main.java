@@ -11,8 +11,6 @@ import org.example.Service.*;
 public class Main {
     public static void main(String[] args) {
         //TODO: De pus try catch la toate functiile unde am doar throw!
-        //TODO: De rezolvat problema cu ID (pot adauga un obiect cu ID = 0 si nu imi da eroare)
-        //TODO: De facut testele
         IRepository<Agent> agentRepository = new DBRepository<>(Agent.class);
         IRepository<Property> propertyRepository = new DBRepository<>(Property.class);
         IRepository<Contract> contractRepository = new DBRepository<>(Contract.class);

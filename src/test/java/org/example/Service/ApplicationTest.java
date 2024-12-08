@@ -53,8 +53,6 @@ class ApplicationTest {
         service.deleteProperty(1);
         assertTrue(service.getAllProperties().isEmpty());
 
-        //TODO: restul testelor CRUD
-
         Client client = new Client(1, "Andrei", 123456789, "andrei@gmail.com", Client.ClientType.BUYER);
         service.addClient(client);
         List<Client> clients = service.getAllClients();
@@ -363,24 +361,4 @@ class ApplicationTest {
         service.analyzeAgentPerformance(1);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
