@@ -1,11 +1,7 @@
 package org.example.Service;
-import org.example.Exceptions.EntityNotFoundException;
 import org.example.Model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import org.example.Repository.*;
@@ -129,9 +125,6 @@ class ApplicationTest {
         assertTrue(service.getAllReviews().isEmpty());
     }
 
-    //TODO: testele pentru metodele din Service (2 pentru fiecare metoda complexa, 1 pentru metodele simple)
-    //A test for normal flow (successful operation).
-    //A test that ensures that the correct exception is thrown
     @Test
     public void filterProperties(){
         Property property1 = new Property(1, Property.PropertyType.COMMERCIAL, "Bucuresti,Romania", 1000, 2004, 5, Property.PropertyStatus.AVAILABLE, 100, "Near the Central Park", 1);
