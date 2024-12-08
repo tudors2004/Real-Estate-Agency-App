@@ -20,8 +20,8 @@ public class Contract implements HasID {
      * @param propertyID The ID of the property associated with the contract.
      */
     public Contract(Integer id, ContractType type, int duration, Integer agentID, Integer clientID, Integer propertyID) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
+        if (id == null || id<=0) {
+            throw new IllegalArgumentException("ID cannot be null or 0");
         }
         this.id = id;
         this.type = type;

@@ -20,8 +20,8 @@ public class Review implements HasID{
      * @param clientID  The client's ID who wrote the review.
      */
     public Review(Integer id, int rating, String comment, Integer propertyID, Integer clientID) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
+        if (id == null || id<=0) {
+            throw new IllegalArgumentException("ID cannot be null or 0");
         }
         this.id = id;
         this.rating = rating;

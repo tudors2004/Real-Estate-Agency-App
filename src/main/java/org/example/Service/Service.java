@@ -178,6 +178,7 @@ public class Service {
     public void deleteReview(int id){
         reviewRepository.delete(id);
     }
+    public void updateReview(Review review){reviewRepository.update(review);}
 
     /**
      * Adds a new client preferences to the repository.
@@ -277,6 +278,7 @@ public class Service {
     public ClientPreferences getClientPreferencesByClientId(Integer clientId) {
         return clientPreferencesRepository.read(clientId);
     }
+    public Review getReviewById(int reviewId){return reviewRepository.read(reviewId);}
     /**
      * Retrieves a client object from the system based on the provided ID.
      *
@@ -405,32 +407,36 @@ public class Service {
      *
      * @param ClientID The ID of the client.
      */
-    public void recommendPropertiesForClient(Integer ClientID){
-        try{
+    public List<Property> recommendPropertiesForClient(Integer ClientID) {
+        try {
             Client client = getClientById(ClientID);
-            ClientPreferences preferences=getClientPreferencesByClientId(ClientID);
+            ClientPreferences preferences = getClientPreferencesByClientId(ClientID);
             List<Property> allProperties = getAllProperties();
             List<Property> recommendedProperties = new ArrayList<>();
-            if(client==null){
+
+            if (client == null) {
                 throw new EntityNotFoundException("Client with ID " + ClientID + " not found.");
             }
-            if(preferences==null){
+            if (preferences == null) {
                 throw new ValidationException("Client with ID " + ClientID + " does not have any preferences set.");
             }
+
             for (Property property : allProperties) {
-                if(preferences.matchesPreferences(property)){
+                if (preferences.matchesPreferences(property)) {
                     recommendedProperties.add(property);
                 }
             }
+
             if (recommendedProperties.isEmpty()) {
                 throw new BusinessLogicException("No properties found that match the client's preferences.");
-            } else {
-                System.out.println("Recommended properties for client ID " + ClientID + ": " + recommendedProperties);
             }
-        }catch (EntityNotFoundException | ValidationException | BusinessLogicException e){
+            return recommendedProperties;
+        } catch (EntityNotFoundException | ValidationException | BusinessLogicException e) {
             System.out.println(e.getMessage());
+            return new ArrayList<>(); // Return empty list in case of exceptions
         }
     }
+
     /**
      * Analyzes an agent's performance based on reviews and contracts.
      *
