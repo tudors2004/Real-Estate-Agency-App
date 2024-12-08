@@ -49,6 +49,10 @@ public class Property implements HasID {
     public Property(Integer id, PropertyType type, String location, double price, Integer year,
                     Integer rooms, PropertyStatus status, double size, String description,
                     Integer agentID) {
+
+        if(id == null || type == null || location == null || price == 0 || year == null || rooms == null || id<=0){
+            throw new IllegalArgumentException("This field cannot be null ");
+        }
         this.id = id;
         this.type = type;
         this.location = location;

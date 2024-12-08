@@ -18,4 +18,5 @@ public interface HasID extends Serializable {
      * @return A string representation of the entity in CSV format.
      */
     String toCsv();
+
 }

@@ -28,8 +28,8 @@ public class ClientPreferences extends Client {
     public ClientPreferences(Client client, double budget, String location,
                              PropertyType preferredType, PropertyStatus preferredStatus, int year, double size, int rooms) {
         super(client.getId(), client.getName(), client.getPhoneNumber(), client.getEmail(), client.getClientType());
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
+        if (id == null || !id.equals(client.getId()) || id<=0) {
+            throw new IllegalArgumentException("ID cannot be null or 0");
         }
         this.budget = budget;
         this.location = location;

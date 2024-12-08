@@ -17,8 +17,8 @@ public abstract class Person {
      * @param email       The email address of the person.
      */
     public Person(Integer id, String name, Integer phoneNumber, String email) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
+        if (id == null || id<=0 || name==null || email==null ) {
+            throw new IllegalArgumentException("ID cannot be null or 0");
         }
         this.id = id;
         this.name = name;

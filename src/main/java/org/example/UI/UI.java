@@ -788,6 +788,7 @@ public class UI {
      * If the agent is not found, the method returns to the previous menu.
      */
     private void viewAssignedProperties() {
+        try{
         System.out.print("Enter agent ID to view assigned properties: ");
         int agentId = scanner.nextInt();
         scanner.nextLine();
@@ -799,6 +800,9 @@ public class UI {
             for (Property property : properties) {
                 System.out.println(property);
             }
+        }
+        } catch (BusinessLogicException e) {
+            System.out.println(e.getMessage());
         }
     }
     /**
