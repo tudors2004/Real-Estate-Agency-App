@@ -483,4 +483,7 @@ public class Controller {
         }
         return service.getPropertiesByAgentId(agentId);
     }
+    public List<Property> getUnvisitedProperties(){
+        return service.viewUnvisitedProperties();
+    }
 }

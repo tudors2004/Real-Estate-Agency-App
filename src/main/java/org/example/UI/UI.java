@@ -425,7 +425,7 @@ public class UI {
      */
     private void viewUnvisitedProperties() {
         System.out.println("List of the unvisited properties: ");
-        //controller.viewUnvisitedProperties();
+        controller.getUnvisitedProperties();
     }
     /**
      * Adds a new client to the real estate agency.

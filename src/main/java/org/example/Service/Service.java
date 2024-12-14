@@ -1,10 +1,8 @@
 package org.example.Service;
 import org.example.Model.*;
 import org.example.Repository.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import org.example.Exceptions.EntityNotFoundException;
 import org.example.Exceptions.ValidationException;
@@ -393,27 +391,32 @@ public class Service {
             System.out.println(e.getMessage());
         }
     }
-//    /**
-//     * Displays all properties that have not been visited by any clients.
-//     */
-//    public void viewUnvisitedProperties(){
-//        List<Property> unvisitedProperties = new ArrayList<>();
-//        for (Property property : propertyRepository.getAll()) {
-//            if (property.getSeenByClient() == null) {
-//                unvisitedProperties.add(property);
-//            }
-//        }
-//        for (Property property : unvisitedProperties) {
-//            System.out.println(property);
-//        }
-//        if(unvisitedProperties.isEmpty()){
-//            System.out.println("No unvisited properties found.");
-//        }else {
-//            for (Property property : unvisitedProperties) {
-//                System.out.println(property);
-//            }
-//        }
-//    }
+    /**
+     * Displays all properties that have not been visited by any clients.
+     */
+    public List<Property> viewUnvisitedProperties() {
+        List<Client> allClients=getAllClients();
+        List<Property> properties=getAllProperties();
+        List<Property> unvisitedProperties=new ArrayList<>();
+        Set<Property> visitedProperties=new HashSet<>();
+        for(Property property:properties){
+            if(property.getSeenByClient()!=null){
+                visitedProperties.add(property);
+            }
+        }
+        for(Client client:allClients){
+            if(client.getSeeProperty()!=null){
+                visitedProperties.addAll(client.getSeeProperty());
+            }
+        }
+        for (Property property : properties) {
+            if (!visitedProperties.contains(property)) {
+                unvisitedProperties.add(property);
+            }
+        }
+
+        return unvisitedProperties;
+    }
     /**
      * Recommends properties for a client based on their preferences.
      *
