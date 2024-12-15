@@ -425,7 +425,10 @@ public class UI {
      */
     private void viewUnvisitedProperties() {
         System.out.println("List of the unvisited properties: ");
-        //controller.viewUnvisitedProperties();
+        List<Property> unvisitedProperties = controller.getUnvisitedProperties();
+        for(Property property : unvisitedProperties) {
+            System.out.println(property);
+        }
     }
     /**
      * Adds a new client to the real estate agency.
@@ -670,7 +673,11 @@ public class UI {
      * @param id The ID of the client to recommend properties for.
      */
     private void recommendPropertiesForClient(Integer id) {
+        try {
         controller.recommendPropertiesForClient(id);
+        } catch (BusinessLogicException e) {
+            System.out.println(e.getMessage());
+        }
     }
     /**
      * Adds a new agent to the real estate agency.

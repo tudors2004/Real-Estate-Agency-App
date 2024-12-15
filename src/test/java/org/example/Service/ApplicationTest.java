@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import org.example.Repository.*;
 
 class ApplicationTest {
@@ -48,6 +50,7 @@ class ApplicationTest {
         assertEquals("Romania, Cluj", updatedProperty.getLocation());
         service.deleteProperty(1);
         assertTrue(service.getAllProperties().isEmpty());
+
 
         Client client = new Client(1, "Andrei", 123456789, "andrei@gmail.com", Client.ClientType.BUYER);
         service.addClient(client);
@@ -188,6 +191,8 @@ class ApplicationTest {
     }
 //    @Test
 //    public void testRecommendPropertiesForClient_ClientNotFound() {
+//        IRepository<Client> clientRepo=mock(IRepository.class);
+//        when(clientRepo.read(999)).thenReturn(null);
 //        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
 //            service.recommendPropertiesForClient(999);
 //        });
@@ -354,4 +359,24 @@ class ApplicationTest {
         service.analyzeAgentPerformance(1);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

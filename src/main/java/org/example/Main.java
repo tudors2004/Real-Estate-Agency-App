@@ -6,7 +6,6 @@ import org.example.Repository.*;
 import org.example.Service.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 /**
  * The Main class serves as the entry point for the application, initializing
  * the repositories, services, controller, and user interface components.

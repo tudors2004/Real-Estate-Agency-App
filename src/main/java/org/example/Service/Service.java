@@ -1,10 +1,7 @@
 package org.example.Service;
 import org.example.Model.*;
 import org.example.Repository.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.example.Exceptions.EntityNotFoundException;
 import org.example.Exceptions.ValidationException;
@@ -120,7 +117,15 @@ public class Service {
      * @param appointment The Appointment object to be added.
      */
     public void addAppointment(Appointment appointment) {
-        appointmentRepository.create(appointment);
+        try {
+            if (appointment.getId() == null || appointment.getId() == 0) {
+                throw new BusinessLogicException("ID cannot be null or 0");
+            }
+            appointmentRepository.create(appointment);
+            markPropertyIsSeenByClient(appointment);
+        }catch(BusinessLogicException e) {
+            System.out.println("Error while creating appointment"+e.getMessage());
+        }
     }
     /**
      * Deletes an appointment from the repository.
@@ -285,8 +290,20 @@ public class Service {
      * @param clientID The ID of the client to retrieve.
      * @return The Client object with the matching ID, or null if not found.
      */
-    public Client getClientById(int clientID) {
-        return clientRepository.read(clientID);
+    public Client getClientById(Integer clientID) {
+        try{
+           if(clientID == null){
+               throw new IllegalArgumentException("Client ID cannot be null");
+           }
+           Client client = clientRepository.read(clientID);
+           if(client == null){
+               throw new EntityNotFoundException("Client not found");
+           }
+           return client;
+        }catch (IllegalArgumentException | EntityNotFoundException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
     /**
      * Retrieves a contract object from the system based on the provided ID.
@@ -329,32 +346,6 @@ public class Service {
                 .filter(review -> "agent".equals(review.getType()) && review.getAgentID() != null && review.getAgentID().equals(agentId))
                 .collect(Collectors.toList());
     }
-//    /**
-//     * Links a property to a client, marking that the client has viewed the
-//     * property.
-//     *
-//     * @param propertyId The ID of the property.
-//     * @param clientId   The ID of the client.
-//     */
-//    public void linkPropertyAndClient(int propertyId, int clientId){
-//        Property property = getPropertyById(propertyId);
-//        Client client = getClientById(clientId);
-//        if (client == null) {
-//            System.out.println("Client with ID " + clientId + " not found.");
-//            return;
-//        }
-//        if (property == null) {
-//            System.out.println("Property with ID " + propertyId + " not found.");
-//            return;
-//        }
-//        if (client.getSeeProperty() == null) {
-//            client.setSeeProperty(new ArrayList<>());
-//        }
-//        if (!client.getSeeProperty().contains(property) || !property.getSeenByClient().contains(client)) {
-//            client.getSeeProperty().add(property);
-//            property.getSeenByClient().add(client);
-//        }
-//    }
     /**
      * Links a property to an agent, marking that the agent is associated with
      * the property.
@@ -372,8 +363,6 @@ public class Service {
                     agent.setAssignedProperties(new ArrayList<>());
                 }
                 agent.getAssignedProperties().add(property);
-                //System.out.println("Property linked to agent successfully.");
-                //System.out.println("Agent ID: " + agentId + ", Property ID: " + propertyId);
             } else {
                 throw new EntityNotFoundException("Agent or property not found.");
             }
@@ -381,26 +370,37 @@ public class Service {
             System.out.println(e.getMessage());
         }
     }
-//    /**
-//     * Displays all properties that have not been visited by any clients.
-//     */
-//    public void viewUnvisitedProperties(){
-//        List<Property> unvisitedProperties = new ArrayList<>();
-//        for (Property property : propertyRepository.getAll()) {
-//            if (property.getSeenByClient() == null) {
+    /**
+     * Displays all properties that have not been visited by any clients.
+     */
+    public List<Property> viewUnvisitedProperties() {
+        List<Property> allProperties = getAllProperties();
+        List<Appointment> allAppointments = getAllAppointments();
+        Set<Integer> visitedPropertyIds = allAppointments.stream().map(Appointment::getPropertyID).collect(Collectors.toSet());
+        return allProperties.stream().filter(property -> !visitedPropertyIds.contains(property.getId())).collect(Collectors.toList());
+    }
+//    public List<Property> viewUnvisitedProperties() {
+//        List<Client> allClients=getAllClients();
+//        List<Property> properties=getAllProperties();
+//        List<Property> unvisitedProperties=new ArrayList<>();
+//        Set<Property> visitedProperties=new HashSet<>();
+//        for(Property property:properties){
+//            if(property.getSeenByClient()!=null){
+//                visitedProperties.add(property);
+//            }
+//        }
+//        for(Client client:allClients){
+//            if(client.getSeeProperty()!=null){
+//                visitedProperties.addAll(client.getSeeProperty());
+//            }
+//        }
+//        for (Property property : properties) {
+//            if (!visitedProperties.contains(property)) {
 //                unvisitedProperties.add(property);
 //            }
 //        }
-//        for (Property property : unvisitedProperties) {
-//            System.out.println(property);
-//        }
-//        if(unvisitedProperties.isEmpty()){
-//            System.out.println("No unvisited properties found.");
-//        }else {
-//            for (Property property : unvisitedProperties) {
-//                System.out.println(property);
-//            }
-//        }
+//
+//        return unvisitedProperties;
 //    }
     /**
      * Recommends properties for a client based on their preferences.
@@ -436,7 +436,6 @@ public class Service {
             return new ArrayList<>(); // Return empty list in case of exceptions
         }
     }
-
     /**
      * Analyzes an agent's performance based on reviews and contracts.
      *
@@ -627,6 +626,57 @@ public class Service {
             return properties;
         }catch (EntityNotFoundException | BusinessLogicException e){
             System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    /**
+     * Marks a property as seen by a client based on the provided appointment details.
+     * This method updates both the property and the client to reflect that the property has been seen by the client.
+     *
+     * @param appointment The Appointment object containing the details of the property and client.
+     * @throws EntityNotFoundException if the property or client is not found.
+     */
+    public void markPropertyIsSeenByClient(Appointment appointment) {
+            try{
+                Property property= getPropertyById(appointment.getPropertyID());
+                if (property == null) {
+                    throw new EntityNotFoundException("Property with ID " + appointment.getPropertyID() + " not found.");
+                }
+                Integer clientId = appointment.getClientID();
+                Client client = getClientById(clientId);
+                if(client==null){
+                    throw new EntityNotFoundException("Client with ID " + clientId + " not found.");
+                }
+                if(property.getSeenByClient()==null){
+                    property.setSeenByClient(new ArrayList<>());
+                }
+                if(client.getSeeProperty()==null){
+                    client.setSeeProperty(new ArrayList<>());
+                }
+                if(!property.getSeenByClient().contains(client)){
+                    property.getSeenByClient().add(client);
+                }
+                if(!client.getSeeProperty().contains(property)){
+                    client.getSeeProperty().add(property);
+                }
+            }
+            catch(Exception e){
+                System.out.println("Error while marking property as seen: " + e.getMessage());
+            }
+    }
+    public List<Property> retrievePropertiesUnvisited(){
+        try{
+            List<Property> properties = getAllProperties();
+            List<Property> unvisitedProperties = new ArrayList<>();
+            for(Property property : properties){
+                if(property.getSeenByClient()==null || property.getSeenByClient().isEmpty()){
+                    unvisitedProperties.add(property);
+                }
+            }
+            return unvisitedProperties;
+        }
+        catch (Exception e) {
+            System.out.println("An error occurred while retrieving unvisited properties: " + e.getMessage());
             return new ArrayList<>();
         }
     }
