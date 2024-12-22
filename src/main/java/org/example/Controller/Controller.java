@@ -354,9 +354,6 @@ public class Controller {
      * @param agentID The ID of the agent.
      */
     public void analyzeAgentPerformance(Integer agentID) {
-        if(agentID <= 0){
-            throw new ValidationException("Agent ID must be greater than 0");
-        }
         service.analyzeAgentPerformance(agentID);
     }
     /**

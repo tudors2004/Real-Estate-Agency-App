@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import org.example.Repository.*;
 
 class ApplicationTest {
@@ -89,7 +87,7 @@ class ApplicationTest {
         service.deleteContract(1);
         assertTrue(service.getAllContracts().isEmpty());
 
-        Appointment appointment = new Appointment(1, java.sql.Date.valueOf("2025-01-01"), 1, 1, 1);
+        Appointment appointment = new Appointment(1, java.sql.Date.valueOf("2025-01-01"), 1, 1);
         service.addAppointment(appointment);
         List<Appointment> appointments = service.getAllAppointments();
         assertEquals(1, appointments.size());
@@ -359,24 +357,4 @@ class ApplicationTest {
         service.analyzeAgentPerformance(1);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

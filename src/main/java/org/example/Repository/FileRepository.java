@@ -170,9 +170,8 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
                 ((Appointment) obj).setId(Integer.parseInt(values[0]));
                 LocalDate localDate = LocalDate.parse(values[1], DateTimeFormatter.ISO_DATE);
                 ((Appointment) obj).setDate(Date.valueOf(localDate));
-                ((Appointment) obj).setAgentID(Integer.parseInt(values[2]));
-                ((Appointment) obj).setClientID(Integer.parseInt(values[3]));
-                ((Appointment) obj).setPropertyID(Integer.parseInt(values[4]));
+                ((Appointment) obj).setClientID(Integer.parseInt(values[2]));
+                ((Appointment) obj).setPropertyID(Integer.parseInt(values[3]));
             } else if (type == Client.class) {
                 ((Client) obj).setId(Integer.parseInt(values[0]));
                 ((Client) obj).setName(values[1]);

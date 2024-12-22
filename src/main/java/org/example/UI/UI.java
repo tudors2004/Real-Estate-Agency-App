@@ -9,7 +9,7 @@ import org.example.Exceptions.ValidationException;
 import org.example.Exceptions.BusinessLogicException;
 /**
  * The UI class provides a command-line interface for managing the real estate agency.
- * It interacts with the user to perform various operations such as managing properties, clients, agents, contracts, reviews, and appointments.
+ * It interacts with the user to perform various operations such as managing properties, clients, agents, contracts, reviews, and agetments.
  */
 @SuppressWarnings("DuplicatedCode")
 public class UI {
@@ -1047,7 +1047,7 @@ public class UI {
     }
     /**
      * Adds a new appointment to the real estate agency.
-     * Prompts the user to enter various details about the appointment, including ID, date, agent ID, client ID, and property ID.
+     * Prompts the user to enter various details about the appointment, including ID, date, client ID, and property ID.
      * Validates the date, and adds the appointment to the database.
      * If the input is invalid, the method returns to the previous menu.
      */
@@ -1058,22 +1058,19 @@ public class UI {
         System.out.print("Enter appointment date (yyyy-mm-dd): ");
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
-        System.out.print("Enter agent ID: ");
-        int agentID = scanner.nextInt();
-        scanner.nextLine();
         System.out.print("Enter client ID: ");
         int clientID = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter property ID: ");
         int propertyID = scanner.nextInt();
         scanner.nextLine();
-        Appointment appointment = new Appointment(id, date, agentID, clientID, propertyID);
+        Appointment appointment = new Appointment(id, date, clientID, propertyID);
         controller.addAppointment(appointment);
         System.out.println("Appointment added successfully.");
     }
     /**
      * Updates an existing appointment in the real estate agency.
-     * Prompts the user to enter the appointment ID to update, and then enter the new details about the appointment, including date, agent ID, client ID, and property ID.
+     * Prompts the user to enter the appointment ID to update, and then enter the new details about the appointment, including date, client ID, and property ID.
      * Validates the date, and updates the appointment in the database.
      * If the input is invalid, the method returns to the previous menu.
      */
@@ -1084,16 +1081,13 @@ public class UI {
         System.out.print("Enter new appointment date (yyyy-mm-dd): ");
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
-        System.out.println("Enter new agent ID: ");
-        int agentID = scanner.nextInt();
-        scanner.nextLine();
         System.out.println("Enter new client ID: ");
         int clientID = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter new property ID: ");
         int propertyID = scanner.nextInt();
         scanner.nextLine();
-        Appointment appointment = new Appointment(id, date, agentID, clientID, propertyID);
+        Appointment appointment = new Appointment(id, date, clientID, propertyID);
         controller.updateAppointment(appointment);
         System.out.println("Appointment updated successfully.");
     }

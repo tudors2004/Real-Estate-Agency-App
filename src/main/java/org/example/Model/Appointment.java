@@ -6,7 +6,6 @@ import java.sql.Date;
 public class Appointment implements HasID {
     private Integer id;
     private Date date;
-    private Integer agentID;
     private Integer clientID;
     private Integer propertyID;
     /**
@@ -14,17 +13,15 @@ public class Appointment implements HasID {
      *
      * @param id        The unique identifier of the appointment.
      * @param date      The date of the appointment.
-     * @param agentID   The ID of the agent associated with the appointment.
      * @param clientID  The ID of the client associated with the appointment.
      * @param propertyID The ID of the property associated with the appointment.
      */
-    public Appointment(Integer id, Date date, Integer agentID, Integer clientID, Integer propertyID) {
+    public Appointment(Integer id, Date date, Integer clientID, Integer propertyID) {
         if (id == null || id<=0) {
             throw new IllegalArgumentException("ID cannot be null or 0");
         }
         this.id = id;
         this.date = date;
-        this.agentID = agentID;
         this.clientID = clientID;
         this.propertyID = propertyID;
     }
@@ -66,22 +63,6 @@ public class Appointment implements HasID {
         this.date = date;
     }
     /**
-     * Gets the ID of the agent associated with the appointment.
-     *
-     * @return The ID of the agent associated with the appointment.
-     */
-    public Integer getAgentID() {
-        return agentID;
-    }
-    /**
-     * Sets the ID of the agent associated with the appointment.
-     *
-     * @param agentID The ID of the agent associated with the appointment.
-     */
-    public void setAgentID(Integer agentID) {
-        this.agentID = agentID;
-    }
-    /**
      * Gets the ID of the client associated with the appointment.
      *
      * @return The ID of the client associated with the appointment.
@@ -121,7 +102,7 @@ public class Appointment implements HasID {
      */
     @Override
     public String toCsv() {
-        return id + "," + date + "," + agentID + "," + clientID + "," + propertyID;
+        return id + "," + date + "," + clientID + "," + propertyID;
     }
     /**
      * Converts the appointment's details into a string representation.
@@ -131,6 +112,6 @@ public class Appointment implements HasID {
      */
     @Override
     public String toString() {
-        return id+","+date+","+agentID+","+clientID+","+propertyID;
+        return id+","+date+","+clientID+","+propertyID;
     }
 }
