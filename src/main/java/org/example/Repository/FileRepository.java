@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import org.example.Exceptions.*;
 /**
  * A generic repository implementation that manages objects of type T, which extends HasID, using a CSV file for persistence.
  *
@@ -133,9 +132,8 @@ public class FileRepository<T extends HasID> implements IRepository<T> {
                 ((Contract) obj).setId(Integer.parseInt(values[0]));
                 ((Contract) obj).setType(Contract.ContractType.valueOf(values[1]));
                 ((Contract) obj).setDuration(Integer.parseInt(values[2]));
-                ((Contract) obj).setAgentID(Integer.parseInt(values[3]));
-                ((Contract) obj).setClientID(Integer.parseInt(values[4]));
-                ((Contract) obj).setPropertyID(Integer.parseInt(values[5]));
+                ((Contract) obj).setClientID(Integer.parseInt(values[3]));
+                ((Contract) obj).setPropertyID(Integer.parseInt(values[4]));
             } else if (type == ClientPreferences.class) {
                 ((ClientPreferences) obj).setId(Integer.parseInt(values[0]));
                 ((ClientPreferences) obj).setName(values[1]);

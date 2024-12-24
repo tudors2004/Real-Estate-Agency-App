@@ -6,7 +6,6 @@ public class Contract implements HasID {
     private Integer id;
     private ContractType type;
     private int duration;
-    private Integer agentID;
     private Integer clientID;
     private Integer propertyID;
     /**
@@ -15,18 +14,16 @@ public class Contract implements HasID {
      * @param id        The unique identifier of the contract.
      * @param type      The type of the contract.
      * @param duration  The duration of the contract.
-     * @param agentID   The ID of the agent associated with the contract.
      * @param clientID  The ID of the client associated with the contract.
      * @param propertyID The ID of the property associated with the contract.
      */
-    public Contract(Integer id, ContractType type, int duration, Integer agentID, Integer clientID, Integer propertyID) {
+    public Contract(Integer id, ContractType type, int duration, Integer clientID, Integer propertyID) {
         if (id == null || id<=0) {
             throw new IllegalArgumentException("ID cannot be null or 0");
         }
         this.id = id;
         this.type = type;
         this.duration = duration;
-        this.agentID = agentID;
         this.clientID = clientID;
         this.propertyID = propertyID;
     }
@@ -84,22 +81,6 @@ public class Contract implements HasID {
         this.duration = duration;
     }
     /**
-     * Gets the ID of the agent associated with the contract.
-     *
-     * @return The ID of the agent associated with the contract.
-     */
-    public Integer getAgentID() {
-        return agentID;
-    }
-    /**
-     * Sets the ID of the agent associated with the contract.
-     *
-     * @param agentID The ID of the agent associated with the contract.
-     */
-    public void setAgentID(Integer agentID) {
-        this.agentID = agentID;
-    }
-    /**
      * Gets the ID of the client associated with the contract.
      *
      * @return The ID of the client associated with the contract.
@@ -150,7 +131,6 @@ public class Contract implements HasID {
         return id + "," +
                 type + "," +
                 duration + "," +
-                agentID + "," +
                 clientID + "," +
                 propertyID;
     }
@@ -161,6 +141,6 @@ public class Contract implements HasID {
      */
     @Override
     public String toString() {
-        return id+","+type+","+duration+","+agentID+","+clientID+","+propertyID;
+        return id+","+type+","+duration+","+clientID+","+propertyID;
     }
 }

@@ -465,24 +465,50 @@ public class Service {
         }
         double averageRating = (ratingCount > 0) ? totalRating / ratingCount : 0;
 
-
         int contractCount = 0;
+        double profitMade = 0;
+        Map<String, Integer> locationStr = new HashMap<>();
+        Set<Integer> allocatedPropertyIds = new HashSet<>();
+        Set<Integer> soldPropertyIds = new HashSet<>();
         for (Contract contract : contracts) {
-            if (Objects.equals(contract.getAgentID(), AgentID)) {
+            Property property = getPropertyById(contract.getPropertyID());
+            if (property != null && Objects.equals(property.getAgentID(), AgentID)) {
                 contractCount++;
+                if (property.getLocation() != null){
+                    allocatedPropertyIds.add(property.getId());
+                    soldPropertyIds.add(property.getId());
+                    String location = property.getLocation();
+                    locationStr.put(location, locationStr.getOrDefault(location, 0) + 1);
+                    if(property.getPrice()>=5000){
+                        profitMade = profitMade + property.getPrice() * 0.03;
+                    }
+                }
             }
         }
+        List<Property> allProperties = getAllProperties();
+        for (Property property : allProperties) {
+            if (Objects.equals(property.getAgentID(), AgentID)) {
+                allocatedPropertyIds.add(property.getId());
+            }
+        }
+        double percentage = (allocatedPropertyIds.isEmpty()) ? 0 : (double) soldPropertyIds.size() / allocatedPropertyIds.size() * 100;
+        int soldPropertiesPercentage = (int) percentage;
+        String mostFrequentLocation = locationStr.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse("No specific location");
 
-        System.out.println("Performance analysis for Agent " + AgentID + ":");
         System.out.println("Average Rating: " + averageRating + " stars");
         System.out.println("Number of Contracts: " + contractCount);
+        System.out.println("The place where the agent has the most contracts: " + mostFrequentLocation );
+        System.out.println("Profit made by the agent in EUR: " + profitMade);
+        System.out.println("Percentage of properties sold out of those allocated to the agent: " + soldPropertiesPercentage + "%");
 
         if (averageRating >= 4.5 && contractCount >= 10) {
-            System.out.println("This agent is performing excellently!");
+            System.out.println("This agent is performing excellently! Nothing more to ask.");
         } else if (averageRating >= 3.5) {
-            System.out.println("This agent is performing well.");
+            System.out.println("This agent is performing quite well.");
+            System.out.println("Tip: If the rating average increases a bit or a few more contracts will be concluded, the agent will excel.");
+
         } else {
-            throw new BusinessLogicException("This agent needs improvement.");
+            throw new BusinessLogicException("This agent needs improvement. More contracts or better reviews are needed.");
         }
         }catch (EntityNotFoundException | BusinessLogicException e){
             System.out.println(e.getMessage());

@@ -74,7 +74,7 @@ class ApplicationTest {
 
 
 
-        Contract contract = new Contract(1, Contract.ContractType.RENTAL, 12, 1, 1, 1 );
+        Contract contract = new Contract(1, Contract.ContractType.RENTAL, 12, 1, 1 );
         service.addContract(contract);
         List<Contract> contracts = service.getAllContracts();
         assertEquals(1, contracts.size());
@@ -145,7 +145,7 @@ class ApplicationTest {
         service.updateProperty(property2);
         filteredProperties = service.filterPropertyByPrice(2000, 6000);
         assertEquals(1, filteredProperties.size());
-        assertEquals(3, filteredProperties.get(0).getAgentID());
+        assertEquals(3, filteredProperties.getFirst().getAgentID());
         service.deleteProperty(3);
         filteredProperties = service.filterPropertyByPrice(2000, 6000);
         assertTrue(filteredProperties.isEmpty());
@@ -210,7 +210,7 @@ class ApplicationTest {
         service.addProperty(property1);
         service.addProperty(property2);
         service.addProperty(property3);
-        Contract contract1 = new Contract(1, Contract.ContractType.PURCHASE,10,1,1,1);
+        Contract contract1 = new Contract(1, Contract.ContractType.PURCHASE,10,1,1);
         service.addContract(contract1);
         boolean result= service.isPropertyUnderContract(1);
         assertTrue(result);
@@ -227,7 +227,7 @@ class ApplicationTest {
         service.addProperty(property1);
         service.addProperty(property2);
         service.addProperty(property3);
-        Contract contract1 = new Contract(1, Contract.ContractType.PURCHASE,10,1,1,1);
+        Contract contract1 = new Contract(1, Contract.ContractType.PURCHASE,10,1,1);
         service.addContract(contract1);
         boolean result=service.isPropertyUnderContract(2);
         assertFalse(result);
@@ -346,9 +346,9 @@ class ApplicationTest {
         service.addReview(review2);
         service.addReview(review3);
 
-        Contract contract1 = new Contract(1, Contract.ContractType.PURCHASE,10,1,1,1);
-        Contract contract2 = new Contract(2, Contract.ContractType.PURCHASE,12,2,1,2);
-        Contract contract3 = new Contract(3,Contract.ContractType.PURCHASE,6,2,1,3);
+        Contract contract1 = new Contract(1, Contract.ContractType.PURCHASE,10,1,1);
+        Contract contract2 = new Contract(2, Contract.ContractType.PURCHASE,12,1,2);
+        Contract contract3 = new Contract(3,Contract.ContractType.PURCHASE,6,1,3);
 
         service.addContract(contract1);
         service.addContract(contract2);

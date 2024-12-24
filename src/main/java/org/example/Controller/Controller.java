@@ -337,6 +337,18 @@ public class Controller {
         }
         return service.getAppointmentById(appointmentID);
     }
+
+    /**
+     * Retrieves a review by its ID.
+     * @param reviewID The ID of the review.
+     * @return The Review object with the specified ID.
+     */
+    public Review viewReviewById(int reviewID){
+        if (reviewID <= 0){
+            throw new ValidationException("Review ID must be greater than 0");
+        }
+        return service.getReviewById(reviewID);
+    }
     /**
      * Recommends properties for a specific client based on their preferences.
      *

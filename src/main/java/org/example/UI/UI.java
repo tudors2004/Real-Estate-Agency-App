@@ -336,6 +336,11 @@ public class UI {
         System.out.print("Enter property ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Property existingProperty = controller.viewPropertyById(id);
+        if (existingProperty == null) {
+            System.out.println("Property with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new property type (RESIDENTIAL/COMMERCIAL/INDUSTRIAL/SPECIAL): ");
         String str1 = scanner.nextLine().toUpperCase();
         Property.PropertyType type;
@@ -387,6 +392,11 @@ public class UI {
         System.out.print("Enter property ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Property existingProperty = controller.viewPropertyById(id);
+        if (existingProperty == null) {
+            System.out.println("Property with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.println("Are you sure you want to delete this property? (Y/N)");
         String confirmation = scanner.nextLine();
         if(confirmation.equalsIgnoreCase("N")) {
@@ -586,6 +596,11 @@ public class UI {
         System.out.print("Enter client ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Client existingClient = controller.viewClientById(id);
+        if (existingClient == null) {
+            System.out.println("Client with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new client name: ");
         String name = scanner.nextLine();
         String email;
@@ -625,6 +640,11 @@ public class UI {
         System.out.print("Enter client ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Client existingClient = controller.viewClientById(id);
+        if (existingClient == null) {
+            System.out.println("Client with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.println("Are you sure you want to delete this client? (Y/N)");
         String confirmation = scanner.nextLine();
         if(confirmation.equalsIgnoreCase("N")) {
@@ -658,10 +678,6 @@ public class UI {
      * Retrieves all clients from the database and displays their details.
      */
     private void viewAllClients() {
-        List<Client> clients = controller.viewAllClients();
-        for (Client client : clients) {
-            System.out.println(client);
-        }
         List<ClientPreferences> clientPreferences = controller.viewAllClientPreferences();
         for (ClientPreferences clientPreference : clientPreferences) {
             System.out.println(clientPreference);
@@ -723,6 +739,11 @@ public class UI {
         System.out.print("Enter agent ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Agent existingAgent = controller.viewAgentById(id);
+        if (existingAgent == null) {
+            System.out.println("Agent with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new agent license number: ");
         int licenseNumber = scanner.nextInt();
         scanner.nextLine();
@@ -756,6 +777,11 @@ public class UI {
         System.out.print("Enter agent ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Agent existingAgent = controller.viewAgentById(id);
+        if (existingAgent == null) {
+            System.out.println("Agent with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.println("Are you sure you want to delete this agent? (Y/N)");
         String confirmation = scanner.nextLine();
         if(confirmation.equalsIgnoreCase("N")) {
@@ -841,9 +867,6 @@ public class UI {
         System.out.print("Enter contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter agent ID: ");
-        int agentID = scanner.nextInt();
-        scanner.nextLine();
         System.out.print("Enter client ID: ");
         int clientID = scanner.nextInt();
         scanner.nextLine();
@@ -854,7 +877,7 @@ public class UI {
             throw new BusinessLogicException("Property is already under contract.");
         }
 
-        Contract contract = new Contract(id, type, duration, agentID, clientID, propertyID);
+        Contract contract = new Contract(id, type, duration, clientID, propertyID);
         controller.addContract(contract);
         System.out.println("Contract added successfully.");
     }
@@ -868,6 +891,11 @@ public class UI {
         System.out.print("Enter contract ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Contract existingContract = controller.viewContractById(id);
+        if (existingContract == null) {
+            System.out.println("Contract with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new contract type (PURCHASE/LEASE/RENTAL): ");
         String str = scanner.nextLine().toUpperCase();
         Contract.ContractType type;
@@ -880,9 +908,6 @@ public class UI {
         System.out.print("Enter new contract duration (months): ");
         int duration = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter new agent ID: ");
-        int agentID = scanner.nextInt();
-        scanner.nextLine();
         System.out.print("Enter new client ID: ");
         int clientID = scanner.nextInt();
         scanner.nextLine();
@@ -890,7 +915,7 @@ public class UI {
         int propertyID = scanner.nextInt();
         scanner.nextLine();
 
-        Contract contract = new Contract(id, type, duration, agentID, clientID, propertyID);
+        Contract contract = new Contract(id, type, duration, clientID, propertyID);
         controller.updateContract(contract);
         System.out.println("Contract updated successfully.");
     }
@@ -903,6 +928,11 @@ public class UI {
         System.out.print("Enter contract ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Contract existingContract = controller.viewContractById(id);
+        if (existingContract == null) {
+            System.out.println("Contract with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.println("Are you sure you want to delete this contract? (Y/N)");
         String confirmation = scanner.nextLine();
         if(confirmation.equalsIgnoreCase("N")) {
@@ -1000,6 +1030,11 @@ public class UI {
         System.out.print("Enter review ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Review existingReview = controller.viewReviewById(id);
+        if (existingReview == null) {
+            System.out.println("Review with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.println("Are you sure you want to delete this review? (Y/N)");
         String confirmation = scanner.nextLine();
         if(confirmation.equalsIgnoreCase("N")){
@@ -1078,6 +1113,11 @@ public class UI {
         System.out.print("Enter appointment ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Appointment existingAppointment = controller.viewAppointmentById(id);
+        if (existingAppointment == null) {
+            System.out.println("Appointment with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.print("Enter new appointment date (yyyy-mm-dd): ");
         String dateString = scanner.nextLine();
         Date date = Date.valueOf(dateString);
@@ -1100,6 +1140,11 @@ public class UI {
         System.out.print("Enter appointment ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
+        Appointment existingAppointment = controller.viewAppointmentById(id);
+        if(existingAppointment == null) {
+            System.out.println("Appointment with ID " + id + " does not exist. Returning to previous menu.");
+            return;
+        }
         System.out.println("Are you sure you want to delete this appointment? (Y/N)");
         String confirmation = scanner.nextLine();
         if(confirmation.equalsIgnoreCase("N")) {
