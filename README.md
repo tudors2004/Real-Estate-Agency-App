@@ -28,3 +28,6 @@ This app is designed in order to digitize the processes of a real estate agency.
 - An agent of ours can have several properties assigned to him, highlighting a 1:m relationship
 
 - The m:n relationship between the client and the properties, made with the help of the Appointments link table, a client being able to see several properties, which can also be seen by several clients.
+
+  ![diagramafinala](https://github.com/user-attachments/assets/2e4d28df-0c51-4dcf-9414-634e5bc258bf)
+
